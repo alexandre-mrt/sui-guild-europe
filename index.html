@@ -21,17 +21,17 @@
             --sui-orange: #ff6c3d;
             --sui-red: #ea384c;
             --sui-green: #22c55e;
-            --bg-black: #000000;
-            --bg-deep: #131518;
-            --bg-card: #222529;
-            --bg-elevated: #343940;
-            --border-subtle: rgba(255, 255, 255, 0.06);
-            --border-medium: rgba(255, 255, 255, 0.1);
+            --bg-black: #020817;
+            --bg-deep: #0a1628;
+            --bg-card: #0f1a2e;
+            --bg-elevated: #162035;
+            --border-subtle: rgba(41, 141, 255, 0.06);
+            --border-medium: rgba(41, 141, 255, 0.1);
             --text-primary: #ffffff;
             --text-secondary: #a1a7b2;
             --text-muted: #6c7584;
             --glass-bg: rgba(255, 255, 255, 0.03);
-            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-border: rgba(41, 141, 255, 0.06);
             --glass-blur: blur(24px);
         }
 
@@ -54,7 +54,7 @@
             right: 0;
             z-index: 1000;
             padding: 0 3rem;
-            background: rgba(0, 0, 0, 0.6);
+            background: rgba(2, 8, 23, 0.75);
             backdrop-filter: blur(30px);
             -webkit-backdrop-filter: blur(30px);
             border-bottom: 1px solid var(--border-subtle);
@@ -128,8 +128,8 @@
             inset: 0;
             background:
                 linear-gradient(180deg,
-                    #000000 0%,
-                    #000510 15%,
+                    #020817 0%,
+                    #030a1a 15%,
                     #001030 30%,
                     #0a2a5a 45%,
                     #1a5090 55%,
@@ -298,6 +298,14 @@
             padding: 8rem 0;
         }
 
+        .section:nth-child(odd) {
+            background: linear-gradient(180deg, #020817 0%, #0a1628 100%);
+        }
+
+        .section:nth-child(even) {
+            background: linear-gradient(180deg, #0a1628 0%, #020817 100%);
+        }
+
         .section-inner {
             max-width: 1200px;
             margin: 0 auto;
@@ -307,6 +315,7 @@
         .section-full {
             position: relative;
             padding: 8rem 2rem;
+            background: linear-gradient(180deg, #0a1628 0%, #020817 100%);
         }
 
         .section-label {
@@ -345,9 +354,23 @@
             margin-bottom: 4rem;
         }
 
+        .section h2::after {
+            content: '';
+            display: block;
+            width: 200px;
+            height: 80px;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            margin-top: -40px;
+            background: radial-gradient(ellipse at center, rgba(41, 141, 255, 0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
         .section-divider {
             height: 1px;
-            background: linear-gradient(90deg, transparent 0%, var(--sui-blue-dim) 30%, var(--sui-blue-dim) 70%, transparent 100%);
+            background: linear-gradient(90deg, transparent 0%, rgba(41, 141, 255, 0.2) 30%, rgba(41, 141, 255, 0.2) 70%, transparent 100%);
             max-width: 1200px;
             margin: 0 auto;
         }
@@ -1238,7 +1261,7 @@
             position: fixed;
             inset: 0;
             z-index: 10000;
-            background: #000;
+            background: #020817;
             display: none;
             flex-direction: column;
         }
@@ -1418,6 +1441,162 @@
         }
 
         /* ========================================
+           PLAN TOGGLE
+           ======================================== */
+        .plan-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 100px;
+            padding: 3px;
+            border: 1px solid var(--border-subtle);
+            flex-shrink: 0;
+        }
+
+        .plan-toggle-pill {
+            padding: 0.35rem 0.9rem;
+            border-radius: 100px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.72rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: var(--text-muted);
+            border: none;
+            background: transparent;
+            white-space: nowrap;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            letter-spacing: 0.01em;
+        }
+
+        .plan-toggle-pill:hover {
+            color: var(--text-secondary);
+        }
+
+        .plan-toggle-pill.active {
+            background: rgba(41, 141, 255, 0.15);
+            color: var(--sui-blue);
+            box-shadow: 0 0 12px rgba(41, 141, 255, 0.1);
+        }
+
+        .plan-toggle-pill.approved.active {
+            background: rgba(34, 197, 94, 0.12);
+            color: var(--sui-green);
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.1);
+        }
+
+        .plan-toggle-pill .check-icon {
+            display: inline-flex;
+            width: 12px;
+            height: 12px;
+        }
+
+        .approved-badge {
+            display: none;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.75rem 1.4rem;
+            background: rgba(34, 197, 94, 0.06);
+            border: 1px solid rgba(34, 197, 94, 0.15);
+            border-radius: 12px;
+            margin-bottom: 2.5rem;
+            max-width: 700px;
+        }
+
+        .approved-badge.visible {
+            display: flex;
+        }
+
+        .approved-badge-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: rgba(34, 197, 94, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .approved-badge-text {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .approved-badge-text strong {
+            color: var(--sui-green);
+        }
+
+        /* Cost per dev section */
+        .cost-per-dev {
+            display: none;
+            margin-top: 2.5rem;
+        }
+
+        .cost-per-dev.visible {
+            display: block;
+        }
+
+        .cost-per-dev-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 1.2rem;
+            color: var(--text-primary);
+        }
+
+        .cost-metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+        }
+
+        .cost-metric {
+            padding: 1.2rem 1.5rem;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+        }
+
+        .cost-metric-value {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--sui-blue);
+            letter-spacing: -0.02em;
+        }
+
+        .cost-metric-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+            line-height: 1.4;
+        }
+
+        /* Smooth transitions for swapped content */
+        .plan-transition {
+            transition: opacity 0.35s ease;
+        }
+
+        .plan-transition.switching {
+            opacity: 0;
+        }
+
+        /* Optional timeline events (dashed border, greyed) */
+        .timeline-event.optional {
+            opacity: 0.45;
+            border: 1.5px dashed rgba(255, 255, 255, 0.35);
+        }
+
+        .timeline-event.optional:hover {
+            opacity: 0.7;
+        }
+
+        /* ========================================
            RESPONSIVE
            ======================================== */
         @media (max-width: 1024px) {
@@ -1435,6 +1614,7 @@
             nav { padding: 0 1.5rem; }
             .nav-links { display: none; }
             .present-btn span { display: none; }
+            .plan-toggle { display: none; }
             .hero { padding: 6rem 1.5rem 4rem; }
             .hero-stats { flex-direction: column; border-radius: 16px; }
             .hero-stat { padding: 1.2rem 2rem; }
@@ -1463,6 +1643,13 @@
             <li><a href="#timeline">Timeline</a></li>
             <li><a href="#budget">Budget</a></li>
         </ul>
+        <div class="plan-toggle" id="planToggle">
+            <button class="plan-toggle-pill active" id="pillFull" onclick="switchPlan('full')">Full Vision</button>
+            <button class="plan-toggle-pill approved" id="pillApproved" onclick="switchPlan('approved')">
+                <svg class="check-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+                Approved Plan
+            </button>
+        </div>
         <button class="present-btn" onclick="startPresentation()" title="Launch presentation mode">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
@@ -1479,6 +1666,15 @@
     <div class="hero-badge">
         <span class="dot"></span>
         Q1-Q2 Execution Plan &middot; Sep 2026 — Feb 2027
+    </div>
+
+    <div class="approved-badge" id="approvedBadge">
+        <div class="approved-badge-icon">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
+        </div>
+        <div class="approved-badge-text">
+            <strong>Approved by Amogh &amp; Henry</strong>, Sui DevRel Team — Pre-December 2026
+        </div>
     </div>
 
     <h1>
@@ -1584,21 +1780,21 @@
                     <g filter="url(#stage-shadow)">
                         <rect x="80" y="94" width="540" height="72" rx="14" fill="url(#fg2)"/>
                         <text x="350" y="126" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="17" letter-spacing="0.02em">CERTIFICATION</text>
-                        <text x="350" y="147" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">18 workshops, Move fundamentals, first quality filter</text>
+                        <text id="funnelCertText" x="350" y="147" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">18 workshops, Move fundamentals, first quality filter</text>
                     </g>
 
                     <!-- Stage 3: Hackathons -->
                     <g filter="url(#stage-shadow)">
                         <rect x="135" y="178" width="430" height="72" rx="14" fill="url(#fg3)"/>
                         <text x="350" y="210" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="17" letter-spacing="0.02em">HACKATHONS</text>
-                        <text x="350" y="231" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">5 events, curation by execution, UK/IT/EE/ES/CH</text>
+                        <text id="funnelHackText" x="350" y="231" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">5 events, curation by execution, UK/IT/EE/ES/CH</text>
                     </g>
 
                     <!-- Stage 4: Bootcamps -->
                     <g filter="url(#stage-shadow)">
                         <rect x="185" y="262" width="330" height="72" rx="14" fill="url(#fg4)"/>
                         <text x="350" y="294" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="17" letter-spacing="0.02em">BOOTCAMPS</text>
-                        <text x="350" y="315" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">5 cohorts, Mysten engineers, advanced training</text>
+                        <text id="funnelBootText" x="350" y="315" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">5 cohorts, Mysten engineers, advanced training</text>
                     </g>
 
                     <!-- Stage 5: Incubator -->
@@ -2440,6 +2636,33 @@
                 </table>
             </div>
         </div>
+
+        <!-- Cost Per Developer (Approved Plan only) -->
+        <div class="cost-per-dev" id="costPerDev">
+            <div class="cost-per-dev-title">Cost per Developer</div>
+            <div class="cost-metrics">
+                <div class="cost-metric">
+                    <div class="cost-metric-value">360</div>
+                    <div class="cost-metric-label">Certified developers<br>(12 x 30 per workshop)</div>
+                </div>
+                <div class="cost-metric">
+                    <div class="cost-metric-value">$167</div>
+                    <div class="cost-metric-label">Direct cert cost per dev<br>($60K / 360)</div>
+                </div>
+                <div class="cost-metric">
+                    <div class="cost-metric-value">$472</div>
+                    <div class="cost-metric-label">Fully loaded cost per dev<br>($170K / 360)</div>
+                </div>
+                <div class="cost-metric">
+                    <div class="cost-metric-value">70</div>
+                    <div class="cost-metric-label">Industry-ready devs<br>(2 bootcamps x 35)</div>
+                </div>
+                <div class="cost-metric">
+                    <div class="cost-metric-value">$1,429</div>
+                    <div class="cost-metric-label">Cost per industry-ready dev<br>($100K / 70)</div>
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -3106,6 +3329,456 @@
             presNavigate(-1);
         }
     });
+
+    // ========================================
+    // PLAN TOGGLE — Full Vision vs Approved
+    // ========================================
+    let currentPlan = 'full';
+
+    const PLAN_DATA = {
+        full: {
+            heroStats: {
+                countries: '10',
+                certifications: '18',
+                hackathons: '5',
+                bootcamps: '5',
+                budget: '$385K'
+            },
+            funnel: {
+                certLine: '18 workshops, Move fundamentals, first quality filter',
+                hackLine: '5 events, curation by execution, UK/IT/EE/ES/CH',
+                bootLine: '5 cohorts, Mysten engineers, advanced training',
+                certDesc: '18 two-day in-person workshops. First quality filter via Move fundamentals certification. Verifies baseline skill and commitment level.',
+                hackDesc: '5 week-long hackathons across UK, Italy, Estonia, Spain, Switzerland. Curation by execution: real technical output surfaces the strongest builders.',
+                bootDesc: '5 ten-day intensive bootcamps with Mysten Labs engineers. Advanced training in security, indexing, and infrastructure.'
+            },
+            budgetDesc: '$385,000 for 6 months of execution across 10 countries. 39% goes to bootcamps (highest impact), 26% to hackathons, 23% to certifications.',
+            budgetCards: [
+                { value: '$385K', label: 'Total Budget', isTotal: true },
+                { value: '$5K', label: 'Per Certification', isTotal: false },
+                { value: '$20K', label: 'Per Hackathon', isTotal: false },
+                { value: '$30K', label: 'Per Bootcamp', isTotal: false }
+            ],
+            budgetTable: [
+                { cat: 'Bootcamps (UK, Paris, Poland, Italy, Spain)', unit: '$30,000', qty: '5', total: '$150,000' },
+                { cat: 'Hackathons (operations + prize pool)', unit: '$20,000', qty: '5', total: '$100,000' },
+                { cat: '2-Day Certification Workshops', unit: '$5,000', qty: '18', total: '$90,000' },
+                { cat: 'Travel &amp; Logistics', unit: '—', qty: '—', total: '$25,000' },
+                { cat: 'Content Creation', unit: '$1,000', qty: '15-20', total: '$20,000' },
+                { cat: '<strong>TOTAL Q1-Q2</strong>', unit: '', qty: '', total: '<strong>$385,000</strong>' }
+            ],
+            donut: [
+                { label: 'Bootcamps (5)', amount: 150000, color: '#298dff', display: '$150K' },
+                { label: 'Hackathons (5)', amount: 100000, color: '#ff6c3d', display: '$100K' },
+                { label: 'Certifications (18)', amount: 90000, color: '#22c55e', display: '$90K' },
+                { label: 'Travel', amount: 25000, color: '#a855f7', display: '$25K' },
+                { label: 'Content', amount: 20000, color: '#6c7584', display: '$20K' }
+            ],
+            donutCenter: '$385K',
+            phaseCards: [
+                { period: 'Sep — Nov 2026', title: 'Phase 1: Certification Blitz', desc: '12 of 18 certifications run in Q1, roughly one every 7 days. This front-loading maximizes the pipeline going into hackathon season. The mobile workforce rotates across countries.' },
+                { period: 'Nov 2026 — Jan 2027', title: 'Phase 2: Hackathon Season', desc: '5 hackathons bridge Q1 and Q2. Estonia, UK, and Switzerland hackathons run in Nov-Dec while certifications are still completing. Italy and Spain hackathons follow in January.' },
+                { period: 'Jan — Feb 2027', title: 'Phase 3: Bootcamp Intensive', desc: '5 bootcamps in 5 weeks closes Q2. Mysten Labs engineers deliver advanced instruction on security, indexing, and infrastructure. Participants are pre-curated through certifications and hackathons.' }
+            ],
+            timeline: {
+                certRow1: [
+                    { code: 'UK', partner: 'Cambridge/Oxford', start: '2026-09-08', days: 5 },
+                    { code: 'DE', partner: 'TUM Munich', start: '2026-09-15', days: 5 },
+                    { code: 'FR', partner: 'KryptoSphere', start: '2026-09-22', days: 5 },
+                    { code: 'BE', partner: 'KryptoSphere', start: '2026-10-01', days: 5 },
+                    { code: 'IT', partner: 'BSBA Milan', start: '2026-10-08', days: 5 },
+                    { code: 'ES', partner: 'The Bridge', start: '2026-10-15', days: 5 }
+                ],
+                certRow2: [
+                    { code: 'CH', partner: 'EPFL Lausanne', start: '2026-10-22', days: 5 },
+                    { code: 'PL', partner: 'Local community', start: '2026-10-29', days: 5 },
+                    { code: 'EE', partner: 'W3N', start: '2026-11-05', days: 5 },
+                    { code: 'CH', partner: 'ETH Zurich', start: '2026-11-12', days: 5 },
+                    { code: 'DE', partner: 'Berlin', start: '2026-11-19', days: 5 },
+                    { code: 'PT', partner: 'DSN Tecnico', start: '2026-11-26', days: 5 }
+                ],
+                certRow3: [
+                    { code: 'UK', partner: 'Imperial/Kings', start: '2026-12-01', days: 5 },
+                    { code: 'IT', partner: 'Urbe ETH Rome', start: '2026-12-08', days: 5 },
+                    { code: 'CH', partner: 'EPFL Lausanne', start: '2026-12-15', days: 5 },
+                    { code: 'CH', partner: 'ETH Zurich', start: '2026-12-22', days: 5 },
+                    { code: 'ES', partner: 'The Bridge', start: '2027-01-06', days: 5 },
+                    { code: 'PL', partner: 'Local community', start: '2027-01-13', days: 5 }
+                ],
+                hackEvents: [
+                    { code: 'EE', partner: 'W3N Conference', start: '2026-11-01', days: 7 },
+                    { code: 'UK', partner: 'Multi-university', start: '2026-11-10', days: 7 },
+                    { code: 'IT', partner: 'Urbe ETH', start: '2027-01-12', days: 7 },
+                    { code: 'ES', partner: 'The Bridge', start: '2027-01-26', days: 7 },
+                    { code: 'CH', partner: 'ETH/EPFL Blockchain', start: '2026-12-07', days: 7 }
+                ],
+                bootRow1: [
+                    { code: 'UK', partner: 'London', start: '2027-01-19', days: 10 },
+                    { code: 'FR', partner: 'Paris', start: '2027-01-29', days: 10 },
+                    { code: 'PL', partner: 'Warsaw', start: '2027-02-08', days: 10 }
+                ],
+                bootRow2: [
+                    { code: 'IT', partner: 'Urbe ETH', start: '2027-01-26', days: 10 },
+                    { code: 'ES', partner: 'Spain', start: '2027-02-12', days: 10 }
+                ]
+            },
+            network: {
+                western: [
+                    { flag: '\u{1F1EC}\u{1F1E7}', name: 'United Kingdom', tags: ['2 Cert', '1 Hack', '1 Boot'], partners: 'Imperial, Cambridge, Oxford, King\'s, DeVinci, Oli (venue contact, London)' },
+                    { flag: '\u{1F1EB}\u{1F1F7}', name: 'France', tags: ['1 Cert', '1 Boot'], partners: 'KryptoSphere, DeVinci Blockchain (12+ antennas)' },
+                    { flag: '\u{1F1E7}\u{1F1EA}', name: 'Belgium', tags: ['1 Cert'], partners: 'KryptoSphere, DeVinci Blockchain' },
+                    { flag: '\u{1F1E8}\u{1F1ED}', name: 'Switzerland', tags: ['4 Cert', '1 Hack'], partners: 'ETH Blockchain Club (Zurich), EPFL Blockchain Club (Lausanne)' }
+                ],
+                southern: [
+                    { flag: '\u{1F1EA}\u{1F1F8}', name: 'Spain', tags: ['2 Cert', '1 Hack', '1 Boot'], partners: 'The Bridge' },
+                    { flag: '\u{1F1EE}\u{1F1F9}', name: 'Italy', tags: ['2 Cert', '1 Hack', '1 Boot'], partners: 'Urbe ETH (Rome), BSA Italy / Olga, BSBA (Milan)' },
+                    { flag: '\u{1F1F5}\u{1F1F9}', name: 'Portugal', tags: ['1 Cert'], partners: 'DSN Tecnico Lisbon, Jose, Pedro (BSA)' }
+                ],
+                eastern: [
+                    { flag: '\u{1F1E9}\u{1F1EA}', name: 'Germany', tags: ['2 Cert'], partners: 'TUM Blockchain (Munich), Berlin organizer' },
+                    { flag: '\u{1F1F5}\u{1F1F1}', name: 'Poland', tags: ['2 Cert', '1 Boot'], partners: 'Local developer community' },
+                    { flag: '\u{1F1EA}\u{1F1EA}', name: 'Estonia', tags: ['1 Cert', '1 Hack'], partners: 'W3N Conference' }
+                ]
+            }
+        },
+        approved: {
+            heroStats: {
+                countries: '10',
+                certifications: '12',
+                hackathons: '2+3',
+                bootcamps: '2+3',
+                budget: '$170K'
+            },
+            funnel: {
+                certLine: '12 workshops, Move fundamentals, first quality filter',
+                hackLine: '2 confirmed (+3 optional), curation by execution',
+                bootLine: '2 confirmed (+3 optional), Mysten engineers, advanced training',
+                certDesc: '12 two-day in-person workshops. First quality filter via Move fundamentals certification. Verifies baseline skill and commitment level.',
+                hackDesc: '2 confirmed hackathons (France, Italy) with 3 optional (UK remote, Estonia, Spain). Curation by execution: real technical output surfaces the strongest builders.',
+                bootDesc: '2 confirmed intensive bootcamps (Paris, Italy) with 3 optional (UK remote, Poland, Spain). Advanced training with Mysten Labs engineers.'
+            },
+            budgetDesc: '$170,000 for 6 months. Streamlined plan with 12 certifications, 2 confirmed hackathons, 2 confirmed bootcamps, and a lean core team.',
+            budgetCards: [
+                { value: '$170K', label: 'Total Budget', isTotal: true },
+                { value: '$6K', label: 'Per Certification', isTotal: false },
+                { value: '$22K', label: 'Per Hackathon', isTotal: false },
+                { value: '$9K/mo', label: 'Core Team', isTotal: false }
+            ],
+            budgetTable: [
+                { cat: 'Hackathons (ops + prize pool)', unit: '$22,000', qty: '2', total: '$44,000' },
+                { cat: '2-Day Certification Workshops', unit: '$6,000', qty: '12', total: '$72,000' },
+                { cat: 'Core Team Salaries (monthly)<br><span style="font-size:0.78rem;color:var(--text-muted)">DevRel Lead $6.5K/mo + Social/Discord $2.5K/mo</span>', unit: '$9,000', qty: '6', total: '$54,000' },
+                { cat: '<strong>TOTAL</strong>', unit: '', qty: '', total: '<strong>$170,000</strong>' }
+            ],
+            donut: [
+                { label: 'Certifications (12)', amount: 72000, color: '#22c55e', display: '$72K' },
+                { label: 'Core Team (6 months)', amount: 54000, color: '#298dff', display: '$54K' },
+                { label: 'Hackathons (2)', amount: 44000, color: '#ff6c3d', display: '$44K' }
+            ],
+            donutCenter: '$170K',
+            phaseCards: [
+                { period: 'Sep — Nov 2026', title: 'Phase 1: Certification Wave', desc: '12 certifications across 8 countries. Front-loaded to build the pipeline. KryptoSphere, BSBA Milan, TUM Munich, W3N, and university partners deliver workshops.' },
+                { period: 'Nov 2026 — Jan 2027', title: 'Phase 2: Hackathons', desc: '2 confirmed hackathons in France and Italy (post-bootcamp). 3 optional: UK (remote), Estonia, Spain depending on budget and momentum.' },
+                { period: 'Jan — Feb 2027', title: 'Phase 3: Bootcamps', desc: '2 confirmed bootcamps in Paris and Italy. 3 optional: UK (remote), Poland (Warsaw), Spain. Industry-ready developer output from curated participants.' }
+            ],
+            timeline: {
+                certRow1: [
+                    { code: 'UK', partner: 'Cambridge/Oxford', start: '2026-09-08', days: 5 },
+                    { code: 'DE', partner: 'TUM Munich', start: '2026-09-15', days: 5 },
+                    { code: 'FR', partner: 'KryptoSphere', start: '2026-09-22', days: 5 },
+                    { code: 'BE', partner: 'KryptoSphere', start: '2026-10-01', days: 5 }
+                ],
+                certRow2: [
+                    { code: 'IT', partner: 'BSBA Milan', start: '2026-10-08', days: 5 },
+                    { code: 'ES', partner: 'The Bridge', start: '2026-10-15', days: 5 },
+                    { code: 'PL', partner: 'Local community', start: '2026-10-29', days: 5 },
+                    { code: 'EE', partner: 'W3N', start: '2026-11-05', days: 5 }
+                ],
+                certRow3: [
+                    { code: 'FR', partner: 'KryptoSphere Paris', start: '2026-11-12', days: 5 },
+                    { code: 'PL', partner: 'Local community', start: '2026-11-19', days: 5 },
+                    { code: 'UK', partner: 'Imperial/Kings', start: '2026-12-01', days: 5 },
+                    { code: 'IT', partner: 'Urbe ETH Rome', start: '2026-12-08', days: 5 }
+                ],
+                hackEvents: [
+                    { code: 'FR', partner: 'France', start: '2026-11-10', days: 7 },
+                    { code: 'IT', partner: 'Italy (post-bootcamp)', start: '2027-02-08', days: 7 }
+                ],
+                hackOptional: [
+                    { code: 'UK', partner: 'UK (remote)', start: '2026-12-01', days: 7 },
+                    { code: 'EE', partner: 'Estonia', start: '2026-12-14', days: 7 },
+                    { code: 'ES', partner: 'Spain', start: '2027-01-12', days: 7 }
+                ],
+                bootRow1: [
+                    { code: 'FR', partner: 'Paris', start: '2027-01-19', days: 10 },
+                    { code: 'IT', partner: 'Italy', start: '2027-01-29', days: 10 }
+                ],
+                bootOptional: [
+                    { code: 'UK', partner: 'UK (remote)', start: '2027-02-01', days: 10 },
+                    { code: 'PL', partner: 'Warsaw', start: '2027-02-10', days: 10 },
+                    { code: 'ES', partner: 'Spain', start: '2027-02-18', days: 10 }
+                ],
+                bootRow2: []
+            },
+            network: {
+                western: [
+                    { flag: '\u{1F1EC}\u{1F1E7}', name: 'United Kingdom', tags: ['2 Cert'], partners: 'Cambridge, Oxford, Imperial, King\'s' },
+                    { flag: '\u{1F1EB}\u{1F1F7}', name: 'France', tags: ['2 Cert', '1 Hack', '1 Boot'], partners: 'KryptoSphere' },
+                    { flag: '\u{1F1E7}\u{1F1EA}', name: 'Belgium', tags: ['1 Cert'], partners: 'KryptoSphere' }
+                ],
+                southern: [
+                    { flag: '\u{1F1EA}\u{1F1F8}', name: 'Spain', tags: ['1 Cert'], partners: 'The Bridge' },
+                    { flag: '\u{1F1EE}\u{1F1F9}', name: 'Italy', tags: ['2 Cert', '1 Hack', '1 Boot'], partners: 'BSBA Milan, Urbe ETH Rome' }
+                ],
+                eastern: [
+                    { flag: '\u{1F1E9}\u{1F1EA}', name: 'Germany', tags: ['1 Cert'], partners: 'TUM Munich' },
+                    { flag: '\u{1F1F5}\u{1F1F1}', name: 'Poland', tags: ['2 Cert'], partners: 'Local developer community' },
+                    { flag: '\u{1F1EA}\u{1F1EA}', name: 'Estonia', tags: ['1 Cert'], partners: 'W3N' }
+                ]
+            }
+        }
+    };
+
+    function switchPlan(plan) {
+        if (plan === currentPlan) return;
+        currentPlan = plan;
+
+        // Toggle pill active states
+        document.getElementById('pillFull').classList.toggle('active', plan === 'full');
+        document.getElementById('pillApproved').classList.toggle('active', plan === 'approved');
+
+        // Show/hide approved badge
+        document.getElementById('approvedBadge').classList.toggle('visible', plan === 'approved');
+
+        // Show/hide cost per dev
+        document.getElementById('costPerDev').classList.toggle('visible', plan === 'approved');
+
+        const pd = PLAN_DATA[plan];
+
+        // --- Hero Stats ---
+        const stats = document.querySelectorAll('.hero-stats .hero-stat');
+        if (stats.length >= 5) {
+            stats[0].querySelector('.hero-stat-value').textContent = pd.heroStats.countries;
+            stats[1].querySelector('.hero-stat-value').textContent = pd.heroStats.certifications;
+            if (plan === 'approved') {
+                stats[2].querySelector('.hero-stat-value').innerHTML = '2<span style="font-size:0.5em;opacity:0.6">+3</span>';
+                stats[3].querySelector('.hero-stat-value').innerHTML = '2<span style="font-size:0.5em;opacity:0.6">+3</span>';
+                stats[2].querySelector('.hero-stat-label').textContent = 'Hackathons';
+                stats[3].querySelector('.hero-stat-label').textContent = 'Bootcamps';
+            } else {
+                stats[2].querySelector('.hero-stat-value').textContent = pd.heroStats.hackathons;
+                stats[3].querySelector('.hero-stat-value').textContent = pd.heroStats.bootcamps;
+            }
+            stats[4].querySelector('.hero-stat-value').textContent = pd.heroStats.budget;
+        }
+
+        // --- Funnel SVG text ---
+        const fCert = document.getElementById('funnelCertText');
+        const fHack = document.getElementById('funnelHackText');
+        const fBoot = document.getElementById('funnelBootText');
+        if (fCert) fCert.textContent = pd.funnel.certLine;
+        if (fHack) fHack.textContent = pd.funnel.hackLine;
+        if (fBoot) fBoot.textContent = pd.funnel.bootLine;
+
+        // --- Funnel stage descriptions ---
+        const stageDescs = document.querySelectorAll('#funnel .funnel-stage-desc');
+        if (stageDescs.length >= 4) {
+            stageDescs[1].textContent = pd.funnel.certDesc;
+            stageDescs[2].textContent = pd.funnel.hackDesc;
+            stageDescs[3].textContent = pd.funnel.bootDesc;
+        }
+
+        // --- Budget section ---
+        const budgetDescEl = document.querySelector('#budget .section-desc');
+        if (budgetDescEl) budgetDescEl.textContent = pd.budgetDesc;
+
+        // Budget hero cards
+        const budgetCards = document.querySelectorAll('#budget .budget-hero-card');
+        pd.budgetCards.forEach((card, i) => {
+            if (budgetCards[i]) {
+                budgetCards[i].querySelector('.budget-hero-value').textContent = card.value;
+                budgetCards[i].querySelector('.budget-hero-label').textContent = card.label;
+                budgetCards[i].classList.toggle('total', card.isTotal);
+            }
+        });
+
+        // Budget table
+        const tbody = document.querySelector('#budget .budget-table tbody');
+        if (tbody) {
+            tbody.innerHTML = pd.budgetTable.map(row => `
+                <tr>
+                    <td>${row.cat}</td>
+                    <td>${row.unit}</td>
+                    <td>${row.qty}</td>
+                    <td class="amount">${row.total}</td>
+                </tr>
+            `).join('');
+        }
+
+        // Donut chart
+        rebuildDonut(pd.donut, pd.donutCenter);
+
+        // --- Phase cards ---
+        const phaseCardEls = document.querySelectorAll('#timeline .phase-card');
+        pd.phaseCards.forEach((pc, i) => {
+            if (phaseCardEls[i]) {
+                phaseCardEls[i].querySelector('.phase-card-period').textContent = pc.period;
+                phaseCardEls[i].querySelector('.phase-card-title').textContent = pc.title;
+                phaseCardEls[i].querySelector('.phase-card-desc').textContent = pc.desc;
+            }
+        });
+
+        // --- Timeline ---
+        updateTimelineFromPlan(pd.timeline, plan);
+
+        // --- Network region groups ---
+        updateNetworkFromPlan(pd.network);
+    }
+
+    function rebuildDonut(data, centerText) {
+        const svg = document.getElementById('donutChart');
+        if (!svg) return;
+        const circles = svg.querySelectorAll('circle');
+        circles.forEach(c => c.remove());
+
+        const total = data.reduce((s, d) => s + d.amount, 0);
+        const cx = 120, cy = 120, outerR = 100, innerR = 65;
+        const strokeW = outerR - innerR;
+        const midR = (outerR + innerR) / 2;
+        const circumference = 2 * Math.PI * midR;
+        let cumulativeOffset = 0;
+        const gapDeg = 2;
+        const gapFraction = gapDeg / 360;
+
+        data.forEach((d) => {
+            const fraction = d.amount / total;
+            const adjustedFraction = fraction - gapFraction;
+            const dashLength = adjustedFraction * circumference;
+            const dashGap = circumference - dashLength;
+            const offset = -cumulativeOffset * circumference + circumference * 0.25;
+
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', cx);
+            circle.setAttribute('cy', cy);
+            circle.setAttribute('r', midR);
+            circle.setAttribute('fill', 'none');
+            circle.setAttribute('stroke', d.color);
+            circle.setAttribute('stroke-width', strokeW);
+            circle.setAttribute('stroke-dasharray', `${dashLength} ${dashGap}`);
+            circle.setAttribute('stroke-dashoffset', offset);
+            circle.setAttribute('stroke-linecap', 'round');
+            circle.style.transition = 'stroke-dasharray 0.8s ease, stroke-dashoffset 0.8s ease';
+            circle.style.filter = `drop-shadow(0 0 6px ${d.color}40)`;
+            svg.appendChild(circle);
+
+            cumulativeOffset += fraction;
+        });
+
+        // Center text
+        const centerVal = document.querySelector('.donut-center-value');
+        if (centerVal) centerVal.textContent = centerText;
+
+        // Legend
+        const legend = document.getElementById('donutLegend');
+        if (legend) {
+            legend.innerHTML = '';
+            data.forEach(d => {
+                const pct = ((d.amount / total) * 100).toFixed(1);
+                const item = document.createElement('div');
+                item.className = 'donut-legend-item';
+                item.innerHTML = `
+                    <div class="donut-legend-dot" style="background: ${d.color}"></div>
+                    <span class="donut-legend-label">${d.label}<br><span style="font-size: 0.7rem; color: #6c7584;">${pct}%</span></span>
+                    <span class="donut-legend-amount">${d.display}</span>
+                `;
+                legend.appendChild(item);
+            });
+        }
+    }
+
+    function updateTimelineFromPlan(tl, plan) {
+        // Update the global arrays used by renderTimeline
+        CERT_ROW1.length = 0;
+        CERT_ROW2.length = 0;
+        CERT_ROW3.length = 0;
+        HACK_EVENTS.length = 0;
+        BOOT_ROW1.length = 0;
+        BOOT_ROW2.length = 0;
+
+        tl.certRow1.forEach(e => CERT_ROW1.push(e));
+        tl.certRow2.forEach(e => CERT_ROW2.push(e));
+        tl.certRow3.forEach(e => CERT_ROW3.push(e));
+        tl.hackEvents.forEach(e => HACK_EVENTS.push(e));
+        tl.bootRow1.forEach(e => BOOT_ROW1.push(e));
+        if (tl.bootRow2) tl.bootRow2.forEach(e => BOOT_ROW2.push(e));
+
+        // Rebuild EVENTS reference
+        EVENTS.cert = [...CERT_ROW1, ...CERT_ROW2, ...CERT_ROW3];
+        EVENTS.hack = HACK_EVENTS;
+        EVENTS.boot = [...BOOT_ROW1, ...BOOT_ROW2];
+
+        // Re-render timeline
+        renderTimeline();
+
+        // For approved plan, add optional events with special styling
+        if (plan === 'approved' && tl.hackOptional) {
+            const hackT = document.getElementById('hackTrack');
+            tl.hackOptional.forEach((ev, i) => {
+                const el = createEventEl(ev, 'hack', HACK_EVENTS.length + i);
+                el.classList.add('optional');
+                // Add (+opt) to tooltip
+                const tooltip = el.querySelector('.timeline-event-tooltip');
+                if (tooltip) tooltip.textContent += ' (optional)';
+                hackT.appendChild(el);
+            });
+        }
+
+        if (plan === 'approved' && tl.bootOptional) {
+            const bootT2 = document.getElementById('bootTrack2');
+            tl.bootOptional.forEach((ev, i) => {
+                const el = createEventEl(ev, 'boot', BOOT_ROW1.length + i);
+                el.classList.add('optional');
+                const tooltip = el.querySelector('.timeline-event-tooltip');
+                if (tooltip) tooltip.textContent += ' (optional)';
+                bootT2.appendChild(el);
+            });
+        }
+    }
+
+    function updateNetworkFromPlan(network) {
+        const groups = document.querySelectorAll('#network .region-group');
+        if (groups.length < 3) return;
+
+        const regions = [
+            { el: groups[0], data: network.western },
+            { el: groups[1], data: network.southern },
+            { el: groups[2], data: network.eastern }
+        ];
+
+        regions.forEach(({ el, data }) => {
+            const title = el.querySelector('.region-group-title');
+            const titleText = title ? title.outerHTML : '';
+            el.innerHTML = titleText;
+            data.forEach(country => {
+                const tagTypeMap = { 'Cert': 'cert', 'Hack': 'hack', 'Boot': 'boot' };
+                const tagsHtml = country.tags.map(t => {
+                    const type = Object.keys(tagTypeMap).find(k => t.includes(k));
+                    return `<span class="event-tag ${tagTypeMap[type] || 'cert'}">${t}</span>`;
+                }).join('');
+
+                el.innerHTML += `
+                    <div class="country-item">
+                        <div class="country-item-header">
+                            <span class="country-flag">${country.flag}</span>
+                            <span class="country-name">${country.name}</span>
+                        </div>
+                        <div class="event-tags">${tagsHtml}</div>
+                        <div class="country-partners">${country.partners}</div>
+                    </div>
+                `;
+            });
+        });
+    }
 </script>
 
 </body>
