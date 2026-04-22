@@ -1,0 +1,3039 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sui Guild Europe — Q1-Q2 Execution Plan</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* ========================================
+           RESET & FOUNDATIONS
+           ======================================== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        :root {
+            --sui-blue: #298dff;
+            --sui-blue-dim: rgba(41, 141, 255, 0.15);
+            --sui-blue-glow: rgba(41, 141, 255, 0.3);
+            --sui-orange: #ff6c3d;
+            --sui-red: #ea384c;
+            --sui-green: #22c55e;
+            --bg-black: #000000;
+            --bg-deep: #131518;
+            --bg-card: #222529;
+            --bg-elevated: #343940;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-medium: rgba(255, 255, 255, 0.1);
+            --text-primary: #ffffff;
+            --text-secondary: #a1a7b2;
+            --text-muted: #6c7584;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-blur: blur(24px);
+        }
+
+        body {
+            background: var(--bg-black);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            font-weight: 400;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           NAVIGATION
+           ======================================== */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0 3rem;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .nav-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .nav-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .nav-logo .droplet {
+            width: 24px;
+            height: 24px;
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 0.15rem;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.45rem 0.85rem;
+            border-radius: 8px;
+            transition: all 0.25s ease;
+            letter-spacing: 0.01em;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--text-primary);
+            background: var(--sui-blue-dim);
+        }
+
+        /* ========================================
+           HERO
+           ======================================== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 8rem 2rem 6rem;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg,
+                    #000000 0%,
+                    #000510 15%,
+                    #001030 30%,
+                    #0a2a5a 45%,
+                    #1a5090 55%,
+                    #298dff 68%,
+                    #5eb0ff 80%,
+                    #A8D8FF 92%,
+                    #c8e8ff 100%
+                );
+            z-index: 0;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 100% 80% at 20% 50%, rgba(41, 141, 255, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse 80% 60% at 80% 30%, rgba(94, 176, 255, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 50% 80%, rgba(168, 216, 255, 0.06) 0%, transparent 50%);
+            z-index: 1;
+        }
+
+        .hero > * { position: relative; z-index: 2; }
+
+        #particles-canvas {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.4rem;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 100px;
+            font-size: 0.78rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2.5rem;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .hero-badge .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--sui-blue);
+            animation: pulse-dot 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.3); }
+        }
+
+        .hero h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: clamp(3.2rem, 7vw, 6rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .hero h1 .thin {
+            font-weight: 500;
+            opacity: 0.85;
+            display: block;
+            font-size: 0.55em;
+            letter-spacing: -0.01em;
+            margin-top: 0.3em;
+        }
+
+        .hero-sub {
+            font-size: 1.15rem;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 0.65);
+            max-width: 620px;
+            line-height: 1.7;
+            margin-bottom: 4rem;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 1px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .hero-stat {
+            padding: 1.8rem 2.8rem;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            transition: background 0.3s ease;
+        }
+
+        .hero-stat:hover {
+            background: rgba(41, 141, 255, 0.1);
+        }
+
+        .hero-stat-value {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2.4rem;
+            letter-spacing: -0.03em;
+            line-height: 1;
+        }
+
+        .hero-stat-value.blue { color: var(--sui-blue); }
+        .hero-stat-value.orange { color: var(--sui-orange); }
+        .hero-stat-value.green { color: var(--sui-green); }
+        .hero-stat-value.white { color: var(--text-primary); }
+
+        .hero-stat-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: rgba(255, 255, 255, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.4rem;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 2.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            color: rgba(255, 255, 255, 0.3);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            animation: float-down 2.5s ease-in-out infinite;
+        }
+
+        .scroll-indicator svg {
+            width: 20px;
+            height: 20px;
+            stroke: rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes float-down {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(8px); }
+        }
+
+        /* ========================================
+           SECTION LAYOUT
+           ======================================== */
+        .section {
+            position: relative;
+            padding: 8rem 0;
+        }
+
+        .section-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 3rem;
+        }
+
+        .section-full {
+            position: relative;
+            padding: 8rem 2rem;
+        }
+
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--sui-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-label::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--sui-blue);
+        }
+
+        .section h2 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            letter-spacing: -0.03em;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .section-desc {
+            font-size: 1.05rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            line-height: 1.7;
+            margin-bottom: 4rem;
+        }
+
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent 0%, var(--sui-blue-dim) 30%, var(--sui-blue-dim) 70%, transparent 100%);
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* ========================================
+           FUNNEL — CUSTOM SVG VISUALIZATION
+           ======================================== */
+        .funnel-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .funnel-svg-wrap {
+            position: relative;
+        }
+
+        .funnel-svg-wrap svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .funnel-stages {
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .funnel-stage {
+            padding: 1.6rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .funnel-stage:hover {
+            border-color: var(--sui-blue-glow);
+            background: rgba(41, 141, 255, 0.05);
+        }
+
+        .funnel-stage-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .funnel-stage-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.75rem;
+            color: var(--text-primary);
+            flex-shrink: 0;
+        }
+
+        .funnel-stage-num.s1 { background: var(--sui-blue); }
+        .funnel-stage-num.s2 { background: #1a6dcc; }
+        .funnel-stage-num.s3 { background: var(--sui-orange); }
+        .funnel-stage-num.s4 { background: #9b59b6; }
+        .funnel-stage-num.s5 { background: var(--sui-green); }
+
+        .funnel-stage-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: -0.01em;
+        }
+
+        .funnel-stage-desc {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            line-height: 1.6;
+            padding-left: 2.8rem;
+        }
+
+        /* ========================================
+           EUROPEAN NETWORK — MAP VISUALIZATION
+           ======================================== */
+        .europe-map-container {
+            position: relative;
+            margin-bottom: 4rem;
+        }
+
+        .europe-map-svg {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .country-shape {
+            transition: all 0.3s ease;
+            cursor: default;
+        }
+
+        .country-shape.active:hover {
+            filter: brightness(1.3);
+        }
+
+        .map-marker {
+            cursor: default;
+            transition: transform 0.3s ease;
+        }
+
+        .map-marker:hover {
+            transform: scale(1.15);
+        }
+
+        .map-tooltip-card {
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .map-marker:hover .map-tooltip-card {
+            opacity: 1;
+        }
+
+        @keyframes map-pulse {
+            0%, 100% { r: 5; opacity: 0.8; }
+            50% { r: 8; opacity: 0.3; }
+        }
+
+        .marker-pulse {
+            animation: map-pulse 2.5s ease-in-out infinite;
+        }
+
+        .region-groups {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .region-group {
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+        }
+
+        .region-group-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .country-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .country-item:last-child { border-bottom: none; }
+
+        .country-item-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .country-flag { font-size: 1.3rem; }
+
+        .country-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+
+        .event-tags {
+            display: flex;
+            gap: 0.35rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.4rem;
+        }
+
+        .event-tag {
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .event-tag.cert { background: rgba(41, 141, 255, 0.15); color: var(--sui-blue); }
+        .event-tag.hack { background: rgba(255, 108, 61, 0.15); color: var(--sui-orange); }
+        .event-tag.boot { background: rgba(34, 197, 94, 0.15); color: var(--sui-green); }
+
+        .country-partners {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* ========================================
+           ORGANIZATION — VISUAL HIERARCHY
+           ======================================== */
+        .org-council {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .council-card {
+            position: relative;
+            padding: 2.5rem 1.5rem 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            text-align: center;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .council-card:hover {
+            border-color: var(--sui-blue-glow);
+            transform: translateY(-4px);
+        }
+
+        .council-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--sui-blue), #5eb0ff);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .council-card:hover::before { opacity: 1; }
+
+        .council-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            margin: 0 auto 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--text-primary);
+            background: linear-gradient(135deg, var(--sui-blue), #0066cc);
+        }
+
+        .council-card:nth-child(2) .council-avatar { background: linear-gradient(135deg, var(--sui-orange), #cc4400); }
+        .council-card:nth-child(3) .council-avatar { background: linear-gradient(135deg, #9b59b6, #6c3483); }
+        .council-card:nth-child(4) .council-avatar { background: linear-gradient(135deg, var(--sui-green), #16a34a); }
+
+        .council-name {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.05rem;
+            margin-bottom: 0.3rem;
+        }
+
+        .council-role {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* Leadership background */
+        .leadership-bg {
+            margin-bottom: 4rem;
+            padding: 2.5rem 2.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-left: 3px solid var(--sui-blue);
+            border-radius: 16px;
+        }
+
+        .leadership-bg-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .leadership-bg p {
+            font-size: 0.92rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Org tiers */
+        .org-tiers {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .org-tier {
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+        }
+
+        .org-tier-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .org-tier-label.core { color: var(--sui-orange); }
+        .org-tier-label.mobile { color: var(--sui-blue); }
+        .org-tier-label.partners { color: var(--sui-green); }
+
+        .org-member {
+            padding: 0.7rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .org-member:last-child { border-bottom: none; }
+
+        .org-member-name {
+            font-weight: 500;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .org-member-detail {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+        }
+
+        /* ========================================
+           TIMELINE — CUSTOM INTERACTIVE
+           ======================================== */
+        .timeline-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .timeline-custom-wrap {
+            width: 100%;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            overflow-x: auto;
+            margin-bottom: 3rem;
+        }
+
+        .timeline-grid {
+            position: relative;
+            min-width: 1000px;
+        }
+
+        .timeline-months {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 0.8rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .timeline-month-label {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+        }
+
+        .timeline-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.4rem;
+        }
+
+        .timeline-row-label {
+            width: 120px;
+            flex-shrink: 0;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .timeline-row-track {
+            flex: 1;
+            position: relative;
+            height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .timeline-event {
+            position: absolute;
+            height: 32px;
+            min-width: 52px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: white;
+            cursor: default;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            z-index: 1;
+            padding: 0 6px;
+        }
+
+        .timeline-event:hover {
+            transform: scale(1.08);
+            z-index: 10;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+        }
+
+        .timeline-event-tooltip {
+            position: absolute;
+            bottom: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-card);
+            border: 1px solid var(--border-medium);
+            border-radius: 8px;
+            padding: 0.5rem 0.8rem;
+            font-size: 0.72rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+            z-index: 20;
+        }
+
+        .timeline-event:hover .timeline-event-tooltip {
+            opacity: 1;
+        }
+
+        .timeline-event.draggable {
+            cursor: grab;
+            outline: 2px dashed rgba(255,255,255,0.3);
+            outline-offset: 2px;
+        }
+
+        .timeline-event.dragging {
+            opacity: 0.5;
+            cursor: grabbing;
+        }
+
+        .timeline-row-spacer {
+            height: 8px;
+        }
+
+        .timeline-legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.2rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .timeline-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .timeline-legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+        }
+
+        .timeline-summary {
+            display: flex;
+            gap: 2rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .timeline-summary-item {
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+
+        .timeline-summary-item strong {
+            color: var(--text-primary);
+        }
+
+        .plan-mode-btn {
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid var(--border-medium);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .plan-mode-btn:hover {
+            background: var(--sui-blue-dim);
+            border-color: var(--sui-blue-glow);
+            color: var(--text-primary);
+        }
+
+        .plan-mode-btn.active {
+            background: rgba(41, 141, 255, 0.15);
+            border-color: var(--sui-blue);
+            color: var(--sui-blue);
+        }
+
+        /* Phase cards */
+        .phase-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .phase-card {
+            padding: 2rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .phase-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+        }
+
+        .phase-card:nth-child(1)::before { background: var(--sui-blue); }
+        .phase-card:nth-child(2)::before { background: var(--sui-orange); }
+        .phase-card:nth-child(3)::before { background: var(--sui-green); }
+
+        .phase-card-period {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.6rem;
+        }
+
+        .phase-card:nth-child(1) .phase-card-period { color: var(--sui-blue); }
+        .phase-card:nth-child(2) .phase-card-period { color: var(--sui-orange); }
+        .phase-card:nth-child(3) .phase-card-period { color: var(--sui-green); }
+
+        .phase-card-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.15rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .phase-card-desc {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* ========================================
+           BUDGET
+           ======================================== */
+        .budget-hero-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .budget-hero-card {
+            padding: 2rem 1.5rem;
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .budget-hero-card:hover {
+            border-color: var(--sui-blue-glow);
+        }
+
+        .budget-hero-card.total {
+            border-color: rgba(41, 141, 255, 0.3);
+            background: rgba(41, 141, 255, 0.05);
+        }
+
+        .budget-hero-value {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 2rem;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
+        }
+
+        .budget-hero-card.total .budget-hero-value { color: var(--sui-blue); }
+
+        .budget-hero-label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .budget-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .budget-pie-wrap {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .donut-chart-container {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            width: 100%;
+        }
+
+        .donut-svg-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .donut-center-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .donut-center-value {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.8rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            line-height: 1;
+        }
+
+        .donut-center-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 0.25rem;
+        }
+
+        .donut-legend {
+            display: flex;
+            flex-direction: column;
+            gap: 0.9rem;
+        }
+
+        .donut-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.65rem;
+        }
+
+        .donut-legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 3px;
+            flex-shrink: 0;
+        }
+
+        .donut-legend-label {
+            font-size: 0.82rem;
+            color: var(--text-secondary);
+            line-height: 1.3;
+        }
+
+        .donut-legend-amount {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-left: auto;
+            padding-left: 1rem;
+            font-size: 0.85rem;
+        }
+
+        .budget-table-wrap {
+            background: var(--glass-bg);
+            backdrop-filter: var(--glass-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            padding: 0.5rem;
+            overflow: hidden;
+        }
+
+        .budget-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .budget-table th {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .budget-table td {
+            padding: 0.9rem 1.5rem;
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .budget-table tr:last-child td {
+            border-bottom: none;
+            font-weight: 600;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+        }
+
+        .budget-table .amount {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+            font-weight: 500;
+        }
+
+        .budget-table th.amount { text-align: right; }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        footer {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        footer .footer-logo {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        /* ========================================
+           DECORATIVE — BACKGROUND ELEMENTS
+           ======================================== */
+        .bg-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(120px);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-glow.blue {
+            background: rgba(41, 141, 255, 0.06);
+        }
+
+        .bg-glow.orange {
+            background: rgba(255, 108, 61, 0.04);
+        }
+
+        .watermark-droplet {
+            position: absolute;
+            opacity: 0.015;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ========================================
+           ANIMATIONS
+           ======================================== */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ========================================
+           PRESENT BUTTON
+           ======================================== */
+        .present-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(41, 141, 255, 0.3);
+            border-radius: 100px;
+            color: var(--sui-blue);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.78rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.02em;
+            flex-shrink: 0;
+        }
+
+        .present-btn:hover {
+            background: rgba(41, 141, 255, 0.12);
+            border-color: var(--sui-blue);
+            color: var(--text-primary);
+            box-shadow: 0 0 20px rgba(41, 141, 255, 0.15);
+        }
+
+        /* ========================================
+           PRESENTATION OVERLAY
+           ======================================== */
+        .pres-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: #000;
+            display: none;
+            flex-direction: column;
+        }
+
+        .pres-overlay.active {
+            display: flex;
+        }
+
+        .pres-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--sui-blue), #5eb0ff);
+            transition: width 0.4s ease;
+            z-index: 10002;
+            border-radius: 0 2px 2px 0;
+        }
+
+        .pres-slide-container {
+            flex: 1;
+            overflow-y: auto;
+            overflow-x: hidden;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding: 3rem 2rem;
+        }
+
+        .pres-slide-content {
+            width: 100%;
+            max-width: 1200px;
+            min-height: calc(100vh - 10rem);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .pres-controls {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 10001;
+        }
+
+        .pres-counter {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.05em;
+        }
+
+        .pres-nav-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .pres-nav-btn:hover {
+            background: rgba(41, 141, 255, 0.15);
+            border-color: var(--sui-blue);
+            color: var(--text-primary);
+        }
+
+        .pres-nav-btn:disabled {
+            opacity: 0.2;
+            cursor: default;
+            pointer-events: none;
+        }
+
+        .pres-close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 2rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10001;
+            font-size: 1.1rem;
+        }
+
+        .pres-close-btn:hover {
+            background: rgba(234, 56, 76, 0.2);
+            border-color: var(--sui-red);
+            color: var(--sui-red);
+        }
+
+        .pres-slide-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--sui-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pres-slide-label::before {
+            content: '';
+            width: 20px;
+            height: 1px;
+            background: var(--sui-blue);
+        }
+
+        /* Hero slide special layout */
+        .pres-hero-slide {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100vh - 10rem);
+        }
+
+        .pres-hero-slide .hero-badge {
+            margin-bottom: 2rem;
+        }
+
+        .pres-hero-slide h1 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1.05;
+            letter-spacing: -0.03em;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .pres-hero-slide h1 .thin {
+            font-weight: 500;
+            opacity: 0.85;
+            display: block;
+            font-size: 0.55em;
+            letter-spacing: -0.01em;
+            margin-top: 0.3em;
+        }
+
+        .pres-hero-slide .hero-sub {
+            margin-bottom: 3rem;
+        }
+
+        /* Presentation slide inner content scaling */
+        .pres-slide-content .section-inner {
+            padding: 0;
+            max-width: 100%;
+        }
+
+        .pres-slide-content .section-label {
+            display: none;
+        }
+
+        .pres-slide-content .bg-glow,
+        .pres-slide-content .watermark-droplet {
+            display: none;
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 1024px) {
+            .funnel-container { grid-template-columns: 1fr; gap: 2rem; }
+            .org-council { grid-template-columns: repeat(2, 1fr); }
+            .org-tiers { grid-template-columns: 1fr; }
+            .region-groups { grid-template-columns: 1fr; }
+            .budget-layout { grid-template-columns: 1fr; }
+            .phase-cards { grid-template-columns: 1fr; }
+            .budget-hero-row { grid-template-columns: repeat(2, 1fr); }
+            .donut-chart-container { flex-direction: column; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 0 1.5rem; }
+            .nav-links { display: none; }
+            .present-btn span { display: none; }
+            .hero { padding: 6rem 1.5rem 4rem; }
+            .hero-stats { flex-direction: column; border-radius: 16px; }
+            .hero-stat { padding: 1.2rem 2rem; }
+            .section-inner { padding: 0 1.5rem; }
+            .section { padding: 5rem 0; }
+            .org-council { grid-template-columns: 1fr; }
+            .budget-hero-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+    <div class="nav-inner">
+        <div class="nav-logo">
+            <svg class="droplet" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 2.5C12 2.5 4 11.5 4 16C4 20.4183 7.58172 24 12 24C16.4183 24 20 20.4183 20 16C20 11.5 12 2.5 12 2.5Z" fill="#298dff"/>
+            </svg>
+            Sui Guild Europe
+        </div>
+        <ul class="nav-links">
+            <li><a href="#funnel">Funnel</a></li>
+            <li><a href="#network">Network</a></li>
+            <li><a href="#org">Organization</a></li>
+            <li><a href="#timeline">Timeline</a></li>
+            <li><a href="#budget">Budget</a></li>
+        </ul>
+        <button class="present-btn" onclick="startPresentation()" title="Launch presentation mode">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+            </svg>
+            Present
+        </button>
+    </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<div class="hero" id="hero">
+    <canvas id="particles-canvas"></canvas>
+
+    <div class="hero-badge">
+        <span class="dot"></span>
+        Q1-Q2 Execution Plan &middot; Sep 2026 — Feb 2027
+    </div>
+
+    <h1>
+        Sui Guild Europe
+        <span class="thin">Building the Move Developer Pipeline</span>
+    </h1>
+
+    <p class="hero-sub">
+        A structured engagement and curation layer for Move developers across Europe.
+        From certification to incubation, we identify and retain high-signal builders for the Sui ecosystem.
+    </p>
+
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <div class="hero-stat-value white">9</div>
+            <div class="hero-stat-label">Countries</div>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-value blue">14</div>
+            <div class="hero-stat-label">Certifications</div>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-value orange">4</div>
+            <div class="hero-stat-label">Hackathons</div>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-value green">5</div>
+            <div class="hero-stat-label">Bootcamps</div>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-value blue">$285K</div>
+            <div class="hero-stat-label">Budget</div>
+        </div>
+    </div>
+
+    <div class="scroll-indicator">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
+            <path d="M12 5v14M5 12l7 7 7-7"/>
+        </svg>
+    </div>
+</div>
+
+<!-- ============ FUNNEL ============ -->
+<div class="section-divider"></div>
+<section class="section" id="funnel" style="position: relative;">
+    <div class="bg-glow blue" style="width: 600px; height: 600px; top: -200px; right: -200px;"></div>
+    <svg class="watermark-droplet" style="width: 300px; top: 100px; left: -60px;" viewBox="0 0 24 24">
+        <path d="M12 2.5C12 2.5 4 11.5 4 16C4 20.4183 7.58172 24 12 24C16.4183 24 20 20.4183 20 16C20 11.5 12 2.5 12 2.5Z" fill="white"/>
+    </svg>
+    <div class="section-inner">
+        <div class="section-label">01 Strategy</div>
+        <h2>Developer Acquisition Funnel</h2>
+        <p class="section-desc">
+            A progressive 5-stage pipeline that filters broad community outreach into
+            a curated group of industry-ready Sui builders.
+        </p>
+
+        <div class="funnel-container fade-in">
+            <!-- SVG Funnel — Redesigned with rounded shapes -->
+            <div class="funnel-svg-wrap">
+                <svg viewBox="0 0 700 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="fg1" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#5eb0ff" stop-opacity="0.9"/>
+                            <stop offset="100%" stop-color="#89c8ff" stop-opacity="0.65"/>
+                        </linearGradient>
+                        <linearGradient id="fg2" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#298dff" stop-opacity="0.9"/>
+                            <stop offset="100%" stop-color="#5eb0ff" stop-opacity="0.65"/>
+                        </linearGradient>
+                        <linearGradient id="fg3" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#ff6c3d" stop-opacity="0.9"/>
+                            <stop offset="100%" stop-color="#ff9a6c" stop-opacity="0.65"/>
+                        </linearGradient>
+                        <linearGradient id="fg4" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#9b59b6" stop-opacity="0.9"/>
+                            <stop offset="100%" stop-color="#c39bd3" stop-opacity="0.65"/>
+                        </linearGradient>
+                        <linearGradient id="fg5" x1="0" y1="0" x2="1" y2="0">
+                            <stop offset="0%" stop-color="#22c55e" stop-opacity="0.9"/>
+                            <stop offset="100%" stop-color="#4ade80" stop-opacity="0.65"/>
+                        </linearGradient>
+                        <filter id="funnel-glow">
+                            <feGaussianBlur stdDeviation="6" result="blur"/>
+                            <feMerge>
+                                <feMergeNode in="blur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                        <filter id="stage-shadow">
+                            <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="rgba(0,0,0,0.4)" flood-opacity="0.4"/>
+                        </filter>
+                    </defs>
+
+                    <!-- Stage 1: Outreach -->
+                    <g filter="url(#stage-shadow)">
+                        <rect x="30" y="10" width="640" height="72" rx="14" fill="url(#fg1)"/>
+                        <text x="350" y="42" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="17" letter-spacing="0.02em">OUTREACH</text>
+                        <text x="350" y="63" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">University clubs, conferences, 9 countries</text>
+                    </g>
+
+                    <!-- Stage 2: Certifications -->
+                    <g filter="url(#stage-shadow)">
+                        <rect x="80" y="94" width="540" height="72" rx="14" fill="url(#fg2)"/>
+                        <text x="350" y="126" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="17" letter-spacing="0.02em">CERTIFICATION</text>
+                        <text x="350" y="147" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">14 workshops, Move fundamentals, first quality filter</text>
+                    </g>
+
+                    <!-- Stage 3: Hackathons -->
+                    <g filter="url(#stage-shadow)">
+                        <rect x="135" y="178" width="430" height="72" rx="14" fill="url(#fg3)"/>
+                        <text x="350" y="210" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="17" letter-spacing="0.02em">HACKATHONS</text>
+                        <text x="350" y="231" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">4 events, curation by execution, UK/IT/EE/ES</text>
+                    </g>
+
+                    <!-- Stage 4: Bootcamps -->
+                    <g filter="url(#stage-shadow)">
+                        <rect x="185" y="262" width="330" height="72" rx="14" fill="url(#fg4)"/>
+                        <text x="350" y="294" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="17" letter-spacing="0.02em">BOOTCAMPS</text>
+                        <text x="350" y="315" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">5 cohorts, Mysten engineers, advanced training</text>
+                    </g>
+
+                    <!-- Stage 5: Incubator -->
+                    <g filter="url(#stage-shadow)">
+                        <rect x="225" y="346" width="250" height="72" rx="14" fill="url(#fg5)"/>
+                        <text x="350" y="378" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="17" letter-spacing="0.02em">INCUBATOR</text>
+                        <text x="350" y="399" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">Bounties, employment, founding</text>
+                    </g>
+
+                    <!-- Narrowing arrows on sides -->
+                    <path d="M 350 430 L 330 455 L 370 455 Z" fill="rgba(34,197,94,0.3)"/>
+                    <text x="350" y="480" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-family="Outfit, sans-serif" font-size="11" font-weight="600">RETAINED BUILDERS</text>
+                </svg>
+            </div>
+
+            <!-- Stage descriptions -->
+            <div class="funnel-stages">
+                <div class="funnel-stage">
+                    <div class="funnel-stage-header">
+                        <div class="funnel-stage-num s1">1</div>
+                        <div class="funnel-stage-title">Outreach</div>
+                    </div>
+                    <div class="funnel-stage-desc">
+                        Broad reach across 9 countries through university clubs, blockchain conferences,
+                        and partner networks. DeVinci Blockchain (12+ antennas), KryptoSphere, BSA, W3N, DSN.
+                    </div>
+                </div>
+                <div class="funnel-stage">
+                    <div class="funnel-stage-header">
+                        <div class="funnel-stage-num s2">2</div>
+                        <div class="funnel-stage-title">Certification Workshops</div>
+                    </div>
+                    <div class="funnel-stage-desc">
+                        14 two-day in-person workshops. First quality filter via Move fundamentals certification.
+                        Verifies baseline skill and commitment level.
+                    </div>
+                </div>
+                <div class="funnel-stage">
+                    <div class="funnel-stage-header">
+                        <div class="funnel-stage-num s3">3</div>
+                        <div class="funnel-stage-title">Hackathons</div>
+                    </div>
+                    <div class="funnel-stage-desc">
+                        4 week-long hackathons across UK, Italy, Estonia, Spain.
+                        Curation by execution: real technical output surfaces the strongest builders.
+                    </div>
+                </div>
+                <div class="funnel-stage">
+                    <div class="funnel-stage-header">
+                        <div class="funnel-stage-num s4">4</div>
+                        <div class="funnel-stage-title">Bootcamps</div>
+                    </div>
+                    <div class="funnel-stage-desc">
+                        5 ten-day intensive bootcamps with Mysten Labs engineers.
+                        Advanced training in security, indexing, and infrastructure.
+                    </div>
+                </div>
+                <div class="funnel-stage">
+                    <div class="funnel-stage-header">
+                        <div class="funnel-stage-num s5">5</div>
+                        <div class="funnel-stage-title">Incubator</div>
+                    </div>
+                    <div class="funnel-stage-desc">
+                        Long-term retention mechanism: bounties, ecosystem contributions,
+                        employment referrals, and project founding support. The funnel feeds it, it retains them.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ NETWORK ============ -->
+<div class="section-divider"></div>
+<section class="section" id="network" style="position: relative;">
+    <div class="bg-glow blue" style="width: 700px; height: 700px; top: -100px; left: -300px;"></div>
+    <div class="bg-glow orange" style="width: 500px; height: 500px; bottom: -100px; right: -200px;"></div>
+    <div class="section-inner">
+        <div class="section-label">02 Coverage</div>
+        <h2>European Network</h2>
+        <p class="section-desc">
+            9 countries activated through local partners, university clubs, and conference organizers.
+            Each node has confirmed leads and a clear event plan.
+        </p>
+
+        <!-- Europe Map with Real Country Outlines -->
+        <div class="europe-map-container fade-in">
+            <svg class="europe-map-svg" viewBox="0 0 1000 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <pattern id="dot-grid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
+                        <circle cx="1" cy="1" r="0.6" fill="rgba(255,255,255,0.04)"/>
+                    </pattern>
+                    <filter id="marker-glow">
+                        <feGaussianBlur stdDeviation="3" result="blur"/>
+                        <feMerge>
+                            <feMergeNode in="blur"/>
+                            <feMergeNode in="SourceGraphic"/>
+                        </feMerge>
+                    </filter>
+                </defs>
+                <rect width="1000" height="700" fill="url(#dot-grid)"/>
+
+                <!-- ===== CONTEXT COUNTRIES (dim grey) ===== -->
+
+                <!-- Norway/Sweden (Scandinavia context) -->
+                <path d="M 470,28 L 485,22 L 500,30 L 508,50 L 505,80 L 498,110 L 490,135 L 485,155 L 478,170 L 470,155 L 465,130 L 460,100 L 455,70 L 458,45 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+                <!-- Denmark -->
+                <path d="M 430,145 L 442,138 L 450,145 L 448,158 L 440,165 L 432,160 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+                <!-- Netherlands -->
+                <path d="M 380,192 L 395,186 L 405,192 L 402,205 L 390,210 L 382,204 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+                <!-- Switzerland -->
+                <path d="M 395,310 L 415,305 L 430,310 L 428,322 L 415,328 L 400,325 L 392,318 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+                <!-- Austria -->
+                <path d="M 435,295 L 465,288 L 500,292 L 505,305 L 495,315 L 470,318 L 445,312 L 435,305 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+                <!-- Czech Republic -->
+                <path d="M 445,248 L 470,242 L 498,248 L 500,262 L 485,272 L 458,270 L 442,260 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+                <!-- Ireland -->
+                <path d="M 220,195 L 240,185 L 252,192 L 255,210 L 248,228 L 235,235 L 222,228 L 216,212 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+                <!-- Latvia/Lithuania -->
+                <path d="M 560,135 L 590,128 L 610,135 L 612,158 L 598,168 L 570,165 L 558,152 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+                <!-- Greece -->
+                <path d="M 560,420 L 578,412 L 592,420 L 588,445 L 575,460 L 562,452 L 555,435 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+                <!-- Croatia/Hungary area -->
+                <path d="M 500,320 L 535,315 L 558,325 L 555,345 L 535,352 L 510,348 L 498,335 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
+
+                <!-- ===== ACTIVE COUNTRIES (blue tint) ===== -->
+
+                <!-- Great Britain -->
+                <path d="M 282,140 L 295,125 L 308,115 L 318,108 L 312,95 L 305,82 L 312,68 L 325,60 L 340,68 L 338,85 L 345,100 L 342,118 L 335,135 L 328,148 L 320,162 L 312,172 L 300,180 L 288,175 L 280,162 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
+
+                <!-- France -->
+                <path d="M 330,260 L 350,248 L 378,242 L 400,250 L 415,265 L 420,285 L 418,310 L 408,335 L 390,350 L 368,358 L 345,352 L 325,338 L 315,318 L 310,295 L 315,275 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
+
+                <!-- Belgium -->
+                <path d="M 370,225 L 392,218 L 408,225 L 405,240 L 388,245 L 372,238 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
+
+                <!-- Germany -->
+                <path d="M 410,178 L 435,170 L 462,175 L 485,185 L 490,208 L 488,235 L 478,258 L 458,268 L 435,262 L 418,248 L 408,225 L 405,200 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
+
+                <!-- Spain -->
+                <path d="M 240,400 L 275,388 L 318,395 L 345,410 L 340,440 L 320,465 L 290,478 L 258,475 L 232,460 L 222,435 L 228,415 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
+
+                <!-- Portugal -->
+                <path d="M 205,415 L 225,405 L 232,420 L 230,445 L 222,465 L 208,460 L 198,442 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
+
+                <!-- Italy (boot shape) -->
+                <path d="M 445,320 L 462,308 L 478,315 L 482,335 L 478,358 L 485,375 L 495,395 L 490,415 L 478,428 L 468,418 L 472,395 L 462,375 L 452,358 L 445,340 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
+                <!-- Sicily -->
+                <path d="M 468,435 L 485,430 L 495,438 L 488,448 L 472,448 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="0.8" class="country-shape active"/>
+                <!-- Sardinia -->
+                <path d="M 425,385 L 435,378 L 442,388 L 438,402 L 428,405 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="0.8" class="country-shape active"/>
+
+                <!-- Poland -->
+                <path d="M 498,175 L 530,165 L 568,172 L 590,188 L 585,215 L 572,238 L 548,248 L 518,242 L 498,228 L 490,205 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
+
+                <!-- Estonia -->
+                <path d="M 575,88 L 600,82 L 622,88 L 625,105 L 615,115 L 592,112 L 578,102 Z"
+                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
+
+                <!-- ===== CONNECTION LINES ===== -->
+                <g opacity="0.12">
+                    <line x1="380" y1="290" x2="310" y2="148" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
+                    <line x1="380" y1="290" x2="390" y2="232" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
+                    <line x1="380" y1="290" x2="455" y2="218" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
+                    <line x1="380" y1="290" x2="545" y2="208" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
+                    <line x1="380" y1="290" x2="600" y2="98" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
+                    <line x1="380" y1="290" x2="290" y2="438" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
+                    <line x1="380" y1="290" x2="215" y2="440" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
+                    <line x1="380" y1="290" x2="475" y2="370" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
+                </g>
+
+                <!-- ===== CITY MARKERS ===== -->
+
+                <!-- London -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="310" cy="148" r="8" fill="rgba(41,141,255,0.2)" class="marker-pulse"/>
+                    <circle cx="310" cy="148" r="4.5" fill="#298dff"/>
+                    <text x="310" y="138" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">London</text>
+                    <g class="map-tooltip-card">
+                        <rect x="238" y="155" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(41,141,255,0.3)" stroke-width="1"/>
+                        <text x="250" y="172" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EC;&#x1F1E7; United Kingdom</text>
+                        <text x="250" y="186" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert + 1 Hack + 1 Boot</text>
+                        <text x="250" y="199" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">Imperial, Cambridge, Oxford</text>
+                    </g>
+                </g>
+
+                <!-- Paris -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="370" cy="278" r="8" fill="rgba(26,109,204,0.2)" class="marker-pulse"/>
+                    <circle cx="370" cy="278" r="4.5" fill="#1a6dcc"/>
+                    <text x="370" y="268" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Paris</text>
+                    <g class="map-tooltip-card">
+                        <rect x="298" y="285" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(26,109,204,0.3)" stroke-width="1"/>
+                        <text x="310" y="302" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EB;&#x1F1F7; France</text>
+                        <text x="310" y="316" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">1 Cert + 1 Boot</text>
+                        <text x="310" y="329" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">KryptoSphere, DeVinci</text>
+                    </g>
+                </g>
+
+                <!-- Brussels -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="390" cy="232" r="7" fill="rgba(249,115,22,0.2)" class="marker-pulse"/>
+                    <circle cx="390" cy="232" r="4" fill="#f97316"/>
+                    <text x="390" y="222" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Brussels</text>
+                    <g class="map-tooltip-card">
+                        <rect x="318" y="239" width="144" height="45" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(249,115,22,0.3)" stroke-width="1"/>
+                        <text x="330" y="256" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1E7;&#x1F1EA; Belgium</text>
+                        <text x="330" y="270" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">1 Cert</text>
+                        <text x="330" y="280" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">KryptoSphere, DeVinci</text>
+                    </g>
+                </g>
+
+                <!-- Munich -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="455" cy="275" r="6" fill="rgba(245,158,11,0.2)" class="marker-pulse"/>
+                    <circle cx="455" cy="275" r="3.5" fill="#f59e0b"/>
+                    <text x="468" y="279" fill="white" font-family="Outfit, sans-serif" font-weight="600" font-size="7.5">Munich</text>
+                </g>
+
+                <!-- Berlin -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="455" cy="195" r="8" fill="rgba(245,158,11,0.2)" class="marker-pulse"/>
+                    <circle cx="455" cy="195" r="4.5" fill="#f59e0b"/>
+                    <text x="455" y="185" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Berlin</text>
+                    <g class="map-tooltip-card">
+                        <rect x="383" y="202" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
+                        <text x="395" y="219" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1E9;&#x1F1EA; Germany</text>
+                        <text x="395" y="233" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert</text>
+                        <text x="395" y="246" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">TUM Blockchain, Berlin org</text>
+                    </g>
+                </g>
+
+                <!-- Warsaw -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="545" cy="208" r="8" fill="rgba(168,85,247,0.2)" class="marker-pulse"/>
+                    <circle cx="545" cy="208" r="4.5" fill="#a855f7"/>
+                    <text x="545" y="198" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Warsaw</text>
+                    <g class="map-tooltip-card">
+                        <rect x="473" y="215" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(168,85,247,0.3)" stroke-width="1"/>
+                        <text x="485" y="232" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1F5;&#x1F1F1; Poland</text>
+                        <text x="485" y="246" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert + 1 Boot</text>
+                        <text x="485" y="259" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">Local dev community</text>
+                    </g>
+                </g>
+
+                <!-- Tallinn -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="600" cy="98" r="8" fill="rgba(6,182,212,0.2)" class="marker-pulse"/>
+                    <circle cx="600" cy="98" r="4.5" fill="#06b6d4"/>
+                    <text x="600" y="88" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Tallinn</text>
+                    <g class="map-tooltip-card">
+                        <rect x="528" y="105" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(6,182,212,0.3)" stroke-width="1"/>
+                        <text x="540" y="122" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EA;&#x1F1EA; Estonia</text>
+                        <text x="540" y="136" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">1 Cert + 1 Hack</text>
+                        <text x="540" y="149" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">W3N Conference</text>
+                    </g>
+                </g>
+
+                <!-- Rome -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="475" cy="370" r="6" fill="rgba(34,197,94,0.2)" class="marker-pulse"/>
+                    <circle cx="475" cy="370" r="3.5" fill="#22c55e"/>
+                    <text x="488" y="374" fill="white" font-family="Outfit, sans-serif" font-weight="600" font-size="7.5">Rome</text>
+                </g>
+
+                <!-- Milan -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="445" cy="328" r="8" fill="rgba(34,197,94,0.2)" class="marker-pulse"/>
+                    <circle cx="445" cy="328" r="4.5" fill="#22c55e"/>
+                    <text x="420" y="324" text-anchor="end" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Milan</text>
+                    <g class="map-tooltip-card">
+                        <rect x="373" y="335" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(34,197,94,0.3)" stroke-width="1"/>
+                        <text x="385" y="352" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EE;&#x1F1F9; Italy</text>
+                        <text x="385" y="366" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert + 1 Hack + 1 Boot</text>
+                        <text x="385" y="379" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">Urbe ETH, BSA Italy, BSBA</text>
+                    </g>
+                </g>
+
+                <!-- Madrid -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="290" cy="438" r="8" fill="rgba(239,68,68,0.2)" class="marker-pulse"/>
+                    <circle cx="290" cy="438" r="4.5" fill="#ef4444"/>
+                    <text x="290" y="428" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Madrid</text>
+                    <g class="map-tooltip-card">
+                        <rect x="218" y="445" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(239,68,68,0.3)" stroke-width="1"/>
+                        <text x="230" y="462" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EA;&#x1F1F8; Spain</text>
+                        <text x="230" y="476" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert + 1 Hack + 1 Boot</text>
+                        <text x="230" y="489" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">The Bridge</text>
+                    </g>
+                </g>
+
+                <!-- Lisbon -->
+                <g class="map-marker" filter="url(#marker-glow)">
+                    <circle cx="215" cy="440" r="8" fill="rgba(236,72,153,0.2)" class="marker-pulse"/>
+                    <circle cx="215" cy="440" r="4.5" fill="#ec4899"/>
+                    <text x="200" y="432" text-anchor="end" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Lisbon</text>
+                    <g class="map-tooltip-card">
+                        <rect x="132" y="448" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(236,72,153,0.3)" stroke-width="1"/>
+                        <text x="144" y="465" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1F5;&#x1F1F9; Portugal</text>
+                        <text x="144" y="479" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">1 Cert</text>
+                        <text x="144" y="492" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">DSN Tecnico Lisbon</text>
+                    </g>
+                </g>
+
+                <!-- Legend -->
+                <g transform="translate(800, 520)">
+                    <text x="0" y="0" fill="rgba(255,255,255,0.3)" font-family="Outfit, sans-serif" font-size="9" font-weight="600" letter-spacing="0.1em">LEGEND</text>
+                    <circle cx="8" cy="20" r="4" fill="#298dff"/><text x="20" y="24" fill="rgba(255,255,255,0.5)" font-family="Inter, sans-serif" font-size="10">Certification</text>
+                    <circle cx="8" cy="40" r="4" fill="#ff6c3d"/><text x="20" y="44" fill="rgba(255,255,255,0.5)" font-family="Inter, sans-serif" font-size="10">Hackathon</text>
+                    <circle cx="8" cy="60" r="4" fill="#22c55e"/><text x="20" y="64" fill="rgba(255,255,255,0.5)" font-family="Inter, sans-serif" font-size="10">Bootcamp</text>
+                </g>
+            </svg>
+        </div>
+
+        <!-- Detailed country info by region -->
+        <div class="region-groups fade-in">
+            <div class="region-group">
+                <div class="region-group-title">Western Europe</div>
+
+                <div class="country-item">
+                    <div class="country-item-header">
+                        <span class="country-flag">&#x1F1EC;&#x1F1E7;</span>
+                        <span class="country-name">United Kingdom</span>
+                    </div>
+                    <div class="event-tags">
+                        <span class="event-tag cert">2 Cert</span>
+                        <span class="event-tag hack">1 Hack</span>
+                        <span class="event-tag boot">1 Boot</span>
+                    </div>
+                    <div class="country-partners">Imperial, Cambridge, Oxford, King's, DeVinci, Oli (venue contact, London)</div>
+                </div>
+
+                <div class="country-item">
+                    <div class="country-item-header">
+                        <span class="country-flag">&#x1F1EB;&#x1F1F7;</span>
+                        <span class="country-name">France</span>
+                    </div>
+                    <div class="event-tags">
+                        <span class="event-tag cert">1 Cert</span>
+                        <span class="event-tag boot">1 Boot</span>
+                    </div>
+                    <div class="country-partners">KryptoSphere, DeVinci Blockchain (12+ antennas)</div>
+                </div>
+
+                <div class="country-item">
+                    <div class="country-item-header">
+                        <span class="country-flag">&#x1F1E7;&#x1F1EA;</span>
+                        <span class="country-name">Belgium</span>
+                    </div>
+                    <div class="event-tags">
+                        <span class="event-tag cert">1 Cert</span>
+                    </div>
+                    <div class="country-partners">KryptoSphere, DeVinci Blockchain</div>
+                </div>
+            </div>
+
+            <div class="region-group">
+                <div class="region-group-title">Southern Europe</div>
+
+                <div class="country-item">
+                    <div class="country-item-header">
+                        <span class="country-flag">&#x1F1EA;&#x1F1F8;</span>
+                        <span class="country-name">Spain</span>
+                    </div>
+                    <div class="event-tags">
+                        <span class="event-tag cert">2 Cert</span>
+                        <span class="event-tag hack">1 Hack</span>
+                        <span class="event-tag boot">1 Boot</span>
+                    </div>
+                    <div class="country-partners">The Bridge</div>
+                </div>
+
+                <div class="country-item">
+                    <div class="country-item-header">
+                        <span class="country-flag">&#x1F1EE;&#x1F1F9;</span>
+                        <span class="country-name">Italy</span>
+                    </div>
+                    <div class="event-tags">
+                        <span class="event-tag cert">2 Cert</span>
+                        <span class="event-tag hack">1 Hack</span>
+                        <span class="event-tag boot">1 Boot</span>
+                    </div>
+                    <div class="country-partners">Urbe ETH (Rome), BSA Italy / Olga, BSBA (Milan)</div>
+                </div>
+
+                <div class="country-item">
+                    <div class="country-item-header">
+                        <span class="country-flag">&#x1F1F5;&#x1F1F9;</span>
+                        <span class="country-name">Portugal</span>
+                    </div>
+                    <div class="event-tags">
+                        <span class="event-tag cert">1 Cert</span>
+                    </div>
+                    <div class="country-partners">DSN Tecnico Lisbon, Jose, Pedro (BSA)</div>
+                </div>
+            </div>
+
+            <div class="region-group">
+                <div class="region-group-title">Central &amp; Eastern</div>
+
+                <div class="country-item">
+                    <div class="country-item-header">
+                        <span class="country-flag">&#x1F1E9;&#x1F1EA;</span>
+                        <span class="country-name">Germany</span>
+                    </div>
+                    <div class="event-tags">
+                        <span class="event-tag cert">2 Cert</span>
+                    </div>
+                    <div class="country-partners">TUM Blockchain (Munich), Berlin organizer</div>
+                </div>
+
+                <div class="country-item">
+                    <div class="country-item-header">
+                        <span class="country-flag">&#x1F1F5;&#x1F1F1;</span>
+                        <span class="country-name">Poland</span>
+                    </div>
+                    <div class="event-tags">
+                        <span class="event-tag cert">2 Cert</span>
+                        <span class="event-tag boot">1 Boot</span>
+                    </div>
+                    <div class="country-partners">Local developer community</div>
+                </div>
+
+                <div class="country-item">
+                    <div class="country-item-header">
+                        <span class="country-flag">&#x1F1EA;&#x1F1EA;</span>
+                        <span class="country-name">Estonia</span>
+                    </div>
+                    <div class="event-tags">
+                        <span class="event-tag cert">1 Cert</span>
+                        <span class="event-tag hack">1 Hack</span>
+                    </div>
+                    <div class="country-partners">W3N Conference</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ ORGANIZATION ============ -->
+<div class="section-divider"></div>
+<section class="section" id="org" style="position: relative;">
+    <div class="bg-glow blue" style="width: 500px; height: 500px; bottom: -200px; left: -200px;"></div>
+    <svg class="watermark-droplet" style="width: 250px; bottom: 50px; right: -30px;" viewBox="0 0 24 24">
+        <path d="M12 2.5C12 2.5 4 11.5 4 16C4 20.4183 7.58172 24 12 24C16.4183 24 20 20.4183 20 16C20 11.5 12 2.5 12 2.5Z" fill="white"/>
+    </svg>
+    <div class="section-inner">
+        <div class="section-label">03 Structure</div>
+        <h2>Organization</h2>
+        <p class="section-desc">
+            Lean governance, small core team, flexible workforce.
+            The Council sets strategy, the core team operates, and local partners execute on the ground.
+        </p>
+
+        <!-- Council of 4 -->
+        <div style="margin-bottom: 1rem;">
+            <span style="font-size: 0.72rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.1em;">Council of 4 — Strategic Governance</span>
+        </div>
+
+        <div class="org-council fade-in">
+            <div class="council-card">
+                <div class="council-avatar">AM</div>
+                <div class="council-name">Alex Mourot</div>
+                <div class="council-role">DevRel Lead, Switzerland</div>
+            </div>
+            <div class="council-card">
+                <div class="council-avatar">RT</div>
+                <div class="council-name">Roel Theuniszen</div>
+                <div class="council-role">Council Member</div>
+            </div>
+            <div class="council-card">
+                <div class="council-avatar">PK</div>
+                <div class="council-name">Philip Kourousis</div>
+                <div class="council-role">Council Member</div>
+            </div>
+            <div class="council-card">
+                <div class="council-avatar">TZ</div>
+                <div class="council-name">Taz</div>
+                <div class="council-role">Legal</div>
+            </div>
+        </div>
+
+        <!-- Leadership Background -->
+        <div class="leadership-bg fade-in">
+            <div class="leadership-bg-title">Leadership Background</div>
+            <p>
+                Alex Mourot brings 5+ years of blockchain experience, with 4 years deeply embedded in the Sui ecosystem. He has organized and taught over 20 certification workshops, mentored at 8 hackathons across 4 countries, and orchestrated the <a href="https://dorahacks.io/hackathon/sui-bsa-3/buidl" target="_blank" style="color: var(--sui-blue); text-decoration: underline;">largest Sui IRL hackathon</a> to date: 50+ projects from 150+ hackers. The outcomes speak for themselves: a BSA alumni won 1st place in the AI track at Sui Overflow, hackathon participants went on to build <a href="https://www.abyssprotocol.xyz/" target="_blank" style="color: var(--sui-blue); text-decoration: underline;">Abyss Protocol</a>, and program graduates now work at leading Sui projects including Suilend and BTC-Native. Alex has contributed to research papers in zero-knowledge proofs and anonymous credentials, and is currently completing his Master's thesis with the Mysten Labs research team, bridging academic rigor with hands-on ecosystem building.
+            </p>
+        </div>
+
+        <!-- Operational tiers -->
+        <div class="org-tiers fade-in">
+            <div class="org-tier">
+                <div class="org-tier-label core">Core Team</div>
+                <div class="org-member">
+                    <div>
+                        <div class="org-member-name">Marketing Lead</div>
+                        <div class="org-member-detail">Spain-based, content strategy</div>
+                    </div>
+                </div>
+                <div class="org-member">
+                    <div>
+                        <div class="org-member-name">Social / Discord</div>
+                        <div class="org-member-detail">Community management</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="org-tier">
+                <div class="org-tier-label mobile">Mobile Workforce</div>
+                <div class="org-member">
+                    <div>
+                        <div class="org-member-name">Jules</div>
+                        <div class="org-member-detail">Polyvalent DevRel</div>
+                    </div>
+                </div>
+                <div class="org-member">
+                    <div>
+                        <div class="org-member-name">Alex</div>
+                        <div class="org-member-detail">Polyvalent DevRel</div>
+                    </div>
+                </div>
+                <div class="org-member">
+                    <div>
+                        <div class="org-member-name">Antoine</div>
+                        <div class="org-member-detail">Polyvalent DevRel</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="org-tier">
+                <div class="org-tier-label partners">Local Partners (8)</div>
+                <div class="org-member">
+                    <div class="org-member-name">DeVinci Blockchain</div>
+                    <div class="org-member-detail">FR, BE, UK</div>
+                </div>
+                <div class="org-member">
+                    <div class="org-member-name">KryptoSphere</div>
+                    <div class="org-member-detail">FR, BE</div>
+                </div>
+                <div class="org-member">
+                    <div class="org-member-name">The Bridge</div>
+                    <div class="org-member-detail">ES</div>
+                </div>
+                <div class="org-member">
+                    <div class="org-member-name">Urbe ETH</div>
+                    <div class="org-member-detail">IT (Rome)</div>
+                </div>
+                <div class="org-member">
+                    <div class="org-member-name">BSA Italy / Olga</div>
+                    <div class="org-member-detail">IT</div>
+                </div>
+                <div class="org-member">
+                    <div class="org-member-name">TUM Blockchain</div>
+                    <div class="org-member-detail">DE (Munich)</div>
+                </div>
+                <div class="org-member">
+                    <div class="org-member-name">W3N Conference</div>
+                    <div class="org-member-detail">EE</div>
+                </div>
+                <div class="org-member">
+                    <div class="org-member-name">DSN Tecnico</div>
+                    <div class="org-member-detail">PT (Lisbon)</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ TIMELINE ============ -->
+<div class="section-divider"></div>
+<section class="section-full" id="timeline" style="position: relative;">
+    <div class="bg-glow blue" style="width: 800px; height: 800px; top: -300px; right: -300px;"></div>
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+        <div class="timeline-header-row">
+            <div>
+                <div class="section-label">04 Execution</div>
+                <h2 style="font-family: 'Outfit', sans-serif; font-weight: 800; font-size: clamp(2rem, 4vw, 3.2rem); letter-spacing: -0.03em; line-height: 1.1; margin-bottom: 1rem;">Execution Timeline</h2>
+            </div>
+            <button class="plan-mode-btn" id="planModeBtn" onclick="togglePlanMode()">&#x1F4DD; Plan Mode</button>
+        </div>
+        <p class="section-desc">
+            6 months, 3 phases. Certifications front-loaded in Q1 to build the pipeline.
+            Hackathons bridge Q1-Q2. Bootcamps close Q2 to prepare the strongest cohort.
+        </p>
+    </div>
+
+    <div class="timeline-custom-wrap fade-in" style="max-width: 100%;">
+        <div class="timeline-grid" id="timelineGrid">
+            <!-- Month headers -->
+            <div style="display: grid; grid-template-columns: 120px 1fr; margin-bottom: 0;">
+                <div></div>
+                <div class="timeline-months">
+                    <div class="timeline-month-label">Sep 2026</div>
+                    <div class="timeline-month-label">Oct 2026</div>
+                    <div class="timeline-month-label">Nov 2026</div>
+                    <div class="timeline-month-label">Dec 2026</div>
+                    <div class="timeline-month-label">Jan 2027</div>
+                    <div class="timeline-month-label">Feb 2027</div>
+                </div>
+            </div>
+
+            <!-- Certification Row 1 -->
+            <div class="timeline-row">
+                <div class="timeline-row-label">Certifications</div>
+                <div class="timeline-row-track" id="certTrack1"></div>
+            </div>
+            <!-- Certification Row 2 -->
+            <div class="timeline-row">
+                <div class="timeline-row-label" style="opacity: 0;">.</div>
+                <div class="timeline-row-track" id="certTrack2"></div>
+            </div>
+
+            <div class="timeline-row-spacer"></div>
+
+            <!-- Hackathon Row -->
+            <div class="timeline-row">
+                <div class="timeline-row-label">Hackathons</div>
+                <div class="timeline-row-track" id="hackTrack"></div>
+            </div>
+
+            <div class="timeline-row-spacer"></div>
+
+            <!-- Bootcamp Row 1 -->
+            <div class="timeline-row">
+                <div class="timeline-row-label">Bootcamps</div>
+                <div class="timeline-row-track" id="bootTrack1"></div>
+            </div>
+            <!-- Bootcamp Row 2 -->
+            <div class="timeline-row">
+                <div class="timeline-row-label" style="opacity: 0;">.</div>
+                <div class="timeline-row-track" id="bootTrack2"></div>
+            </div>
+
+            <!-- Legend -->
+            <div style="display: grid; grid-template-columns: 120px 1fr;">
+                <div></div>
+                <div>
+                    <div class="timeline-legend" id="timelineLegend">
+                    </div>
+                    <div class="timeline-summary" id="timelineSummary">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 1rem;">
+        <div class="phase-cards fade-in">
+            <div class="phase-card">
+                <div class="phase-card-period">Sep — Nov 2026</div>
+                <div class="phase-card-title">Phase 1: Certification Blitz</div>
+                <div class="phase-card-desc">
+                    10 of 14 certifications run in Q1, roughly one every 10 days. This front-loading
+                    maximizes the pipeline going into hackathon season. The mobile workforce rotates across countries.
+                </div>
+            </div>
+            <div class="phase-card">
+                <div class="phase-card-period">Nov 2026 — Jan 2027</div>
+                <div class="phase-card-title">Phase 2: Hackathon Season</div>
+                <div class="phase-card-desc">
+                    4 hackathons bridge Q1 and Q2. Estonia and UK hackathons run in November while
+                    certifications are still completing. Italy and Spain hackathons follow in January.
+                </div>
+            </div>
+            <div class="phase-card">
+                <div class="phase-card-period">Jan — Feb 2027</div>
+                <div class="phase-card-title">Phase 3: Bootcamp Intensive</div>
+                <div class="phase-card-desc">
+                    5 bootcamps in 5 weeks closes Q2. Mysten Labs engineers deliver advanced instruction
+                    on security, indexing, and infrastructure. Participants are pre-curated through certifications and hackathons.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ BUDGET ============ -->
+<div class="section-divider"></div>
+<section class="section" id="budget" style="position: relative;">
+    <div class="bg-glow orange" style="width: 500px; height: 500px; top: -200px; left: -200px;"></div>
+    <div class="section-inner">
+        <div class="section-label">05 Investment</div>
+        <h2>Budget Allocation</h2>
+        <p class="section-desc">
+            $285,000 for 6 months of execution across 9 countries.
+            53% goes to bootcamps (highest impact), 25% to certifications (highest volume).
+        </p>
+
+        <div class="budget-hero-row fade-in">
+            <div class="budget-hero-card total">
+                <div class="budget-hero-value">$285K</div>
+                <div class="budget-hero-label">Total Budget</div>
+            </div>
+            <div class="budget-hero-card">
+                <div class="budget-hero-value">$5K</div>
+                <div class="budget-hero-label">Per Certification</div>
+            </div>
+            <div class="budget-hero-card">
+                <div class="budget-hero-value">$20K</div>
+                <div class="budget-hero-label">Per Hackathon</div>
+            </div>
+            <div class="budget-hero-card">
+                <div class="budget-hero-value">$30K</div>
+                <div class="budget-hero-label">Per Bootcamp</div>
+            </div>
+        </div>
+
+        <div class="budget-layout fade-in">
+            <div class="budget-pie-wrap">
+                <div class="donut-chart-container">
+                    <div class="donut-svg-wrap">
+                        <svg width="240" height="240" viewBox="0 0 240 240" id="donutChart">
+                            <!-- Rendered by JS -->
+                        </svg>
+                        <div class="donut-center-text">
+                            <div class="donut-center-value">$285K</div>
+                            <div class="donut-center-label">Total</div>
+                        </div>
+                    </div>
+                    <div class="donut-legend" id="donutLegend">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="budget-table-wrap">
+                <table class="budget-table">
+                    <thead>
+                        <tr>
+                            <th>Category</th>
+                            <th>Unit Cost</th>
+                            <th>Qty</th>
+                            <th class="amount">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Bootcamps (UK, Paris, Poland, Italy, Spain)</td>
+                            <td>$30,000</td>
+                            <td>5</td>
+                            <td class="amount">$150,000</td>
+                        </tr>
+                        <tr>
+                            <td>Hackathons (operations + prize pool)</td>
+                            <td>$20,000</td>
+                            <td>4</td>
+                            <td class="amount">$80,000</td>
+                        </tr>
+                        <tr>
+                            <td>2-Day Certification Workshops</td>
+                            <td>$5,000</td>
+                            <td>14</td>
+                            <td class="amount">$70,000</td>
+                        </tr>
+                        <tr>
+                            <td>Travel &amp; Logistics</td>
+                            <td>—</td>
+                            <td>—</td>
+                            <td class="amount">$25,000</td>
+                        </tr>
+                        <tr>
+                            <td>Content Creation</td>
+                            <td>$1,000</td>
+                            <td>15-20</td>
+                            <td class="amount">$20,000</td>
+                        </tr>
+                        <tr>
+                            <td><strong>TOTAL Q1-Q2</strong></td>
+                            <td></td>
+                            <td></td>
+                            <td class="amount"><strong>$285,000</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============ PRESENTATION OVERLAY ============ -->
+<div class="pres-overlay" id="presOverlay">
+    <div class="pres-progress" id="presProgress"></div>
+    <button class="pres-close-btn" onclick="exitPresentation()" title="Exit (ESC)">&times;</button>
+    <div class="pres-slide-container">
+        <div class="pres-slide-content" id="presSlideContent"></div>
+    </div>
+    <div class="pres-controls">
+        <button class="pres-nav-btn" id="presPrev" onclick="presNavigate(-1)" title="Previous (Left Arrow)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <div class="pres-counter" id="presCounter">1 / 6</div>
+        <button class="pres-nav-btn" id="presNext" onclick="presNavigate(1)" title="Next (Right Arrow)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+    </div>
+</div>
+
+<!-- ============ FOOTER ============ -->
+<div class="section-divider"></div>
+<footer>
+    <div class="footer-logo">Sui Guild Europe</div>
+    <p>Q1-Q2 Execution Plan &middot; Sep 2026 — Feb 2027 &middot; Confidential</p>
+</footer>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+    // ========================================
+    // DONUT CHART — Custom SVG
+    // ========================================
+    (function() {
+        const data = [
+            { label: 'Bootcamps (5)', amount: 150000, color: '#298dff', display: '$150K' },
+            { label: 'Hackathons (4)', amount: 80000, color: '#ff6c3d', display: '$80K' },
+            { label: 'Certifications (14)', amount: 70000, color: '#22c55e', display: '$70K' },
+            { label: 'Travel', amount: 25000, color: '#a855f7', display: '$25K' },
+            { label: 'Content', amount: 20000, color: '#6c7584', display: '$20K' }
+        ];
+
+        const total = data.reduce((s, d) => s + d.amount, 0);
+        const svg = document.getElementById('donutChart');
+        const cx = 120, cy = 120, outerR = 100, innerR = 65;
+        const strokeW = outerR - innerR;
+        const midR = (outerR + innerR) / 2;
+        const circumference = 2 * Math.PI * midR;
+        let cumulativeOffset = 0;
+
+        // Gap between segments in degrees
+        const gapDeg = 2;
+        const gapFraction = gapDeg / 360;
+        const totalGap = gapFraction * data.length;
+
+        data.forEach((d, i) => {
+            const fraction = d.amount / total;
+            const adjustedFraction = fraction - gapFraction;
+            const dashLength = adjustedFraction * circumference;
+            const dashGap = circumference - dashLength;
+            const offset = -cumulativeOffset * circumference + circumference * 0.25; // Start from top
+
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', cx);
+            circle.setAttribute('cy', cy);
+            circle.setAttribute('r', midR);
+            circle.setAttribute('fill', 'none');
+            circle.setAttribute('stroke', d.color);
+            circle.setAttribute('stroke-width', strokeW);
+            circle.setAttribute('stroke-dasharray', `${dashLength} ${dashGap}`);
+            circle.setAttribute('stroke-dashoffset', offset);
+            circle.setAttribute('stroke-linecap', 'round');
+            circle.style.transition = 'stroke-dasharray 0.8s ease, stroke-dashoffset 0.8s ease';
+            circle.style.filter = `drop-shadow(0 0 6px ${d.color}40)`;
+            svg.appendChild(circle);
+
+            cumulativeOffset += fraction;
+        });
+
+        // Legend
+        const legend = document.getElementById('donutLegend');
+        data.forEach(d => {
+            const pct = ((d.amount / total) * 100).toFixed(1);
+            const item = document.createElement('div');
+            item.className = 'donut-legend-item';
+            item.innerHTML = `
+                <div class="donut-legend-dot" style="background: ${d.color}"></div>
+                <span class="donut-legend-label">${d.label}<br><span style="font-size: 0.7rem; color: #6c7584;">${pct}%</span></span>
+                <span class="donut-legend-amount">${d.display}</span>
+            `;
+            legend.appendChild(item);
+        });
+    })();
+
+    // Particle system for hero
+    (function() {
+        const canvas = document.getElementById('particles-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let w, h, particles;
+
+        function resize() {
+            const hero = canvas.parentElement;
+            w = canvas.width = hero.offsetWidth;
+            h = canvas.height = hero.offsetHeight;
+        }
+
+        function createParticles() {
+            particles = [];
+            const count = Math.floor((w * h) / 15000);
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * w,
+                    y: Math.random() * h,
+                    r: Math.random() * 1.5 + 0.5,
+                    vx: (Math.random() - 0.5) * 0.3,
+                    vy: (Math.random() - 0.5) * 0.3,
+                    alpha: Math.random() * 0.4 + 0.1
+                });
+            }
+        }
+
+        function draw() {
+            ctx.clearRect(0, 0, w, h);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0) p.x = w;
+                if (p.x > w) p.x = 0;
+                if (p.y < 0) p.y = h;
+                if (p.y > h) p.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${p.alpha})`;
+                ctx.fill();
+            });
+            requestAnimationFrame(draw);
+        }
+
+        resize();
+        createParticles();
+        draw();
+        window.addEventListener('resize', () => { resize(); createParticles(); });
+    })();
+
+    // Intersection Observer for fade-in animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+    // Nav active state on scroll
+    const sections = document.querySelectorAll('section, .section, .section-full');
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const top = section.offsetTop - 150;
+            if (scrollY >= top) {
+                current = section.getAttribute('id');
+            }
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href') === '#' + current) {
+                link.classList.add('active');
+            }
+        });
+    });
+
+    // ========================================
+    // CUSTOM INTERACTIVE TIMELINE
+    // ========================================
+    const COUNTRY_COLORS = {
+        UK: '#298dff',
+        FR: '#1a6dcc',
+        DE: '#f59e0b',
+        ES: '#ef4444',
+        IT: '#22c55e',
+        PL: '#a855f7',
+        EE: '#06b6d4',
+        BE: '#f97316',
+        PT: '#ec4899'
+    };
+
+    const COUNTRY_NAMES = {
+        UK: 'United Kingdom',
+        FR: 'France',
+        DE: 'Germany',
+        ES: 'Spain',
+        IT: 'Italy',
+        PL: 'Poland',
+        EE: 'Estonia',
+        BE: 'Belgium',
+        PT: 'Portugal'
+    };
+
+    const COUNTRY_FLAGS = {
+        UK: '\u{1F1EC}\u{1F1E7}',
+        FR: '\u{1F1EB}\u{1F1F7}',
+        DE: '\u{1F1E9}\u{1F1EA}',
+        ES: '\u{1F1EA}\u{1F1F8}',
+        IT: '\u{1F1EE}\u{1F1F9}',
+        PL: '\u{1F1F5}\u{1F1F1}',
+        EE: '\u{1F1EA}\u{1F1EA}',
+        BE: '\u{1F1E7}\u{1F1EA}',
+        PT: '\u{1F1F5}\u{1F1F9}'
+    };
+
+    // Timeline range: Sep 1 2026 to Feb 28 2027 = ~181 days
+    const TIMELINE_START = new Date(2026, 8, 1); // Sep 1
+    const TIMELINE_END = new Date(2027, 2, 1);   // Mar 1
+    const TOTAL_DAYS = Math.round((TIMELINE_END - TIMELINE_START) / (1000 * 60 * 60 * 24));
+
+    function dayOffset(dateStr) {
+        const d = new Date(dateStr);
+        return Math.round((d - TIMELINE_START) / (1000 * 60 * 60 * 24));
+    }
+
+    function pctFromDay(day) {
+        return (day / TOTAL_DAYS) * 100;
+    }
+
+    // Cert events split into two rows for spacing
+    const CERT_ROW1 = [
+        { code: 'UK', partner: 'Cambridge/Oxford', start: '2026-09-08', days: 5 },
+        { code: 'DE', partner: 'TUM Munich', start: '2026-09-15', days: 5 },
+        { code: 'FR', partner: 'KryptoSphere', start: '2026-09-22', days: 5 },
+        { code: 'BE', partner: 'KryptoSphere', start: '2026-10-01', days: 5 },
+        { code: 'IT', partner: 'BSBA Milan', start: '2026-10-08', days: 5 },
+        { code: 'ES', partner: 'The Bridge', start: '2026-10-15', days: 5 }
+    ];
+
+    const CERT_ROW2 = [
+        { code: 'PL', partner: 'Local community', start: '2026-10-22', days: 5 },
+        { code: 'EE', partner: 'W3N', start: '2026-10-29', days: 5 },
+        { code: 'DE', partner: 'Berlin', start: '2026-11-05', days: 5 },
+        { code: 'PT', partner: 'DSN Tecnico', start: '2026-11-12', days: 5 },
+        { code: 'UK', partner: 'Imperial/Kings', start: '2026-12-01', days: 5 },
+        { code: 'IT', partner: 'Urbe ETH Rome', start: '2026-12-08', days: 5 },
+        { code: 'ES', partner: 'The Bridge', start: '2026-12-15', days: 5 },
+        { code: 'PL', partner: 'Local community', start: '2027-01-06', days: 5 }
+    ];
+
+    const HACK_EVENTS = [
+        { code: 'EE', partner: 'W3N Conference', start: '2026-11-01', days: 7 },
+        { code: 'UK', partner: 'Multi-university', start: '2026-11-10', days: 7 },
+        { code: 'IT', partner: 'Urbe ETH', start: '2027-01-12', days: 7 },
+        { code: 'ES', partner: 'The Bridge', start: '2027-01-26', days: 7 }
+    ];
+
+    // Bootcamp events split into two rows
+    const BOOT_ROW1 = [
+        { code: 'UK', partner: 'London', start: '2027-01-19', days: 10 },
+        { code: 'FR', partner: 'Paris', start: '2027-01-29', days: 10 },
+        { code: 'PL', partner: 'Warsaw', start: '2027-02-08', days: 10 }
+    ];
+
+    const BOOT_ROW2 = [
+        { code: 'IT', partner: 'Urbe ETH', start: '2027-01-26', days: 10 },
+        { code: 'ES', partner: 'Spain', start: '2027-02-12', days: 10 }
+    ];
+
+    // Combined for legacy references
+    const EVENTS = {
+        cert: [...CERT_ROW1, ...CERT_ROW2],
+        hack: HACK_EVENTS,
+        boot: [...BOOT_ROW1, ...BOOT_ROW2]
+    };
+
+    let planMode = false;
+    let draggedEvent = null;
+
+    function createEventEl(ev, type, rowIndex) {
+        const startDay = dayOffset(ev.start);
+        const leftPct = pctFromDay(startDay);
+        const widthPct = pctFromDay(startDay + ev.days) - leftPct;
+
+        const el = document.createElement('div');
+        el.className = 'timeline-event' + (planMode ? ' draggable' : '');
+        el.style.left = leftPct + '%';
+        el.style.width = Math.max(widthPct, 3.5) + '%';
+        el.style.background = COUNTRY_COLORS[ev.code];
+        el.dataset.type = type;
+        el.dataset.index = rowIndex;
+
+        // Flag + country code
+        const flag = document.createElement('span');
+        flag.style.fontSize = '0.65rem';
+        flag.style.lineHeight = '1';
+        flag.textContent = COUNTRY_FLAGS[ev.code] || '';
+        el.appendChild(flag);
+
+        const codeSpan = document.createElement('span');
+        codeSpan.textContent = ev.code;
+        el.appendChild(codeSpan);
+
+        const tooltip = document.createElement('div');
+        tooltip.className = 'timeline-event-tooltip';
+        tooltip.textContent = COUNTRY_NAMES[ev.code] + ' — ' + ev.partner;
+        el.appendChild(tooltip);
+
+        if (planMode) {
+            el.draggable = true;
+            el.addEventListener('dragstart', onDragStart);
+            el.addEventListener('dragend', onDragEnd);
+        }
+
+        return el;
+    }
+
+    function renderTimeline() {
+        // Cert row 1
+        const certT1 = document.getElementById('certTrack1');
+        certT1.innerHTML = '';
+        CERT_ROW1.forEach((ev, i) => {
+            certT1.appendChild(createEventEl(ev, 'cert', i));
+        });
+
+        // Cert row 2
+        const certT2 = document.getElementById('certTrack2');
+        certT2.innerHTML = '';
+        CERT_ROW2.forEach((ev, i) => {
+            certT2.appendChild(createEventEl(ev, 'cert', i + CERT_ROW1.length));
+        });
+
+        // Hack row
+        const hackT = document.getElementById('hackTrack');
+        hackT.innerHTML = '';
+        HACK_EVENTS.forEach((ev, i) => {
+            hackT.appendChild(createEventEl(ev, 'hack', i));
+        });
+
+        // Boot row 1
+        const bootT1 = document.getElementById('bootTrack1');
+        bootT1.innerHTML = '';
+        BOOT_ROW1.forEach((ev, i) => {
+            bootT1.appendChild(createEventEl(ev, 'boot', i));
+        });
+
+        // Boot row 2
+        const bootT2 = document.getElementById('bootTrack2');
+        bootT2.innerHTML = '';
+        BOOT_ROW2.forEach((ev, i) => {
+            bootT2.appendChild(createEventEl(ev, 'boot', i + BOOT_ROW1.length));
+        });
+
+        // Plan mode drag targets
+        if (planMode) {
+            [certT1, certT2, hackT, bootT1, bootT2].forEach(track => {
+                track.addEventListener('dragover', onDragOver);
+                track.addEventListener('drop', onDrop);
+            });
+        }
+
+        renderLegend();
+        renderSummary();
+    }
+
+    function renderLegend() {
+        const legend = document.getElementById('timelineLegend');
+        legend.innerHTML = '';
+        Object.keys(COUNTRY_COLORS).forEach(code => {
+            const item = document.createElement('div');
+            item.className = 'timeline-legend-item';
+            const dot = document.createElement('div');
+            dot.className = 'timeline-legend-dot';
+            dot.style.background = COUNTRY_COLORS[code];
+            const label = document.createTextNode(COUNTRY_FLAGS[code] + ' ' + code + ' — ' + COUNTRY_NAMES[code]);
+            item.appendChild(dot);
+            item.appendChild(label);
+            legend.appendChild(item);
+        });
+    }
+
+    function renderSummary() {
+        const summary = document.getElementById('timelineSummary');
+        // Q1: Sep-Nov, Q2: Dec-Feb
+        let q1Cert = 0, q1Hack = 0, q2Cert = 0, q2Hack = 0, q2Boot = 0;
+        const q2Start = new Date(2026, 11, 1);
+        EVENTS.cert.forEach(e => {
+            if (new Date(e.start) < q2Start) q1Cert++; else q2Cert++;
+        });
+        EVENTS.hack.forEach(e => {
+            if (new Date(e.start) < q2Start) q1Hack++; else q2Hack++;
+        });
+        q2Boot = EVENTS.boot.length;
+
+        summary.innerHTML = `
+            <div class="timeline-summary-item"><strong>Q1 (Sep-Nov):</strong> ${q1Cert} Certifications, ${q1Hack} Hackathons</div>
+            <div class="timeline-summary-item"><strong>Q2 (Dec-Feb):</strong> ${q2Cert} Certifications, ${q2Hack} Hackathons, ${q2Boot} Bootcamps</div>
+        `;
+    }
+
+    function togglePlanMode() {
+        planMode = !planMode;
+        const btn = document.getElementById('planModeBtn');
+        if (planMode) {
+            btn.textContent = '✓ Done';
+            btn.classList.add('active');
+        } else {
+            btn.textContent = '\u{1F4DD} Plan Mode';
+            btn.classList.remove('active');
+        }
+        renderTimeline();
+    }
+
+    function onDragStart(e) {
+        draggedEvent = {
+            type: e.target.dataset.type,
+            index: parseInt(e.target.dataset.index)
+        };
+        e.target.classList.add('dragging');
+        e.dataTransfer.effectAllowed = 'move';
+    }
+
+    function onDragEnd(e) {
+        e.target.classList.remove('dragging');
+        draggedEvent = null;
+    }
+
+    function onDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+    }
+
+    function onDrop(e) {
+        e.preventDefault();
+        if (!draggedEvent) return;
+
+        const track = e.currentTarget;
+        const rect = track.getBoundingClientRect();
+        const xPct = ((e.clientX - rect.left) / rect.width) * 100;
+        const newDay = Math.round((xPct / 100) * TOTAL_DAYS);
+
+        // Snap to week boundaries (7-day increments from timeline start)
+        const snappedDay = Math.round(newDay / 7) * 7;
+        const newDate = new Date(TIMELINE_START.getTime() + snappedDay * 24 * 60 * 60 * 1000);
+        const dateStr = newDate.toISOString().split('T')[0];
+
+        EVENTS[draggedEvent.type][draggedEvent.index].start = dateStr;
+
+        // Also update the split arrays
+        const idx = draggedEvent.index;
+        if (draggedEvent.type === 'cert') {
+            if (idx < CERT_ROW1.length) CERT_ROW1[idx].start = dateStr;
+            else CERT_ROW2[idx - CERT_ROW1.length].start = dateStr;
+        } else if (draggedEvent.type === 'boot') {
+            if (idx < BOOT_ROW1.length) BOOT_ROW1[idx].start = dateStr;
+            else BOOT_ROW2[idx - BOOT_ROW1.length].start = dateStr;
+        } else {
+            HACK_EVENTS[idx].start = dateStr;
+        }
+
+        draggedEvent = null;
+        renderTimeline();
+    }
+
+    // Initialize timeline on load
+    renderTimeline();
+
+    // ========================================
+    // PRESENTATION MODE
+    // ========================================
+    const PRES_SLIDES = [
+        { id: 'hero', label: 'Sui Guild Europe' },
+        { id: 'funnel', label: 'Developer Acquisition Funnel' },
+        { id: 'network', label: 'European Network' },
+        { id: 'org', label: 'Organization' },
+        { id: 'timeline', label: 'Execution Timeline' },
+        { id: 'budget', label: 'Budget' }
+    ];
+
+    let presCurrentSlide = 0;
+    let presActive = false;
+
+    function buildSlideContent(index) {
+        const slide = PRES_SLIDES[index];
+        const sourceEl = document.getElementById(slide.id);
+        if (!sourceEl) return '<p>Section not found</p>';
+
+        if (index === 0) {
+            // Hero slide: build a custom centered layout
+            const badge = sourceEl.querySelector('.hero-badge');
+            const h1 = sourceEl.querySelector('h1');
+            const sub = sourceEl.querySelector('.hero-sub');
+            const stats = sourceEl.querySelector('.hero-stats');
+            return `
+                <div class="pres-hero-slide">
+                    ${badge ? badge.outerHTML : ''}
+                    ${h1 ? h1.outerHTML : ''}
+                    ${sub ? sub.outerHTML : ''}
+                    ${stats ? stats.outerHTML : ''}
+                </div>
+            `;
+        }
+
+        // For other sections: clone the inner content
+        const label = `<div class="pres-slide-label">${slide.label}</div>`;
+        const inner = sourceEl.querySelector('.section-inner') || sourceEl;
+        const clone = inner.cloneNode(true);
+
+        // Remove section labels from cloned content (we add our own)
+        const existingLabels = clone.querySelectorAll('.section-label');
+        existingLabels.forEach(l => l.remove());
+
+        // Remove background glows and watermarks
+        const glows = clone.querySelectorAll('.bg-glow, .watermark-droplet');
+        glows.forEach(g => g.remove());
+
+        // Make fade-in elements visible
+        const fadeIns = clone.querySelectorAll('.fade-in');
+        fadeIns.forEach(el => el.classList.add('visible'));
+
+        return label + clone.innerHTML;
+    }
+
+    function renderSlide() {
+        const container = document.getElementById('presSlideContent');
+        const progress = document.getElementById('presProgress');
+        const counter = document.getElementById('presCounter');
+        const prevBtn = document.getElementById('presPrev');
+        const nextBtn = document.getElementById('presNext');
+
+        container.innerHTML = buildSlideContent(presCurrentSlide);
+        counter.textContent = (presCurrentSlide + 1) + ' / ' + PRES_SLIDES.length;
+        progress.style.width = ((presCurrentSlide + 1) / PRES_SLIDES.length * 100) + '%';
+        prevBtn.disabled = presCurrentSlide === 0;
+        nextBtn.disabled = presCurrentSlide === PRES_SLIDES.length - 1;
+
+        // Scroll the slide container back to top
+        const slideContainer = document.querySelector('.pres-slide-container');
+        if (slideContainer) slideContainer.scrollTop = 0;
+
+        // Re-render dynamic content if needed
+        if (PRES_SLIDES[presCurrentSlide].id === 'budget') {
+            rebuildDonutInSlide(container);
+        }
+    }
+
+    function rebuildDonutInSlide(container) {
+        const svg = container.querySelector('#donutChart');
+        if (!svg) return;
+        // Clear existing circles (they are dynamically added)
+        const circles = svg.querySelectorAll('circle');
+        circles.forEach(c => c.remove());
+
+        const data = [
+            { label: 'Bootcamps (5)', amount: 150000, color: '#298dff', display: '$150K' },
+            { label: 'Hackathons (4)', amount: 80000, color: '#ff6c3d', display: '$80K' },
+            { label: 'Certifications (14)', amount: 70000, color: '#22c55e', display: '$70K' },
+            { label: 'Travel', amount: 25000, color: '#a855f7', display: '$25K' },
+            { label: 'Content', amount: 20000, color: '#6c7584', display: '$20K' }
+        ];
+        const total = data.reduce((s, d) => s + d.amount, 0);
+        const cx = 120, cy = 120, outerR = 100, innerR = 65;
+        const strokeW = outerR - innerR;
+        const midR = (outerR + innerR) / 2;
+        const circumference = 2 * Math.PI * midR;
+        let cumulativeOffset = 0;
+        const gapDeg = 2;
+        const gapFraction = gapDeg / 360;
+
+        data.forEach((d) => {
+            const fraction = d.amount / total;
+            const adjustedFraction = fraction - gapFraction;
+            const dashLength = adjustedFraction * circumference;
+            const dashGap = circumference - dashLength;
+            const offset = -cumulativeOffset * circumference + circumference * 0.25;
+
+            const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+            circle.setAttribute('cx', cx);
+            circle.setAttribute('cy', cy);
+            circle.setAttribute('r', midR);
+            circle.setAttribute('fill', 'none');
+            circle.setAttribute('stroke', d.color);
+            circle.setAttribute('stroke-width', strokeW);
+            circle.setAttribute('stroke-dasharray', `${dashLength} ${dashGap}`);
+            circle.setAttribute('stroke-dashoffset', offset);
+            circle.setAttribute('stroke-linecap', 'round');
+            circle.style.filter = `drop-shadow(0 0 6px ${d.color}40)`;
+            svg.appendChild(circle);
+
+            cumulativeOffset += fraction;
+        });
+
+        // Rebuild legend in the cloned slide
+        const legend = container.querySelector('#donutLegend');
+        if (legend) {
+            legend.innerHTML = '';
+            data.forEach(d => {
+                const pct = ((d.amount / total) * 100).toFixed(1);
+                const item = document.createElement('div');
+                item.className = 'donut-legend-item';
+                item.innerHTML = `
+                    <div class="donut-legend-dot" style="background: ${d.color}"></div>
+                    <span class="donut-legend-label">${d.label}<br><span style="font-size: 0.7rem; color: #6c7584;">${pct}%</span></span>
+                    <span class="donut-legend-amount">${d.display}</span>
+                `;
+                legend.appendChild(item);
+            });
+        }
+    }
+
+    function startPresentation() {
+        presCurrentSlide = 0;
+        presActive = true;
+        const overlay = document.getElementById('presOverlay');
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        renderSlide();
+    }
+
+    function exitPresentation() {
+        presActive = false;
+        const overlay = document.getElementById('presOverlay');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function presNavigate(dir) {
+        if (!presActive) return;
+        const next = presCurrentSlide + dir;
+        if (next < 0 || next >= PRES_SLIDES.length) return;
+        presCurrentSlide = next;
+        renderSlide();
+    }
+
+    document.addEventListener('keydown', function(e) {
+        if (!presActive) return;
+        if (e.key === 'Escape') {
+            exitPresentation();
+        } else if (e.key === 'ArrowRight' || e.key === ' ') {
+            e.preventDefault();
+            presNavigate(1);
+        } else if (e.key === 'ArrowLeft') {
+            e.preventDefault();
+            presNavigate(-1);
+        }
+    });
+</script>
+
+</body>
+</html>
