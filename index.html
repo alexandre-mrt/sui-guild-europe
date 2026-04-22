@@ -466,101 +466,28 @@
             margin: 3rem auto;
             border-radius: 16px;
             overflow: hidden;
-            border: 1px solid rgba(41, 141, 255, 0.1);
         }
 
-        .europe-map-bg {
-            width: 100%;
-            display: block;
-            filter: invert(1) brightness(0.12) sepia(1) hue-rotate(180deg) saturate(2.5);
-            opacity: 0.7;
-        }
-
-        .map-marker {
-            position: absolute;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .marker-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            background: var(--sui-blue);
-            box-shadow: 0 0 12px rgba(41, 141, 255, 0.6);
-            animation: pulse-marker 2s ease-in-out infinite;
-        }
-
-        .marker-dot.high-density {
-            width: 18px;
-            height: 18px;
-            box-shadow: 0 0 18px rgba(41, 141, 255, 0.8);
-        }
-
-        .marker-dot.medium-density {
-            width: 14px;
-            height: 14px;
-            opacity: 0.85;
-        }
-
-        .marker-dot.low-density {
-            width: 10px;
-            height: 10px;
-            opacity: 0.6;
-            box-shadow: 0 0 8px rgba(41, 141, 255, 0.4);
-        }
-
-        @keyframes pulse-marker {
-            0%, 100% { box-shadow: 0 0 12px rgba(41, 141, 255, 0.6); }
-            50% { box-shadow: 0 0 24px rgba(41, 141, 255, 0.9), 0 0 48px rgba(41, 141, 255, 0.3); }
-        }
-
-        .marker-label {
-            position: absolute;
-            top: -22px;
-            left: 50%;
-            transform: translateX(-50%);
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 0.72rem;
-            color: white;
-            white-space: nowrap;
-            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-        }
-
-        .marker-tooltip {
-            display: none;
-            position: absolute;
-            bottom: 24px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: rgba(15, 26, 46, 0.95);
+        .leaflet-custom-tooltip {
+            background: rgba(15, 26, 46, 0.95) !important;
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(41, 141, 255, 0.2);
-            border-radius: 10px;
-            padding: 0.75rem 1rem;
-            font-size: 0.78rem;
-            color: var(--text-secondary);
-            white-space: nowrap;
-            z-index: 100;
-            line-height: 1.5;
+            border: 1px solid rgba(41, 141, 255, 0.2) !important;
+            border-radius: 10px !important;
+            padding: 10px 14px !important;
+            color: #e4e4e7 !important;
+            font-size: 12px !important;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.5) !important;
         }
 
-        .map-marker:hover .marker-tooltip { display: block; }
-
-        /* Connection lines from markers to HQ */
-        .map-marker::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 1px;
-            height: 0;
-            background: rgba(41, 141, 255, 0.15);
-            transform-origin: top left;
-            pointer-events: none;
-            z-index: -1;
+        .leaflet-custom-tooltip::before {
+            border-top-color: rgba(15, 26, 46, 0.95) !important;
         }
+
+        .custom-map-marker { background: transparent !important; border: none !important; }
+        .map-city-label { background: transparent !important; border: none !important; }
+
+        /* Hide Leaflet default chrome */
+        .leaflet-control-attribution { display: none !important; }
 
         .region-groups {
             display: grid;
@@ -1599,47 +1526,7 @@
             margin-bottom: 1.5rem;
         }
 
-        /* ========================================
-           MAP MARKER PLAN VISIBILITY
-           ======================================== */
-        .marker-hidden {
-            opacity: 0.15;
-            pointer-events: none;
-            transition: opacity 0.4s ease;
-        }
-
-        .map-legend {
-            display: flex;
-            align-items: center;
-            gap: 1.5rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(2, 8, 23, 0.7);
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            justify-content: center;
-        }
-
-        .map-legend-item {
-            display: flex;
-            align-items: center;
-            gap: 0.4rem;
-        }
-
-        .map-legend-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-
-        .map-legend-dot.active {
-            background: var(--sui-blue);
-            box-shadow: 0 0 6px rgba(41, 141, 255, 0.5);
-        }
-
-        .map-legend-dot.future {
-            background: rgba(41, 141, 255, 0.3);
-            border: 1px solid rgba(41, 141, 255, 0.5);
-        }
+        /* MAP MARKER PLAN VISIBILITY — handled by Leaflet JS */
 
         /* Country card future expansion label */
         .country-item.future-expansion {
@@ -2147,6 +2034,8 @@
             .budget-hero-row { grid-template-columns: 1fr; }
         }
     </style>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -2451,132 +2340,9 @@
             Each node has confirmed leads and a clear event plan.
         </p>
 
-        <!-- Europe Map with Real Image + Overlaid Markers -->
+        <!-- Europe Map — Leaflet.js + CartoDB Dark Tiles -->
         <div class="europe-map-container fade-in">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Europe_blank_map.png/1280px-Europe_blank_map.png"
-                 alt="Europe" class="europe-map-bg" />
-
-            <!-- SVG connection lines overlay -->
-            <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;" viewBox="0 0 100 100" preserveAspectRatio="none">
-                <!-- Lines from HQ (Paris ~37%, 40%) to each marker -->
-                <line x1="37" y1="40" x2="35" y2="30" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="39" y2="35" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="48" y2="30" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="46" y2="38" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="56" y2="30" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="60" y2="15" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="48" y2="52" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="43" y2="44" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="28" y2="55" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="22" y2="56" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="42" y2="40" stroke="rgba(20,184,166,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <line x1="37" y1="40" x2="40" y2="42" stroke="rgba(20,184,166,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
-                <!-- HQ dot -->
-                <circle cx="37" cy="40" r="0.5" fill="rgba(41,141,255,0.5)"/>
-            </svg>
-
-            <!-- London — UK: 2C+1H+1B = 4 events (high density) -->
-            <div class="map-marker" style="left: 35%; top: 30%;" data-country="UK">
-                <div class="marker-dot high-density"></div>
-                <div class="marker-label">London</div>
-                <div class="marker-tooltip">&#x1F1EC;&#x1F1E7; United Kingdom<br>2 Cert + 1 Hack + 1 Boot<br>Imperial, Cambridge, Oxford, King's</div>
-            </div>
-
-            <!-- Paris — France: 1C+1B = 2 events (medium density) -->
-            <div class="map-marker" style="left: 37%; top: 40%;" data-country="FR">
-                <div class="marker-dot medium-density"></div>
-                <div class="marker-label">Paris</div>
-                <div class="marker-tooltip">&#x1F1EB;&#x1F1F7; France<br>1 Cert + 1 Boot<br>KryptoSphere, DeVinci</div>
-            </div>
-
-            <!-- Brussels — Belgium: 1C = 1 event (low density) -->
-            <div class="map-marker" style="left: 39%; top: 35%;" data-country="BE">
-                <div class="marker-dot low-density"></div>
-                <div class="marker-label">Brussels</div>
-                <div class="marker-tooltip">&#x1F1E7;&#x1F1EA; Belgium<br>1 Cert<br>KryptoSphere, DeVinci</div>
-            </div>
-
-            <!-- Berlin — Germany: 2C = 2 events (medium density) -->
-            <div class="map-marker" style="left: 48%; top: 30%;" data-country="DE">
-                <div class="marker-dot medium-density"></div>
-                <div class="marker-label">Berlin</div>
-                <div class="marker-tooltip">&#x1F1E9;&#x1F1EA; Germany<br>2 Cert<br>TUM Blockchain, Berlin org</div>
-            </div>
-
-            <!-- Munich — Germany sub-marker -->
-            <div class="map-marker" style="left: 46%; top: 38%;" data-country="DE">
-                <div class="marker-dot low-density"></div>
-                <div class="marker-label" style="font-size:0.6rem;opacity:0.7;">Munich</div>
-                <div class="marker-tooltip">&#x1F1E9;&#x1F1EA; Germany<br>1 Cert (TUM Munich)</div>
-            </div>
-
-            <!-- Warsaw — Poland: 2C+1B = 3 events (medium density) -->
-            <div class="map-marker" style="left: 56%; top: 30%;" data-country="PL">
-                <div class="marker-dot medium-density"></div>
-                <div class="marker-label">Warsaw</div>
-                <div class="marker-tooltip">&#x1F1F5;&#x1F1F1; Poland<br>2 Cert + 1 Boot<br>Local dev community</div>
-            </div>
-
-            <!-- Tallinn — Estonia: 1C+1H = 2 events (medium density) -->
-            <div class="map-marker" style="left: 60%; top: 15%;" data-country="EE">
-                <div class="marker-dot medium-density"></div>
-                <div class="marker-label">Tallinn</div>
-                <div class="marker-tooltip">&#x1F1EA;&#x1F1EA; Estonia<br>1 Cert + 1 Hack<br>W3N Conference</div>
-            </div>
-
-            <!-- Rome — Italy sub-marker -->
-            <div class="map-marker" style="left: 48%; top: 52%;" data-country="IT">
-                <div class="marker-dot low-density" style="background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,0.4);"></div>
-                <div class="marker-label" style="font-size:0.6rem;opacity:0.7;">Rome</div>
-                <div class="marker-tooltip">&#x1F1EE;&#x1F1F9; Italy<br>Urbe ETH (Rome)</div>
-            </div>
-
-            <!-- Milan — Italy: 2C+1H+1B = 4 events (high density) -->
-            <div class="map-marker" style="left: 43%; top: 44%;" data-country="IT">
-                <div class="marker-dot high-density" style="background:#22c55e;box-shadow:0 0 18px rgba(34,197,94,0.8);"></div>
-                <div class="marker-label">Milan</div>
-                <div class="marker-tooltip">&#x1F1EE;&#x1F1F9; Italy<br>2 Cert + 1 Hack + 1 Boot<br>Urbe ETH, BSA Italy, BSBA</div>
-            </div>
-
-            <!-- Madrid — Spain: 2C+1H+1B = 4 events (high density) -->
-            <div class="map-marker" style="left: 28%; top: 55%;" data-country="ES">
-                <div class="marker-dot high-density" style="background:#ef4444;box-shadow:0 0 18px rgba(239,68,68,0.8);"></div>
-                <div class="marker-label">Madrid</div>
-                <div class="marker-tooltip">&#x1F1EA;&#x1F1F8; Spain<br>2 Cert + 1 Hack + 1 Boot<br>The Bridge</div>
-            </div>
-
-            <!-- Lisbon — Portugal: 1C = 1 event (low density) -->
-            <div class="map-marker" style="left: 22%; top: 56%;" data-country="PT" data-plan="full">
-                <div class="marker-dot low-density" style="background:#ec4899;box-shadow:0 0 8px rgba(236,72,153,0.4);"></div>
-                <div class="marker-label">Lisbon</div>
-                <div class="marker-tooltip">&#x1F1F5;&#x1F1F9; Portugal<br>1 Cert<br>DSN Tecnico Lisbon</div>
-            </div>
-
-            <!-- Zurich — Switzerland: 4C+1H = 5 events (high density) -->
-            <div class="map-marker" style="left: 42%; top: 40%;" data-country="CH" data-plan="full">
-                <div class="marker-dot high-density" style="background:#14b8a6;box-shadow:0 0 18px rgba(20,184,166,0.8);"></div>
-                <div class="marker-label">Zurich</div>
-                <div class="marker-tooltip">&#x1F1E8;&#x1F1ED; Switzerland<br>2 Cert + 1 Hack<br>ETH Blockchain Club</div>
-            </div>
-
-            <!-- Lausanne — Switzerland sub-marker -->
-            <div class="map-marker" style="left: 40%; top: 42%;" data-country="CH" data-plan="full">
-                <div class="marker-dot low-density" style="background:#14b8a6;box-shadow:0 0 8px rgba(20,184,166,0.4);"></div>
-                <div class="marker-label" style="font-size:0.6rem;opacity:0.7;">Lausanne</div>
-                <div class="marker-tooltip">&#x1F1E8;&#x1F1ED; Switzerland<br>2 Cert<br>EPFL Blockchain Club</div>
-            </div>
-
-            <!-- Map legend (visible in approved plan) -->
-            <div class="map-legend" id="mapLegend" style="display: none;">
-                <div class="map-legend-item">
-                    <div class="map-legend-dot active"></div>
-                    Active (8 countries)
-                </div>
-                <div class="map-legend-item">
-                    <div class="map-legend-dot future"></div>
-                    Future expansion (2 countries)
-                </div>
-            </div>
+            <div id="leaflet-map" style="width: 100%; height: 500px; border-radius: 16px; border: 1px solid rgba(41,141,255,0.1); overflow: hidden;"></div>
         </div>
 
         <!-- Detailed country info by region -->
@@ -4033,16 +3799,16 @@
         // Show/hide cost per dev
         document.getElementById('costPerDev').classList.toggle('visible', plan === 'approved');
 
-        // --- Map markers: hide CH and PT in approved plan ---
-        const fullOnlyMarkers = document.querySelectorAll('.map-marker[data-plan="full"]');
-        fullOnlyMarkers.forEach(m => {
-            m.classList.toggle('marker-hidden', plan === 'approved');
-        });
-
-        // --- Map legend ---
-        const mapLegend = document.getElementById('mapLegend');
-        if (mapLegend) {
-            mapLegend.style.display = plan === 'approved' ? 'flex' : 'none';
+        // --- Leaflet map markers: dim planFull hubs in approved plan ---
+        if (typeof markerLayers !== 'undefined') {
+            markerLayers.forEach(({marker, label, hub}) => {
+                if (hub.planFull) {
+                    const el = marker.getElement();
+                    const labelEl = label.getElement();
+                    if (el) el.style.opacity = plan === 'approved' ? '0.15' : '1';
+                    if (labelEl) labelEl.style.opacity = plan === 'approved' ? '0.15' : '1';
+                }
+            });
         }
 
         // --- Network description ---
@@ -4564,6 +4330,106 @@
     // Close proposal on overlay click (outside card)
     document.getElementById('proposalOverlay').addEventListener('click', function(e) {
         if (e.target === this) closeProposal();
+    });
+
+    // ========================================
+    // LEAFLET MAP — Europe Network
+    // ========================================
+    const map = L.map('leaflet-map', {
+        center: [48.5, 10],
+        zoom: 4,
+        zoomControl: false,
+        attributionControl: false,
+        dragging: true,
+        scrollWheelZoom: false
+    });
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_nolabels/{z}/{x}/{y}{r}.png', {
+        subdomains: 'abcd',
+        maxZoom: 19
+    }).addTo(map);
+
+    // Custom marker icon
+    function createMarker(size, color) {
+        return L.divIcon({
+            className: 'custom-map-marker',
+            html: `<div style="
+                width: ${size}px; height: ${size}px;
+                background: ${color};
+                border-radius: 50%;
+                box-shadow: 0 0 ${size}px ${color}80, 0 0 ${size * 2}px ${color}40;
+                border: 2px solid rgba(255,255,255,0.3);
+            "></div>`,
+            iconSize: [size, size],
+            iconAnchor: [size/2, size/2]
+        });
+    }
+
+    // Hub locations with data
+    const hubs = [
+        { name: 'London', lat: 51.51, lng: -0.12, country: '\u{1F1EC}\u{1F1E7} United Kingdom', events: '2C · 1H · 1B', partners: 'Imperial, Cambridge, Oxford, King\'s, DeVinci, Oli', size: 18, color: '#298dff' },
+        { name: 'Paris', lat: 48.86, lng: 2.35, country: '\u{1F1EB}\u{1F1F7} France', events: '1C · 1B', partners: 'KryptoSphère, DeVinci Blockchain', size: 16, color: '#298dff' },
+        { name: 'Brussels', lat: 50.85, lng: 4.35, country: '\u{1F1E7}\u{1F1EA} Belgium', events: '1C', partners: 'KryptoSphère, DeVinci', size: 12, color: '#298dff' },
+        { name: 'Berlin', lat: 52.52, lng: 13.41, country: '\u{1F1E9}\u{1F1EA} Germany', events: '2C', partners: 'TUM Blockchain (Munich), Berlin organizer', size: 14, color: '#f59e0b' },
+        { name: 'Munich', lat: 48.14, lng: 11.58, country: '\u{1F1E9}\u{1F1EA} Germany', events: '(TUM)', partners: 'TUM Blockchain Club', size: 10, color: '#f59e0b' },
+        { name: 'Warsaw', lat: 52.23, lng: 21.01, country: '\u{1F1F5}\u{1F1F1} Poland', events: '2C · 1B', partners: 'Local dev community', size: 14, color: '#a855f7' },
+        { name: 'Tallinn', lat: 59.44, lng: 24.75, country: '\u{1F1EA}\u{1F1EA} Estonia', events: '1C · 1H', partners: 'W3N Conference', size: 14, color: '#06b6d4' },
+        { name: 'Rome', lat: 41.90, lng: 12.50, country: '\u{1F1EE}\u{1F1F9} Italy', events: '2C · 1H · 1B', partners: 'Urbe ETH, BSA Italy / Olga', size: 16, color: '#22c55e' },
+        { name: 'Milan', lat: 45.46, lng: 9.19, country: '\u{1F1EE}\u{1F1F9} Italy', events: '(BSBA)', partners: 'BSBA Milan', size: 10, color: '#22c55e' },
+        { name: 'Madrid', lat: 40.42, lng: -3.70, country: '\u{1F1EA}\u{1F1F8} Spain', events: '2C · 1H · 1B', partners: 'The Bridge', size: 16, color: '#ef4444' },
+        { name: 'Lisbon', lat: 38.72, lng: -9.14, country: '\u{1F1F5}\u{1F1F9} Portugal', events: '1C', partners: 'DSN Técnico, Jose, Pedro', size: 12, color: '#ec4899', planFull: true },
+        { name: 'Zurich', lat: 47.38, lng: 8.54, country: '\u{1F1E8}\u{1F1ED} Switzerland', events: '2C · 1H', partners: 'ETH Blockchain Club', size: 14, color: '#14b8a6', planFull: true },
+        { name: 'Lausanne', lat: 46.52, lng: 6.63, country: '\u{1F1E8}\u{1F1ED} Switzerland', events: '2C', partners: 'EPFL Blockchain Club', size: 12, color: '#14b8a6', planFull: true },
+    ];
+
+    const markerLayers = [];
+
+    hubs.forEach(hub => {
+        const marker = L.marker([hub.lat, hub.lng], {
+            icon: createMarker(hub.size, hub.color)
+        }).addTo(map);
+
+        marker.bindTooltip(`
+            <div style="font-family: Outfit, sans-serif; padding: 4px 0;">
+                <strong style="font-size: 13px;">${hub.country}</strong><br>
+                <span style="color: #298dff; font-weight: 600;">${hub.name}</span> — ${hub.events}<br>
+                <span style="opacity: 0.7; font-size: 11px;">${hub.partners}</span>
+            </div>
+        `, {
+            className: 'leaflet-custom-tooltip',
+            direction: 'top',
+            offset: [0, -hub.size/2 - 5]
+        });
+
+        // Label
+        const label = L.marker([hub.lat, hub.lng], {
+            icon: L.divIcon({
+                className: 'map-city-label',
+                html: `<span style="
+                    font-family: Outfit, sans-serif;
+                    font-weight: 700;
+                    font-size: 11px;
+                    color: white;
+                    text-shadow: 0 1px 6px rgba(0,0,0,0.9), 0 0 2px rgba(0,0,0,0.5);
+                    white-space: nowrap;
+                ">${hub.name}</span>`,
+                iconAnchor: [0, -hub.size/2 - 8]
+            })
+        }).addTo(map);
+
+        markerLayers.push({ marker, label, hub });
+    });
+
+    // Draw connection lines from Paris (HQ) to each hub
+    const parisLatLng = [48.86, 2.35];
+    hubs.forEach(hub => {
+        if (hub.name !== 'Paris') {
+            L.polyline([parisLatLng, [hub.lat, hub.lng]], {
+                color: 'rgba(41, 141, 255, 0.15)',
+                weight: 1,
+                dashArray: '4 6'
+            }).addTo(map);
+        }
     });
 </script>
 
