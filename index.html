@@ -461,51 +461,105 @@
            ======================================== */
         .europe-map-container {
             position: relative;
-            margin-bottom: 4rem;
-        }
-
-        .europe-map-svg {
             width: 100%;
-            max-width: 1100px;
-            margin: 0 auto;
+            max-width: 900px;
+            margin: 3rem auto;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(41, 141, 255, 0.1);
+        }
+
+        .europe-map-bg {
+            width: 100%;
             display: block;
-        }
-
-        .country-shape {
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-
-        .country-shape.active:hover {
-            filter: brightness(1.3);
+            filter: invert(1) brightness(0.12) sepia(1) hue-rotate(180deg) saturate(2.5);
+            opacity: 0.7;
         }
 
         .map-marker {
-            cursor: default;
-            transition: transform 0.3s ease;
+            position: absolute;
+            cursor: pointer;
+            z-index: 10;
         }
 
-        .map-marker:hover {
-            transform: scale(1.15);
+        .marker-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--sui-blue);
+            box-shadow: 0 0 12px rgba(41, 141, 255, 0.6);
+            animation: pulse-marker 2s ease-in-out infinite;
         }
 
-        .map-tooltip-card {
-            opacity: 0;
-            transition: opacity 0.3s ease;
+        .marker-dot.high-density {
+            width: 18px;
+            height: 18px;
+            box-shadow: 0 0 18px rgba(41, 141, 255, 0.8);
+        }
+
+        .marker-dot.medium-density {
+            width: 14px;
+            height: 14px;
+            opacity: 0.85;
+        }
+
+        .marker-dot.low-density {
+            width: 10px;
+            height: 10px;
+            opacity: 0.6;
+            box-shadow: 0 0 8px rgba(41, 141, 255, 0.4);
+        }
+
+        @keyframes pulse-marker {
+            0%, 100% { box-shadow: 0 0 12px rgba(41, 141, 255, 0.6); }
+            50% { box-shadow: 0 0 24px rgba(41, 141, 255, 0.9), 0 0 48px rgba(41, 141, 255, 0.3); }
+        }
+
+        .marker-label {
+            position: absolute;
+            top: -22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.72rem;
+            color: white;
+            white-space: nowrap;
+            text-shadow: 0 1px 4px rgba(0,0,0,0.8);
+        }
+
+        .marker-tooltip {
+            display: none;
+            position: absolute;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(15, 26, 46, 0.95);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(41, 141, 255, 0.2);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            z-index: 100;
+            line-height: 1.5;
+        }
+
+        .map-marker:hover .marker-tooltip { display: block; }
+
+        /* Connection lines from markers to HQ */
+        .map-marker::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 1px;
+            height: 0;
+            background: rgba(41, 141, 255, 0.15);
+            transform-origin: top left;
             pointer-events: none;
-        }
-
-        .map-marker:hover .map-tooltip-card {
-            opacity: 1;
-        }
-
-        @keyframes map-pulse {
-            0%, 100% { r: 5; opacity: 0.8; }
-            50% { r: 8; opacity: 0.3; }
-        }
-
-        .marker-pulse {
-            animation: map-pulse 2.5s ease-in-out infinite;
+            z-index: -1;
         }
 
         .region-groups {
@@ -1597,6 +1651,247 @@
         }
 
         /* ========================================
+           PROPOSAL MODAL
+           ======================================== */
+        .proposal-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.65rem 1.6rem;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(41, 141, 255, 0.25);
+            border-radius: 100px;
+            color: var(--sui-blue);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            letter-spacing: 0.01em;
+            margin-top: 2.5rem;
+        }
+
+        .proposal-btn:hover {
+            background: rgba(41, 141, 255, 0.1);
+            border-color: var(--sui-blue);
+            color: var(--text-primary);
+            box-shadow: 0 0 24px rgba(41, 141, 255, 0.15);
+        }
+
+        .proposal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 10000;
+            background: rgba(2, 8, 23, 0.92);
+            backdrop-filter: blur(20px);
+            display: none;
+            overflow-y: auto;
+            padding: 3rem 2rem;
+        }
+
+        .proposal-overlay.active {
+            display: block;
+        }
+
+        .proposal-card {
+            max-width: 860px;
+            margin: 0 auto;
+            background: rgba(15, 26, 46, 0.95);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(41, 141, 255, 0.15);
+            border-radius: 20px;
+            padding: 3rem 3.5rem;
+            position: relative;
+        }
+
+        .proposal-close-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: rgba(255, 255, 255, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1.2rem;
+        }
+
+        .proposal-close-btn:hover {
+            background: rgba(234, 56, 76, 0.2);
+            border-color: var(--sui-red);
+            color: var(--sui-red);
+        }
+
+        .proposal-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .proposal-stamp {
+            padding: 0.35rem 0.9rem;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .proposal-stamp.full-vision {
+            background: rgba(41, 141, 255, 0.15);
+            color: var(--sui-blue);
+            border: 1px solid rgba(41, 141, 255, 0.3);
+        }
+
+        .proposal-stamp.approved {
+            background: rgba(34, 197, 94, 0.12);
+            color: var(--sui-green);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .proposal-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .proposal-content h2 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-top: 2rem;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .proposal-content h3 {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            color: var(--text-primary);
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .proposal-content p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 0.75rem;
+        }
+
+        .proposal-content ul {
+            list-style: none;
+            padding-left: 0;
+            margin-bottom: 1rem;
+        }
+
+        .proposal-content ul li {
+            font-size: 0.88rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            padding-left: 1.2rem;
+            position: relative;
+            margin-bottom: 0.3rem;
+        }
+
+        .proposal-content ul li::before {
+            content: '\2022';
+            color: var(--sui-blue);
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+
+        .proposal-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1rem 0;
+        }
+
+        .proposal-content table th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .proposal-content table td {
+            padding: 0.6rem 1rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .proposal-content table tr:last-child td {
+            font-weight: 600;
+            color: var(--text-primary);
+            border-bottom: none;
+        }
+
+        .proposal-content table .amount {
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        .proposal-content table th.amount {
+            text-align: right;
+        }
+
+        .proposal-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .proposal-action-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1.2rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--border-medium);
+            border-radius: 10px;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .proposal-action-btn:hover {
+            background: rgba(41, 141, 255, 0.1);
+            border-color: var(--sui-blue);
+            color: var(--text-primary);
+        }
+
+        .proposal-action-btn.copied {
+            border-color: var(--sui-green);
+            color: var(--sui-green);
+        }
+
+        /* ========================================
            RESPONSIVE
            ======================================== */
         @media (max-width: 1024px) {
@@ -1880,272 +2175,120 @@
             Each node has confirmed leads and a clear event plan.
         </p>
 
-        <!-- Europe Map with Real Country Outlines -->
+        <!-- Europe Map with Real Image + Overlaid Markers -->
         <div class="europe-map-container fade-in">
-            <svg class="europe-map-svg" viewBox="0 0 1000 700" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <pattern id="dot-grid" x="0" y="0" width="30" height="30" patternUnits="userSpaceOnUse">
-                        <circle cx="1" cy="1" r="0.6" fill="rgba(255,255,255,0.04)"/>
-                    </pattern>
-                    <filter id="marker-glow">
-                        <feGaussianBlur stdDeviation="3" result="blur"/>
-                        <feMerge>
-                            <feMergeNode in="blur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
-                <rect width="1000" height="700" fill="url(#dot-grid)"/>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/de/Europe_blank_map.png/1280px-Europe_blank_map.png"
+                 alt="Europe" class="europe-map-bg" />
 
-                <!-- ===== CONTEXT COUNTRIES (dim grey) ===== -->
-
-                <!-- Norway/Sweden (Scandinavia context) -->
-                <path d="M 470,28 L 485,22 L 500,30 L 508,50 L 505,80 L 498,110 L 490,135 L 485,155 L 478,170 L 470,155 L 465,130 L 460,100 L 455,70 L 458,45 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-                <!-- Denmark -->
-                <path d="M 430,145 L 442,138 L 450,145 L 448,158 L 440,165 L 432,160 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-                <!-- Netherlands -->
-                <path d="M 380,192 L 395,186 L 405,192 L 402,205 L 390,210 L 382,204 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-                <!-- Switzerland (ACTIVE) -->
-                <path d="M 395,310 L 415,305 L 430,310 L 428,322 L 415,328 L 400,325 L 392,318 Z"
-                      fill="rgba(20,184,166,0.08)" stroke="rgba(20,184,166,0.25)" stroke-width="1.2" class="country-shape active"/>
-                <!-- Austria -->
-                <path d="M 435,295 L 465,288 L 500,292 L 505,305 L 495,315 L 470,318 L 445,312 L 435,305 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-                <!-- Czech Republic -->
-                <path d="M 445,248 L 470,242 L 498,248 L 500,262 L 485,272 L 458,270 L 442,260 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-                <!-- Ireland -->
-                <path d="M 220,195 L 240,185 L 252,192 L 255,210 L 248,228 L 235,235 L 222,228 L 216,212 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-                <!-- Latvia/Lithuania -->
-                <path d="M 560,135 L 590,128 L 610,135 L 612,158 L 598,168 L 570,165 L 558,152 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-                <!-- Greece -->
-                <path d="M 560,420 L 578,412 L 592,420 L 588,445 L 575,460 L 562,452 L 555,435 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-                <!-- Croatia/Hungary area -->
-                <path d="M 500,320 L 535,315 L 558,325 L 555,345 L 535,352 L 510,348 L 498,335 Z" fill="rgba(255,255,255,0.02)" stroke="rgba(255,255,255,0.06)" stroke-width="0.8"/>
-
-                <!-- ===== ACTIVE COUNTRIES (blue tint) ===== -->
-
-                <!-- Great Britain -->
-                <path d="M 282,140 L 295,125 L 308,115 L 318,108 L 312,95 L 305,82 L 312,68 L 325,60 L 340,68 L 338,85 L 345,100 L 342,118 L 335,135 L 328,148 L 320,162 L 312,172 L 300,180 L 288,175 L 280,162 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
-
-                <!-- France -->
-                <path d="M 330,260 L 350,248 L 378,242 L 400,250 L 415,265 L 420,285 L 418,310 L 408,335 L 390,350 L 368,358 L 345,352 L 325,338 L 315,318 L 310,295 L 315,275 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
-
-                <!-- Belgium -->
-                <path d="M 370,225 L 392,218 L 408,225 L 405,240 L 388,245 L 372,238 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
-
-                <!-- Germany -->
-                <path d="M 410,178 L 435,170 L 462,175 L 485,185 L 490,208 L 488,235 L 478,258 L 458,268 L 435,262 L 418,248 L 408,225 L 405,200 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
-
-                <!-- Spain -->
-                <path d="M 240,400 L 275,388 L 318,395 L 345,410 L 340,440 L 320,465 L 290,478 L 258,475 L 232,460 L 222,435 L 228,415 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
-
-                <!-- Portugal -->
-                <path d="M 205,415 L 225,405 L 232,420 L 230,445 L 222,465 L 208,460 L 198,442 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
-
-                <!-- Italy (boot shape) -->
-                <path d="M 445,320 L 462,308 L 478,315 L 482,335 L 478,358 L 485,375 L 495,395 L 490,415 L 478,428 L 468,418 L 472,395 L 462,375 L 452,358 L 445,340 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
-                <!-- Sicily -->
-                <path d="M 468,435 L 485,430 L 495,438 L 488,448 L 472,448 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="0.8" class="country-shape active"/>
-                <!-- Sardinia -->
-                <path d="M 425,385 L 435,378 L 442,388 L 438,402 L 428,405 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="0.8" class="country-shape active"/>
-
-                <!-- Poland -->
-                <path d="M 498,175 L 530,165 L 568,172 L 590,188 L 585,215 L 572,238 L 548,248 L 518,242 L 498,228 L 490,205 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
-
-                <!-- Estonia -->
-                <path d="M 575,88 L 600,82 L 622,88 L 625,105 L 615,115 L 592,112 L 578,102 Z"
-                      fill="rgba(41,141,255,0.08)" stroke="rgba(41,141,255,0.25)" stroke-width="1.2" class="country-shape active"/>
-
-                <!-- ===== CONNECTION LINES ===== -->
-                <g opacity="0.12">
-                    <line x1="380" y1="290" x2="310" y2="148" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
-                    <line x1="380" y1="290" x2="390" y2="232" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
-                    <line x1="380" y1="290" x2="455" y2="218" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
-                    <line x1="380" y1="290" x2="545" y2="208" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
-                    <line x1="380" y1="290" x2="600" y2="98" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
-                    <line x1="380" y1="290" x2="290" y2="438" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
-                    <line x1="380" y1="290" x2="215" y2="440" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
-                    <line x1="380" y1="290" x2="475" y2="370" stroke="#298dff" stroke-width="1" stroke-dasharray="4,4"/>
-                    <line x1="380" y1="290" x2="425" y2="310" stroke="#14b8a6" stroke-width="1" stroke-dasharray="4,4"/>
-                    <line x1="380" y1="290" x2="400" y2="318" stroke="#14b8a6" stroke-width="1" stroke-dasharray="4,4"/>
-                </g>
-
-                <!-- ===== CITY MARKERS ===== -->
-
-                <!-- London -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="310" cy="148" r="8" fill="rgba(41,141,255,0.2)" class="marker-pulse"/>
-                    <circle cx="310" cy="148" r="4.5" fill="#298dff"/>
-                    <text x="310" y="138" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">London</text>
-                    <g class="map-tooltip-card">
-                        <rect x="238" y="155" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(41,141,255,0.3)" stroke-width="1"/>
-                        <text x="250" y="172" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EC;&#x1F1E7; United Kingdom</text>
-                        <text x="250" y="186" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert + 1 Hack + 1 Boot</text>
-                        <text x="250" y="199" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">Imperial, Cambridge, Oxford</text>
-                    </g>
-                </g>
-
-                <!-- Paris -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="370" cy="278" r="8" fill="rgba(26,109,204,0.2)" class="marker-pulse"/>
-                    <circle cx="370" cy="278" r="4.5" fill="#1a6dcc"/>
-                    <text x="370" y="268" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Paris</text>
-                    <g class="map-tooltip-card">
-                        <rect x="298" y="285" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(26,109,204,0.3)" stroke-width="1"/>
-                        <text x="310" y="302" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EB;&#x1F1F7; France</text>
-                        <text x="310" y="316" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">1 Cert + 1 Boot</text>
-                        <text x="310" y="329" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">KryptoSphere, DeVinci</text>
-                    </g>
-                </g>
-
-                <!-- Brussels -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="390" cy="232" r="7" fill="rgba(249,115,22,0.2)" class="marker-pulse"/>
-                    <circle cx="390" cy="232" r="4" fill="#f97316"/>
-                    <text x="390" y="222" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Brussels</text>
-                    <g class="map-tooltip-card">
-                        <rect x="318" y="239" width="144" height="45" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(249,115,22,0.3)" stroke-width="1"/>
-                        <text x="330" y="256" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1E7;&#x1F1EA; Belgium</text>
-                        <text x="330" y="270" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">1 Cert</text>
-                        <text x="330" y="280" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">KryptoSphere, DeVinci</text>
-                    </g>
-                </g>
-
-                <!-- Munich -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="455" cy="275" r="6" fill="rgba(245,158,11,0.2)" class="marker-pulse"/>
-                    <circle cx="455" cy="275" r="3.5" fill="#f59e0b"/>
-                    <text x="468" y="279" fill="white" font-family="Outfit, sans-serif" font-weight="600" font-size="7.5">Munich</text>
-                </g>
-
-                <!-- Berlin -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="455" cy="195" r="8" fill="rgba(245,158,11,0.2)" class="marker-pulse"/>
-                    <circle cx="455" cy="195" r="4.5" fill="#f59e0b"/>
-                    <text x="455" y="185" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Berlin</text>
-                    <g class="map-tooltip-card">
-                        <rect x="383" y="202" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(245,158,11,0.3)" stroke-width="1"/>
-                        <text x="395" y="219" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1E9;&#x1F1EA; Germany</text>
-                        <text x="395" y="233" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert</text>
-                        <text x="395" y="246" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">TUM Blockchain, Berlin org</text>
-                    </g>
-                </g>
-
-                <!-- Warsaw -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="545" cy="208" r="8" fill="rgba(168,85,247,0.2)" class="marker-pulse"/>
-                    <circle cx="545" cy="208" r="4.5" fill="#a855f7"/>
-                    <text x="545" y="198" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Warsaw</text>
-                    <g class="map-tooltip-card">
-                        <rect x="473" y="215" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(168,85,247,0.3)" stroke-width="1"/>
-                        <text x="485" y="232" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1F5;&#x1F1F1; Poland</text>
-                        <text x="485" y="246" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert + 1 Boot</text>
-                        <text x="485" y="259" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">Local dev community</text>
-                    </g>
-                </g>
-
-                <!-- Tallinn -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="600" cy="98" r="8" fill="rgba(6,182,212,0.2)" class="marker-pulse"/>
-                    <circle cx="600" cy="98" r="4.5" fill="#06b6d4"/>
-                    <text x="600" y="88" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Tallinn</text>
-                    <g class="map-tooltip-card">
-                        <rect x="528" y="105" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(6,182,212,0.3)" stroke-width="1"/>
-                        <text x="540" y="122" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EA;&#x1F1EA; Estonia</text>
-                        <text x="540" y="136" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">1 Cert + 1 Hack</text>
-                        <text x="540" y="149" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">W3N Conference</text>
-                    </g>
-                </g>
-
-                <!-- Rome -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="475" cy="370" r="6" fill="rgba(34,197,94,0.2)" class="marker-pulse"/>
-                    <circle cx="475" cy="370" r="3.5" fill="#22c55e"/>
-                    <text x="488" y="374" fill="white" font-family="Outfit, sans-serif" font-weight="600" font-size="7.5">Rome</text>
-                </g>
-
-                <!-- Milan -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="445" cy="328" r="8" fill="rgba(34,197,94,0.2)" class="marker-pulse"/>
-                    <circle cx="445" cy="328" r="4.5" fill="#22c55e"/>
-                    <text x="420" y="324" text-anchor="end" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Milan</text>
-                    <g class="map-tooltip-card">
-                        <rect x="373" y="335" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(34,197,94,0.3)" stroke-width="1"/>
-                        <text x="385" y="352" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EE;&#x1F1F9; Italy</text>
-                        <text x="385" y="366" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert + 1 Hack + 1 Boot</text>
-                        <text x="385" y="379" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">Urbe ETH, BSA Italy, BSBA</text>
-                    </g>
-                </g>
-
-                <!-- Madrid -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="290" cy="438" r="8" fill="rgba(239,68,68,0.2)" class="marker-pulse"/>
-                    <circle cx="290" cy="438" r="4.5" fill="#ef4444"/>
-                    <text x="290" y="428" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Madrid</text>
-                    <g class="map-tooltip-card">
-                        <rect x="218" y="445" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(239,68,68,0.3)" stroke-width="1"/>
-                        <text x="230" y="462" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1EA;&#x1F1F8; Spain</text>
-                        <text x="230" y="476" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert + 1 Hack + 1 Boot</text>
-                        <text x="230" y="489" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">The Bridge</text>
-                    </g>
-                </g>
-
-                <!-- Lisbon -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="215" cy="440" r="8" fill="rgba(236,72,153,0.2)" class="marker-pulse"/>
-                    <circle cx="215" cy="440" r="4.5" fill="#ec4899"/>
-                    <text x="200" y="432" text-anchor="end" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Lisbon</text>
-                    <g class="map-tooltip-card">
-                        <rect x="132" y="448" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(236,72,153,0.3)" stroke-width="1"/>
-                        <text x="144" y="465" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1F5;&#x1F1F9; Portugal</text>
-                        <text x="144" y="479" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">1 Cert</text>
-                        <text x="144" y="492" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">DSN Tecnico Lisbon</text>
-                    </g>
-                </g>
-
-                <!-- Zurich -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="425" cy="310" r="7" fill="rgba(20,184,166,0.2)" class="marker-pulse"/>
-                    <circle cx="425" cy="310" r="4" fill="#14b8a6"/>
-                    <text x="425" y="300" text-anchor="middle" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="9" letter-spacing="0.04em">Zurich</text>
-                    <g class="map-tooltip-card">
-                        <rect x="353" y="317" width="144" height="52" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(20,184,166,0.3)" stroke-width="1"/>
-                        <text x="365" y="334" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1E8;&#x1F1ED; Switzerland</text>
-                        <text x="365" y="348" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert + 1 Hack</text>
-                        <text x="365" y="361" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">ETH Blockchain Club</text>
-                    </g>
-                </g>
-
-                <!-- Lausanne -->
-                <g class="map-marker" filter="url(#marker-glow)">
-                    <circle cx="400" cy="318" r="6" fill="rgba(20,184,166,0.2)" class="marker-pulse"/>
-                    <circle cx="400" cy="318" r="3.5" fill="#14b8a6"/>
-                    <text x="383" y="330" text-anchor="end" fill="white" font-family="Outfit, sans-serif" font-weight="600" font-size="7.5">Lausanne</text>
-                    <g class="map-tooltip-card">
-                        <rect x="310" y="332" width="144" height="45" rx="8" fill="rgba(15,17,21,0.95)" stroke="rgba(20,184,166,0.3)" stroke-width="1"/>
-                        <text x="322" y="349" fill="white" font-family="Outfit, sans-serif" font-weight="700" font-size="10">&#x1F1E8;&#x1F1ED; Switzerland</text>
-                        <text x="322" y="363" fill="#a1a7b2" font-family="Inter, sans-serif" font-size="8">2 Cert</text>
-                        <text x="322" y="373" fill="#6c7584" font-family="Inter, sans-serif" font-size="7.5">EPFL Blockchain Club</text>
-                    </g>
-                </g>
-
-                <!-- Legend -->
-                <g transform="translate(800, 520)">
-                    <text x="0" y="0" fill="rgba(255,255,255,0.3)" font-family="Outfit, sans-serif" font-size="9" font-weight="600" letter-spacing="0.1em">LEGEND</text>
-                    <circle cx="8" cy="20" r="4" fill="#298dff"/><text x="20" y="24" fill="rgba(255,255,255,0.5)" font-family="Inter, sans-serif" font-size="10">Certification</text>
-                    <circle cx="8" cy="40" r="4" fill="#ff6c3d"/><text x="20" y="44" fill="rgba(255,255,255,0.5)" font-family="Inter, sans-serif" font-size="10">Hackathon</text>
-                    <circle cx="8" cy="60" r="4" fill="#22c55e"/><text x="20" y="64" fill="rgba(255,255,255,0.5)" font-family="Inter, sans-serif" font-size="10">Bootcamp</text>
-                </g>
+            <!-- SVG connection lines overlay -->
+            <svg style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:5;" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <!-- Lines from HQ (Paris ~37%, 40%) to each marker -->
+                <line x1="37" y1="40" x2="35" y2="30" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="39" y2="35" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="48" y2="30" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="46" y2="38" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="56" y2="30" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="60" y2="15" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="48" y2="52" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="43" y2="44" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="28" y2="55" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="22" y2="56" stroke="rgba(41,141,255,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="42" y2="40" stroke="rgba(20,184,166,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <line x1="37" y1="40" x2="40" y2="42" stroke="rgba(20,184,166,0.12)" stroke-width="0.15" stroke-dasharray="0.6,0.6"/>
+                <!-- HQ dot -->
+                <circle cx="37" cy="40" r="0.5" fill="rgba(41,141,255,0.5)"/>
             </svg>
+
+            <!-- London — UK: 2C+1H+1B = 4 events (high density) -->
+            <div class="map-marker" style="left: 35%; top: 30%;" data-country="UK">
+                <div class="marker-dot high-density"></div>
+                <div class="marker-label">London</div>
+                <div class="marker-tooltip">&#x1F1EC;&#x1F1E7; United Kingdom<br>2 Cert + 1 Hack + 1 Boot<br>Imperial, Cambridge, Oxford, King's</div>
+            </div>
+
+            <!-- Paris — France: 1C+1B = 2 events (medium density) -->
+            <div class="map-marker" style="left: 37%; top: 40%;" data-country="FR">
+                <div class="marker-dot medium-density"></div>
+                <div class="marker-label">Paris</div>
+                <div class="marker-tooltip">&#x1F1EB;&#x1F1F7; France<br>1 Cert + 1 Boot<br>KryptoSphere, DeVinci</div>
+            </div>
+
+            <!-- Brussels — Belgium: 1C = 1 event (low density) -->
+            <div class="map-marker" style="left: 39%; top: 35%;" data-country="BE">
+                <div class="marker-dot low-density"></div>
+                <div class="marker-label">Brussels</div>
+                <div class="marker-tooltip">&#x1F1E7;&#x1F1EA; Belgium<br>1 Cert<br>KryptoSphere, DeVinci</div>
+            </div>
+
+            <!-- Berlin — Germany: 2C = 2 events (medium density) -->
+            <div class="map-marker" style="left: 48%; top: 30%;" data-country="DE">
+                <div class="marker-dot medium-density"></div>
+                <div class="marker-label">Berlin</div>
+                <div class="marker-tooltip">&#x1F1E9;&#x1F1EA; Germany<br>2 Cert<br>TUM Blockchain, Berlin org</div>
+            </div>
+
+            <!-- Munich — Germany sub-marker -->
+            <div class="map-marker" style="left: 46%; top: 38%;" data-country="DE">
+                <div class="marker-dot low-density"></div>
+                <div class="marker-label" style="font-size:0.6rem;opacity:0.7;">Munich</div>
+                <div class="marker-tooltip">&#x1F1E9;&#x1F1EA; Germany<br>1 Cert (TUM Munich)</div>
+            </div>
+
+            <!-- Warsaw — Poland: 2C+1B = 3 events (medium density) -->
+            <div class="map-marker" style="left: 56%; top: 30%;" data-country="PL">
+                <div class="marker-dot medium-density"></div>
+                <div class="marker-label">Warsaw</div>
+                <div class="marker-tooltip">&#x1F1F5;&#x1F1F1; Poland<br>2 Cert + 1 Boot<br>Local dev community</div>
+            </div>
+
+            <!-- Tallinn — Estonia: 1C+1H = 2 events (medium density) -->
+            <div class="map-marker" style="left: 60%; top: 15%;" data-country="EE">
+                <div class="marker-dot medium-density"></div>
+                <div class="marker-label">Tallinn</div>
+                <div class="marker-tooltip">&#x1F1EA;&#x1F1EA; Estonia<br>1 Cert + 1 Hack<br>W3N Conference</div>
+            </div>
+
+            <!-- Rome — Italy sub-marker -->
+            <div class="map-marker" style="left: 48%; top: 52%;" data-country="IT">
+                <div class="marker-dot low-density" style="background:#22c55e;box-shadow:0 0 8px rgba(34,197,94,0.4);"></div>
+                <div class="marker-label" style="font-size:0.6rem;opacity:0.7;">Rome</div>
+                <div class="marker-tooltip">&#x1F1EE;&#x1F1F9; Italy<br>Urbe ETH (Rome)</div>
+            </div>
+
+            <!-- Milan — Italy: 2C+1H+1B = 4 events (high density) -->
+            <div class="map-marker" style="left: 43%; top: 44%;" data-country="IT">
+                <div class="marker-dot high-density" style="background:#22c55e;box-shadow:0 0 18px rgba(34,197,94,0.8);"></div>
+                <div class="marker-label">Milan</div>
+                <div class="marker-tooltip">&#x1F1EE;&#x1F1F9; Italy<br>2 Cert + 1 Hack + 1 Boot<br>Urbe ETH, BSA Italy, BSBA</div>
+            </div>
+
+            <!-- Madrid — Spain: 2C+1H+1B = 4 events (high density) -->
+            <div class="map-marker" style="left: 28%; top: 55%;" data-country="ES">
+                <div class="marker-dot high-density" style="background:#ef4444;box-shadow:0 0 18px rgba(239,68,68,0.8);"></div>
+                <div class="marker-label">Madrid</div>
+                <div class="marker-tooltip">&#x1F1EA;&#x1F1F8; Spain<br>2 Cert + 1 Hack + 1 Boot<br>The Bridge</div>
+            </div>
+
+            <!-- Lisbon — Portugal: 1C = 1 event (low density) -->
+            <div class="map-marker" style="left: 22%; top: 56%;" data-country="PT">
+                <div class="marker-dot low-density" style="background:#ec4899;box-shadow:0 0 8px rgba(236,72,153,0.4);"></div>
+                <div class="marker-label">Lisbon</div>
+                <div class="marker-tooltip">&#x1F1F5;&#x1F1F9; Portugal<br>1 Cert<br>DSN Tecnico Lisbon</div>
+            </div>
+
+            <!-- Zurich — Switzerland: 4C+1H = 5 events (high density) -->
+            <div class="map-marker" style="left: 42%; top: 40%;" data-country="CH">
+                <div class="marker-dot high-density" style="background:#14b8a6;box-shadow:0 0 18px rgba(20,184,166,0.8);"></div>
+                <div class="marker-label">Zurich</div>
+                <div class="marker-tooltip">&#x1F1E8;&#x1F1ED; Switzerland<br>2 Cert + 1 Hack<br>ETH Blockchain Club</div>
+            </div>
+
+            <!-- Lausanne — Switzerland sub-marker -->
+            <div class="map-marker" style="left: 40%; top: 42%;" data-country="CH">
+                <div class="marker-dot low-density" style="background:#14b8a6;box-shadow:0 0 8px rgba(20,184,166,0.4);"></div>
+                <div class="marker-label" style="font-size:0.6rem;opacity:0.7;">Lausanne</div>
+                <div class="marker-tooltip">&#x1F1E8;&#x1F1ED; Switzerland<br>2 Cert<br>EPFL Blockchain Club</div>
+            </div>
         </div>
 
         <!-- Detailed country info by region -->
@@ -2663,6 +2806,11 @@
                 </div>
             </div>
         </div>
+
+        <!-- Proposal Draft Button -->
+        <button class="proposal-btn" id="proposalBtn" onclick="openProposal()">
+            &#x1F4C4; See Proposal Draft
+        </button>
     </div>
 </section>
 
@@ -2681,6 +2829,30 @@
         <button class="pres-nav-btn" id="presNext" onclick="presNavigate(1)" title="Next (Right Arrow)">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 18l6-6-6-6"/></svg>
         </button>
+    </div>
+</div>
+
+<!-- ============ PROPOSAL MODAL ============ -->
+<div class="proposal-overlay" id="proposalOverlay">
+    <div class="proposal-card">
+        <button class="proposal-close-btn" onclick="closeProposal()">&times;</button>
+        <div class="proposal-header">
+            <div class="proposal-stamp" id="proposalStamp">Full Vision</div>
+            <div class="proposal-title" id="proposalTitle">Proposal Draft</div>
+        </div>
+        <div class="proposal-content" id="proposalContent">
+            <!-- Filled by JS -->
+        </div>
+        <div class="proposal-actions">
+            <button class="proposal-action-btn" id="copyProposalBtn" onclick="copyProposal()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy to Clipboard
+            </button>
+            <button class="proposal-action-btn" onclick="downloadProposal()">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download as Text
+            </button>
+        </div>
     </div>
 </div>
 
@@ -3779,6 +3951,273 @@
             });
         });
     }
+
+    // ========================================
+    // PROPOSAL DRAFT MODAL
+    // ========================================
+    const PROPOSAL_FULL_VISION = `
+<h2>First Movers Europe: Q1-Q2 Execution Plan (Full Vision)</h2>
+
+<h3>1. Goal of First Movers Europe (Q1-Q2)</h3>
+<p>The First Movers Europe chapter serves as a structured engagement and curation layer for Move developers across key European regions. The chapter provides earning and learning opportunities through certifications, hackathons, bootcamps, and bounties, while identifying and retaining developers with strong technical ability and long-term commitment to the Sui ecosystem.</p>
+<p>In alignment with the global First Movers mission, the Europe chapter curates a high-signal group of industry-ready builders who can progress toward employment, founding new projects, or becoming sustained contributors within the Sui ecosystem.</p>
+<p>Q1-Q2 execution focuses on in-person activations across 10 European countries to accelerate trust, skill development, and long-term retention, while identifying trusted local leaders to build strong, country-level First Movers chapters.</p>
+
+<h3>2. Q1-Q2 Execution Scope</h3>
+
+<h3>2.1 Certification Workshops</h3>
+<p>Eighteen 2-day, in-person certification workshops will be delivered during Q1-Q2. Certifications serve as the initial quality filter and onboarding mechanism into the First Movers pipeline.</p>
+<p>Planned locations and partners:</p>
+<ul>
+<li>United Kingdom: Two certification batches delivered across Cambridge, Oxford, Imperial College London, King's College London</li>
+<li>France: One certification in collaboration with KryptoSphere</li>
+<li>Belgium: One certification in collaboration with KryptoSphere</li>
+<li>Italy: Two certifications in collaboration with BSBA (Milan) and Urbe ETH (Rome)</li>
+<li>Germany: Two certifications in Munich (TUM) and Berlin</li>
+<li>Switzerland: Four certifications at ETH Zurich and EPFL Lausanne</li>
+<li>Poland: Two certifications with local developer community</li>
+<li>Estonia: One certification in partnership with W3N Conference</li>
+<li>Spain: Two certifications in collaboration with The Bridge</li>
+<li>Portugal: One certification with DSN Tecnico Lisbon</li>
+</ul>
+<p>Each certification feeds directly into local hackathons, bounties, and First Movers candidacy.</p>
+
+<h3>2.2 Hackathons</h3>
+<p>Five hackathons will be organized during Q1-Q2 and used as the primary curation mechanism based on real technical output.</p>
+<p>Planned hackathons:</p>
+<ul>
+<li>United Kingdom: Multi-university coordination across Imperial, Cambridge, Oxford, King's</li>
+<li>Estonia: Delivered in collaboration with W3N Conference</li>
+<li>Italy: Following the bootcamp with coordinated logistics across Rome and Milan</li>
+<li>Spain: With The Bridge</li>
+<li>Switzerland: ETH/EPFL Blockchain Clubs joint hackathon</li>
+</ul>
+
+<h3>2.3 Bootcamps</h3>
+<p>Five in-person bootcamps will be delivered during Q1-Q2 for 20-30 developers who have already been curated through certifications, hackathons, or prior ecosystem involvement.</p>
+<p>The goal of these bootcamps is to prepare motivated developers for industry-level work by equipping them with advanced technical skills. Instruction will be delivered by Mysten Labs engineers.</p>
+<p>Planned bootcamp locations:</p>
+<ul>
+<li>United Kingdom (London)</li>
+<li>France (Paris)</li>
+<li>Poland (Warsaw)</li>
+<li>Italy</li>
+<li>Spain</li>
+</ul>
+
+<h3>3. Q1-Q2 Budget Overview</h3>
+<table>
+<thead>
+<tr><th>Category</th><th>Unit Cost</th><th>Qty</th><th class="amount">Total</th></tr>
+</thead>
+<tbody>
+<tr><td>Bootcamps (5)</td><td>$30,000</td><td>5</td><td class="amount">$150,000</td></tr>
+<tr><td>Hackathons (ops + prize pool)</td><td>$20,000</td><td>5</td><td class="amount">$100,000</td></tr>
+<tr><td>2-Day Certification Workshops</td><td>$5,000</td><td>18</td><td class="amount">$90,000</td></tr>
+<tr><td>Travel &amp; Logistics</td><td>—</td><td>—</td><td class="amount">$25,000</td></tr>
+<tr><td>Content Creation</td><td>$1,000</td><td>15-20</td><td class="amount">$20,000</td></tr>
+<tr><td><strong>TOTAL Q1-Q2</strong></td><td></td><td></td><td class="amount"><strong>$385,000</strong></td></tr>
+</tbody>
+</table>
+`;
+
+    const PROPOSAL_APPROVED = `
+<h2>First Movers Europe: Q1-Q2 Execution Plan</h2>
+
+<h3>1. Goal of First Movers Europe (Q1-Q2)</h3>
+<p>The goal of the First Movers Europe chapter is to serve as a structured engagement and curation layer for Move developers across key European regions. The chapter provides earning and learning opportunities through certifications, hackathons, bootcamps, and bounties, while identifying and retaining developers with strong technical ability and long-term commitment to the Sui ecosystem.</p>
+<p>In alignment with the global First Movers mission, the Europe chapter curates a high-signal group of industry-ready builders who can progress toward employment, founding new projects, or becoming sustained contributors within the Sui ecosystem. Local First Movers communities also act as early distribution and feedback channels for new Sui projects, supporting initial traction and real-world usage.</p>
+<p>Q1-Q2 execution focuses on in-person activations to accelerate trust, skill development, and long-term retention across Europe, while identifying trusted local leaders to build strong, country-level First Movers chapters.</p>
+
+<h3>2. Q1-Q2 Execution Scope</h3>
+
+<h3>2.1 Certification Workshops</h3>
+<p>Twelve 2-day, in-person certification workshops will be delivered during Q1-Q2. Certifications serve as the initial quality filter and onboarding mechanism into the First Movers pipeline.</p>
+<p>Planned locations and partners:</p>
+<ul>
+<li>United Kingdom: Two certification batches delivered across Cambridge, Oxford, Imperial College London, King's College London</li>
+<li>Italy: Two certifications in collaboration with BSBA (Milan) and Urbe ETH (Rome)</li>
+<li>Germany: One certification in Munich, in collaboration with the Technical University of Munich (TUM)</li>
+<li>Estonia: One certification in partnership with W3N Conference</li>
+<li>Poland: Two certifications</li>
+<li>Belgium: One certification in collaboration with KryptoSphere</li>
+<li>Spain: One certification in collaboration with The Bridge</li>
+<li>France: Two certifications in collaboration with KryptoSphere</li>
+</ul>
+<p>Each certification feeds directly into local hackathons, bounties, and First Movers candidacy.</p>
+
+<h3>2.2 Hackathons</h3>
+<p>Two hackathons will be organized during Q1-Q2 and used as the primary curation mechanism based on real technical output.</p>
+<p>Planned hackathons:</p>
+<ul>
+<li>France</li>
+<li>Italy, following the bootcamp with coordinated logistics to enable participation across Rome and Milan</li>
+</ul>
+<p>Optional:</p>
+<ul>
+<li>(Remote) United Kingdom, with coordinated logistics to enable participation across Imperial College London, Cambridge, Oxford, and King's College London</li>
+<li>Estonia, delivered in collaboration with W3N Conference</li>
+<li>Spain, with The Bridge</li>
+</ul>
+<p>Hackathons are used to identify high-signal developers and teams who demonstrate execution ability, collaboration, and alignment with the Sui ecosystem. They will be grouped with bootcamps for Q1-Q2, but may be independent in the future.</p>
+
+<h3>2.3 Bootcamps</h3>
+<p>Two in-person bootcamps will be delivered during Q1-Q2 for 20-30 developers who have already been curated through certifications, hackathons, or prior ecosystem involvement.</p>
+<p>The goal of these bootcamps is to prepare motivated developers for industry-level work by equipping them with advanced technical skills. Instruction will be delivered by Mysten Labs engineers on targeted topics, including security best practices, indexing, infrastructure, and other components required to build production-ready applications.</p>
+<p>Planned bootcamp locations:</p>
+<ul>
+<li>France (Paris)</li>
+<li>Italy</li>
+</ul>
+<p>Optional:</p>
+<ul>
+<li>(Remote) United Kingdom</li>
+<li>Poland (Warsaw)</li>
+<li>Spain</li>
+</ul>
+<p>The Poland and Paris bootcamps build on an already strong and active local developer community, allowing the program to focus on deeper technical execution and advanced Move usage rather than initial onboarding.</p>
+<p>Bootcamps represent the final structured curation step before long-term engagement through bounties, ecosystem contributions, employment, or founding.</p>
+
+<h3>3. Mentorship Model</h3>
+<p>All certification workshops, hackathons, and bootcamps include dedicated technical mentorship to ensure high-quality instruction and developer support.</p>
+<p>Mentors are sourced on a per-event basis and compensated at fixed rates depending on the activity type. Certification workshops are supported by mentors compensated at 500 USD per certification, while hackathons are supported by mentors compensated at 700 USD per hackathon, reflecting the longer duration and broader scope of involvement.</p>
+<p>Mentor compensation covers preparation, in-person delivery, and follow-up support, and is included within existing event budgets without introducing additional variable costs.</p>
+
+<h3>4. Team Structure and Compensation</h3>
+<p>The First Movers Europe chapter is operated by a lean core team supported by task-based contractors.</p>
+
+<h3>4.1 Core Team</h3>
+<p>The core team consists of two members, with compensation based on local market conditions:</p>
+<ul>
+<li>Developer Relations Lead – based in Switzerland: 6.5K USD</li>
+<li>Social media / Discord manager: 2.5K USD</li>
+</ul>
+
+<h3>4.2 Contractors</h3>
+<p>All possible additional roles are fulfilled by contractors paid per task. This includes:</p>
+<ul>
+<li>Design and content production</li>
+<li>Video and media</li>
+<li>Workshop and hackathon helpers (if simultaneous events)</li>
+<li>Specialized technical instruction</li>
+</ul>
+<p>This model ensures flexibility, scalability, and cost efficiency across multiple countries.</p>
+
+<h3>5. Q1-Q2 Budget Overview</h3>
+<table>
+<thead>
+<tr><th>Category</th><th>Unit Cost</th><th>Qty</th><th class="amount">Total</th></tr>
+</thead>
+<tbody>
+<tr><td>Hackathons (operations + prize pool)</td><td>$22,000</td><td>2</td><td class="amount">$44,000</td></tr>
+<tr><td>2-Day Certification Workshops (all-in)</td><td>$6,000</td><td>12</td><td class="amount">$72,000</td></tr>
+<tr><td>Core Team Salaries (monthly)</td><td>$9,000</td><td>6</td><td class="amount">$54,000</td></tr>
+<tr><td><strong>Total Q1-Q2 Operational Budget</strong></td><td></td><td></td><td class="amount"><strong>$170,000</strong></td></tr>
+</tbody>
+</table>
+
+<h3>6. Cost per Developer</h3>
+<p>Certified developers (unique): 12 certifications x 30 attendees = 360 certified developers.</p>
+<p>Direct certification cost per certified developer: $167 ($60,000 / 360).</p>
+<p>Fully loaded program cost per certified developer: $472 ($170,000 / 360).</p>
+<p>Industry-ready developers (bootcamps + hackathons): 2 bootcamps x 35 attendees = 70 industry-ready developers.</p>
+<p>Direct delivery cost per industry-ready developer: $1,429 ($100,000 / 70).</p>
+
+<h3>7. Governance and KPI Review</h3>
+<p>All activities and spending are reviewed on a bi-annual basis against First Mover's KPIs, including:</p>
+<ul>
+<li>Number of developers onboarded and retained</li>
+<li>Event output and participation</li>
+<li>Developer progression through certifications, hackathons, and bootcamps</li>
+<li>Downstream engagement through bounties, ecosystem contributions, and new projects launched</li>
+</ul>
+<p>Continuation or expansion of the budget is contingent on performance, retention, and measurable ecosystem impact.</p>
+`;
+
+    function getProposalText(plan) {
+        return plan === 'approved' ? PROPOSAL_APPROVED : PROPOSAL_FULL_VISION;
+    }
+
+    function getProposalPlainText(plan) {
+        const temp = document.createElement('div');
+        temp.innerHTML = getProposalText(plan);
+        // Convert to plain text preserving structure
+        let text = '';
+        temp.querySelectorAll('h2, h3, p, li, th, td').forEach(el => {
+            if (el.tagName === 'H2') text += '\n' + el.textContent + '\n' + '='.repeat(el.textContent.length) + '\n\n';
+            else if (el.tagName === 'H3') text += '\n' + el.textContent + '\n' + '-'.repeat(el.textContent.length) + '\n\n';
+            else if (el.tagName === 'P') text += el.textContent + '\n\n';
+            else if (el.tagName === 'LI') text += '• ' + el.textContent + '\n';
+            else if (el.tagName === 'TH' || el.tagName === 'TD') text += el.textContent + '\t';
+            if (el.tagName === 'TD' && !el.nextElementSibling) text += '\n';
+            if (el.tagName === 'TH' && !el.nextElementSibling) text += '\n';
+        });
+        return text.trim();
+    }
+
+    function openProposal() {
+        const overlay = document.getElementById('proposalOverlay');
+        const stamp = document.getElementById('proposalStamp');
+        const title = document.getElementById('proposalTitle');
+        const content = document.getElementById('proposalContent');
+
+        if (currentPlan === 'approved') {
+            stamp.className = 'proposal-stamp approved';
+            stamp.textContent = 'Approved Plan';
+            title.textContent = 'Proposal Draft — Approved Plan';
+        } else {
+            stamp.className = 'proposal-stamp full-vision';
+            stamp.textContent = 'Full Vision';
+            title.textContent = 'Proposal Draft — Full Vision';
+        }
+
+        content.innerHTML = getProposalText(currentPlan);
+        overlay.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeProposal() {
+        const overlay = document.getElementById('proposalOverlay');
+        overlay.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+
+    function copyProposal() {
+        const text = getProposalPlainText(currentPlan);
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.getElementById('copyProposalBtn');
+            btn.classList.add('copied');
+            btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6L9 17l-5-5"/></svg> Copied!';
+            setTimeout(() => {
+                btn.classList.remove('copied');
+                btn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy to Clipboard';
+            }, 2000);
+        });
+    }
+
+    function downloadProposal() {
+        const text = getProposalPlainText(currentPlan);
+        const planLabel = currentPlan === 'approved' ? 'approved-plan' : 'full-vision';
+        const blob = new Blob([text], { type: 'text/plain' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'first-movers-europe-proposal-' + planLabel + '.txt';
+        a.click();
+        URL.revokeObjectURL(url);
+    }
+
+    // Close proposal on ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && document.getElementById('proposalOverlay').classList.contains('active')) {
+            closeProposal();
+        }
+    });
+
+    // Close proposal on overlay click (outside card)
+    document.getElementById('proposalOverlay').addEventListener('click', function(e) {
+        if (e.target === this) closeProposal();
+    });
 </script>
 
 </body>
