@@ -1495,6 +1495,234 @@
         }
 
         /* ========================================
+           PRESENTATION — ONE-PAGE SLIDES
+           ======================================== */
+        .pres-overlay .pres-slide-container {
+            overflow: hidden;
+            padding: 0;
+            align-items: stretch;
+        }
+
+        .pres-overlay .pres-slide-content {
+            max-height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 2.5rem 5rem 3.5rem;
+            min-height: auto;
+        }
+
+        .pres-overlay h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+        .pres-overlay .section-desc { font-size: 0.9rem; margin-bottom: 1rem; }
+        .pres-overlay .hero-stats { gap: 0; }
+        .pres-overlay .hero-stat { padding: 1.2rem 2rem; }
+        .pres-overlay .hero-stat-value { font-size: 2rem; }
+
+        /* Scale down complex sections to fit viewport */
+        .pres-overlay .funnel-container { transform: scale(0.7); transform-origin: top center; }
+        .pres-overlay .europe-map-container { max-height: 45vh; }
+        .pres-overlay .org-council { gap: 0.5rem; }
+        .pres-overlay .council-card { padding: 0.8rem; }
+        .pres-overlay .council-avatar { width: 40px; height: 40px; font-size: 0.8rem; margin-bottom: 0.6rem; border-radius: 12px; }
+        .pres-overlay .council-name { font-size: 0.9rem; }
+        .pres-overlay .council-role { font-size: 0.72rem; }
+        .pres-overlay .timeline-wrapper { transform: scale(0.75); transform-origin: top left; }
+        .pres-overlay .timeline-custom-wrap { padding: 1rem; margin-bottom: 1rem; }
+        .pres-overlay .budget-grid { gap: 0.5rem; }
+        .pres-overlay .budget-hero-row { gap: 0.5rem; margin-bottom: 1rem; }
+        .pres-overlay .budget-hero-card { padding: 1rem; }
+        .pres-overlay .budget-hero-value { font-size: 1.4rem; }
+        .pres-overlay .budget-layout { gap: 1rem; }
+        .pres-overlay .leadership-bg { margin-bottom: 1rem; padding: 1rem 1.5rem; }
+        .pres-overlay .leadership-bg p { font-size: 0.78rem; line-height: 1.5; }
+        .pres-overlay .org-tiers { gap: 0.5rem; }
+        .pres-overlay .org-tier { padding: 1rem; }
+        .pres-overlay .org-member { padding: 0.35rem 0; }
+        .pres-overlay .phase-cards { gap: 0.5rem; margin-top: 0.5rem; }
+        .pres-overlay .phase-card { padding: 1rem; }
+        .pres-overlay .phase-card-title { font-size: 0.95rem; margin-bottom: 0.3rem; }
+        .pres-overlay .phase-card-desc { font-size: 0.75rem; }
+        .pres-overlay .region-groups { gap: 0.5rem; margin-top: 1rem; }
+        .pres-overlay .region-group { padding: 1rem; }
+        .pres-overlay .country-item { padding: 0.5rem 0; }
+        .pres-overlay .funnel-stages { gap: 0.4rem; }
+        .pres-overlay .funnel-stage { padding: 0.6rem 1rem; }
+        .pres-overlay .funnel-stage-desc { font-size: 0.72rem; line-height: 1.4; }
+
+        /* Slide footer bar */
+        .pres-slide-footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2.5rem;
+            background: rgba(2, 8, 23, 0.9);
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            z-index: 10001;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.72rem;
+            color: var(--text-muted);
+            letter-spacing: 0.04em;
+        }
+
+        .pres-slide-footer .pres-footer-title {
+            font-weight: 500;
+        }
+
+        .pres-slide-footer .pres-footer-num {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* Hero slide in pres mode */
+        .pres-overlay .pres-hero-slide {
+            min-height: auto;
+        }
+
+        .pres-overlay .pres-hero-slide h1 {
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            margin-bottom: 1rem;
+        }
+
+        .pres-overlay .pres-hero-slide .hero-sub {
+            font-size: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .pres-overlay .pres-hero-slide .hero-badge {
+            margin-bottom: 1.5rem;
+        }
+
+        /* ========================================
+           MAP MARKER PLAN VISIBILITY
+           ======================================== */
+        .marker-hidden {
+            opacity: 0.15;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
+        }
+
+        .map-legend {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(2, 8, 23, 0.7);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            justify-content: center;
+        }
+
+        .map-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .map-legend-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .map-legend-dot.active {
+            background: var(--sui-blue);
+            box-shadow: 0 0 6px rgba(41, 141, 255, 0.5);
+        }
+
+        .map-legend-dot.future {
+            background: rgba(41, 141, 255, 0.3);
+            border: 1px solid rgba(41, 141, 255, 0.5);
+        }
+
+        /* Country card future expansion label */
+        .country-item.future-expansion {
+            opacity: 0.4;
+            position: relative;
+        }
+
+        .country-item.future-expansion::after {
+            content: 'FUTURE EXPANSION';
+            position: absolute;
+            top: 1rem;
+            right: 0;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        /* ========================================
+           FUNNEL OUTPUTS
+           ======================================== */
+        .funnel-outputs {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .funnel-output-pill {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 0.9rem;
+            border-radius: 100px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            backdrop-filter: blur(12px);
+            border: 1px solid;
+            transition: transform 0.2s ease;
+        }
+
+        .funnel-output-pill:hover {
+            transform: translateY(-2px);
+        }
+
+        .funnel-output-pill .pill-icon {
+            font-size: 0.85rem;
+            line-height: 1;
+        }
+
+        .funnel-output-pill.researchers {
+            background: rgba(155, 89, 182, 0.15);
+            border-color: rgba(155, 89, 182, 0.3);
+        }
+
+        .funnel-output-pill.builders {
+            background: rgba(41, 141, 255, 0.15);
+            border-color: rgba(41, 141, 255, 0.3);
+        }
+
+        .funnel-output-pill.industry {
+            background: rgba(34, 197, 94, 0.15);
+            border-color: rgba(34, 197, 94, 0.3);
+        }
+
+        .funnel-output-pill.projects {
+            background: rgba(255, 108, 61, 0.15);
+            border-color: rgba(255, 108, 61, 0.3);
+        }
+
+        .funnel-output-pill.mysten {
+            background: rgba(41, 141, 255, 0.2);
+            border-color: rgba(41, 141, 255, 0.4);
+        }
+
+        /* ========================================
            PLAN TOGGLE
            ======================================== */
         .plan-toggle {
@@ -2030,7 +2258,7 @@
         <div class="funnel-container fade-in">
             <!-- SVG Funnel — Redesigned with rounded shapes -->
             <div class="funnel-svg-wrap">
-                <svg viewBox="0 0 700 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 700 510" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <defs>
                         <linearGradient id="fg1" x1="0" y1="0" x2="1" y2="0">
                             <stop offset="0%" stop-color="#5eb0ff" stop-opacity="0.9"/>
@@ -2099,9 +2327,45 @@
                         <text x="350" y="399" text-anchor="middle" fill="rgba(255,255,255,0.7)" font-family="Inter, sans-serif" font-size="11">Bounties, employment, founding</text>
                     </g>
 
-                    <!-- Narrowing arrows on sides -->
-                    <path d="M 350 430 L 330 455 L 370 455 Z" fill="rgba(34,197,94,0.3)"/>
-                    <text x="350" y="480" text-anchor="middle" fill="rgba(255,255,255,0.35)" font-family="Outfit, sans-serif" font-size="11" font-weight="600">RETAINED BUILDERS</text>
+                    <!-- Arrow down from Incubator -->
+                    <path d="M 350 418 L 350 438" stroke="rgba(34,197,94,0.4)" stroke-width="2" stroke-dasharray="4,3"/>
+                    <path d="M 350 438 L 344 430 L 356 430 Z" fill="rgba(34,197,94,0.4)"/>
+
+                    <!-- Output label -->
+                    <text x="350" y="456" text-anchor="middle" fill="rgba(255,255,255,0.5)" font-family="Outfit, sans-serif" font-size="10" font-weight="700" letter-spacing="0.1em">OUTCOMES</text>
+
+                    <!-- Output pills -->
+                    <!-- Researchers -->
+                    <rect x="32" y="466" width="120" height="28" rx="14" fill="rgba(155,89,182,0.18)" stroke="rgba(155,89,182,0.35)" stroke-width="1"/>
+                    <text x="56" y="484" font-size="13">&#x1F52C;</text>
+                    <text x="70" y="484" fill="white" font-family="Inter, sans-serif" font-size="9.5" font-weight="600">Researchers</text>
+
+                    <!-- Builders Hired -->
+                    <rect x="164" y="466" width="120" height="28" rx="14" fill="rgba(41,141,255,0.18)" stroke="rgba(41,141,255,0.35)" stroke-width="1"/>
+                    <text x="185" y="484" font-size="13">&#x1F6E0;</text>
+                    <text x="201" y="484" fill="white" font-family="Inter, sans-serif" font-size="9.5" font-weight="600">Builders Hired</text>
+
+                    <!-- Industry Employees -->
+                    <rect x="296" y="466" width="120" height="28" rx="14" fill="rgba(34,197,94,0.18)" stroke="rgba(34,197,94,0.35)" stroke-width="1"/>
+                    <text x="317" y="484" font-size="13">&#x1F3E2;</text>
+                    <text x="333" y="484" fill="white" font-family="Inter, sans-serif" font-size="9" font-weight="600">Industry Empl.</text>
+
+                    <!-- New Projects -->
+                    <rect x="428" y="466" width="120" height="28" rx="14" fill="rgba(255,108,61,0.18)" stroke="rgba(255,108,61,0.35)" stroke-width="1"/>
+                    <text x="449" y="484" font-size="13">&#x1F680;</text>
+                    <text x="465" y="484" fill="white" font-family="Inter, sans-serif" font-size="9.5" font-weight="600">New Projects</text>
+
+                    <!-- Mysten Employees -->
+                    <rect x="560" y="466" width="120" height="28" rx="14" fill="rgba(41,141,255,0.25)" stroke="rgba(41,141,255,0.45)" stroke-width="1"/>
+                    <text x="581" y="484" font-size="13">&#x2B50;</text>
+                    <text x="597" y="484" fill="white" font-family="Inter, sans-serif" font-size="9" font-weight="600">Mysten Empl.</text>
+
+                    <!-- Fan lines from center to each pill -->
+                    <line x1="350" y1="438" x2="92" y2="466" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                    <line x1="350" y1="438" x2="224" y2="466" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                    <line x1="350" y1="438" x2="356" y2="466" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                    <line x1="350" y1="438" x2="488" y2="466" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
+                    <line x1="350" y1="438" x2="620" y2="466" stroke="rgba(255,255,255,0.08)" stroke-width="1"/>
                 </svg>
             </div>
 
@@ -2153,8 +2417,20 @@
                         <div class="funnel-stage-title">Incubator</div>
                     </div>
                     <div class="funnel-stage-desc">
-                        Long-term retention mechanism: bounties, ecosystem contributions,
-                        employment referrals, and project founding support. The funnel feeds it, it retains them.
+                        Long-term ecosystem engagement through bounties, employment referrals, and project incubation. Graduates become researchers, industry builders, Mysten employees, or found their own Sui projects.
+                    </div>
+                </div>
+                <div class="funnel-stage" style="border-color: rgba(34, 197, 94, 0.15); background: rgba(34, 197, 94, 0.03);">
+                    <div class="funnel-stage-header">
+                        <div class="funnel-stage-num" style="background: linear-gradient(135deg, #22c55e, #298dff);">&#x2192;</div>
+                        <div class="funnel-stage-title">Outcomes</div>
+                    </div>
+                    <div class="funnel-outputs">
+                        <div class="funnel-output-pill researchers"><span class="pill-icon">&#x1F52C;</span> Researchers</div>
+                        <div class="funnel-output-pill builders"><span class="pill-icon">&#x1F6E0;</span> Builders Hired</div>
+                        <div class="funnel-output-pill industry"><span class="pill-icon">&#x1F3E2;</span> Industry Employees</div>
+                        <div class="funnel-output-pill projects"><span class="pill-icon">&#x1F680;</span> New Projects Founded</div>
+                        <div class="funnel-output-pill mysten"><span class="pill-icon">&#x2B50;</span> Mysten Employees</div>
                     </div>
                 </div>
             </div>
@@ -2170,7 +2446,7 @@
     <div class="section-inner">
         <div class="section-label">02 Coverage</div>
         <h2>European Network</h2>
-        <p class="section-desc">
+        <p class="section-desc" id="networkDesc">
             10 countries activated through local partners, university clubs, and conference organizers.
             Each node has confirmed leads and a clear event plan.
         </p>
@@ -2270,24 +2546,36 @@
             </div>
 
             <!-- Lisbon — Portugal: 1C = 1 event (low density) -->
-            <div class="map-marker" style="left: 22%; top: 56%;" data-country="PT">
+            <div class="map-marker" style="left: 22%; top: 56%;" data-country="PT" data-plan="full">
                 <div class="marker-dot low-density" style="background:#ec4899;box-shadow:0 0 8px rgba(236,72,153,0.4);"></div>
                 <div class="marker-label">Lisbon</div>
                 <div class="marker-tooltip">&#x1F1F5;&#x1F1F9; Portugal<br>1 Cert<br>DSN Tecnico Lisbon</div>
             </div>
 
             <!-- Zurich — Switzerland: 4C+1H = 5 events (high density) -->
-            <div class="map-marker" style="left: 42%; top: 40%;" data-country="CH">
+            <div class="map-marker" style="left: 42%; top: 40%;" data-country="CH" data-plan="full">
                 <div class="marker-dot high-density" style="background:#14b8a6;box-shadow:0 0 18px rgba(20,184,166,0.8);"></div>
                 <div class="marker-label">Zurich</div>
                 <div class="marker-tooltip">&#x1F1E8;&#x1F1ED; Switzerland<br>2 Cert + 1 Hack<br>ETH Blockchain Club</div>
             </div>
 
             <!-- Lausanne — Switzerland sub-marker -->
-            <div class="map-marker" style="left: 40%; top: 42%;" data-country="CH">
+            <div class="map-marker" style="left: 40%; top: 42%;" data-country="CH" data-plan="full">
                 <div class="marker-dot low-density" style="background:#14b8a6;box-shadow:0 0 8px rgba(20,184,166,0.4);"></div>
                 <div class="marker-label" style="font-size:0.6rem;opacity:0.7;">Lausanne</div>
                 <div class="marker-tooltip">&#x1F1E8;&#x1F1ED; Switzerland<br>2 Cert<br>EPFL Blockchain Club</div>
+            </div>
+
+            <!-- Map legend (visible in approved plan) -->
+            <div class="map-legend" id="mapLegend" style="display: none;">
+                <div class="map-legend-item">
+                    <div class="map-legend-dot active"></div>
+                    Active (8 countries)
+                </div>
+                <div class="map-legend-item">
+                    <div class="map-legend-dot future"></div>
+                    Future expansion (2 countries)
+                </div>
             </div>
         </div>
 
@@ -2332,7 +2620,7 @@
                     <div class="country-partners">KryptoSphere, DeVinci Blockchain</div>
                 </div>
 
-                <div class="country-item">
+                <div class="country-item" data-plan-country="CH">
                     <div class="country-item-header">
                         <span class="country-flag">&#x1F1E8;&#x1F1ED;</span>
                         <span class="country-name">Switzerland</span>
@@ -2374,7 +2662,7 @@
                     <div class="country-partners">Urbe ETH (Rome), BSA Italy / Olga, BSBA (Milan)</div>
                 </div>
 
-                <div class="country-item">
+                <div class="country-item" data-plan-country="PT">
                     <div class="country-item-header">
                         <span class="country-flag">&#x1F1F5;&#x1F1F9;</span>
                         <span class="country-name">Portugal</span>
@@ -3391,6 +3679,10 @@
         prevBtn.disabled = presCurrentSlide === 0;
         nextBtn.disabled = presCurrentSlide === PRES_SLIDES.length - 1;
 
+        // Update footer slide number
+        const footerNum = document.getElementById('presFooterNum');
+        if (footerNum) footerNum.textContent = (presCurrentSlide + 1) + ' / ' + PRES_SLIDES.length;
+
         // Scroll the slide container back to top
         const slideContainer = document.querySelector('.pres-slide-container');
         if (slideContainer) slideContainer.scrollTop = 0;
@@ -3471,6 +3763,16 @@
         const overlay = document.getElementById('presOverlay');
         overlay.classList.add('active');
         document.body.style.overflow = 'hidden';
+
+        // Add slide footer if not present
+        if (!document.getElementById('presSlideFooter')) {
+            const footer = document.createElement('div');
+            footer.className = 'pres-slide-footer';
+            footer.id = 'presSlideFooter';
+            footer.innerHTML = '<span class="pres-footer-title">Sui Guild Europe — Q1-Q2 Execution Plan</span><span class="pres-footer-num" id="presFooterNum">1 / 6</span>';
+            overlay.appendChild(footer);
+        }
+
         renderSlide();
     }
 
@@ -3479,6 +3781,10 @@
         const overlay = document.getElementById('presOverlay');
         overlay.classList.remove('active');
         document.body.style.overflow = '';
+
+        // Remove slide footer
+        const footer = document.getElementById('presSlideFooter');
+        if (footer) footer.remove();
     }
 
     function presNavigate(dir) {
@@ -3615,7 +3921,7 @@
         },
         approved: {
             heroStats: {
-                countries: '10',
+                countries: '8',
                 certifications: '12',
                 hackathons: '2+3',
                 bootcamps: '2+3',
@@ -3696,11 +4002,13 @@
                 western: [
                     { flag: '\u{1F1EC}\u{1F1E7}', name: 'United Kingdom', tags: ['2 Cert'], partners: 'Cambridge, Oxford, Imperial, King\'s' },
                     { flag: '\u{1F1EB}\u{1F1F7}', name: 'France', tags: ['2 Cert', '1 Hack', '1 Boot'], partners: 'KryptoSphere' },
-                    { flag: '\u{1F1E7}\u{1F1EA}', name: 'Belgium', tags: ['1 Cert'], partners: 'KryptoSphere' }
+                    { flag: '\u{1F1E7}\u{1F1EA}', name: 'Belgium', tags: ['1 Cert'], partners: 'KryptoSphere' },
+                    { flag: '\u{1F1E8}\u{1F1ED}', name: 'Switzerland', tags: ['4 Cert', '1 Hack'], partners: 'ETH Blockchain Club, EPFL Blockchain Club' }
                 ],
                 southern: [
                     { flag: '\u{1F1EA}\u{1F1F8}', name: 'Spain', tags: ['1 Cert'], partners: 'The Bridge' },
-                    { flag: '\u{1F1EE}\u{1F1F9}', name: 'Italy', tags: ['2 Cert', '1 Hack', '1 Boot'], partners: 'BSBA Milan, Urbe ETH Rome' }
+                    { flag: '\u{1F1EE}\u{1F1F9}', name: 'Italy', tags: ['2 Cert', '1 Hack', '1 Boot'], partners: 'BSBA Milan, Urbe ETH Rome' },
+                    { flag: '\u{1F1F5}\u{1F1F9}', name: 'Portugal', tags: ['1 Cert'], partners: 'DSN Tecnico Lisbon' }
                 ],
                 eastern: [
                     { flag: '\u{1F1E9}\u{1F1EA}', name: 'Germany', tags: ['1 Cert'], partners: 'TUM Munich' },
@@ -3724,6 +4032,35 @@
 
         // Show/hide cost per dev
         document.getElementById('costPerDev').classList.toggle('visible', plan === 'approved');
+
+        // --- Map markers: hide CH and PT in approved plan ---
+        const fullOnlyMarkers = document.querySelectorAll('.map-marker[data-plan="full"]');
+        fullOnlyMarkers.forEach(m => {
+            m.classList.toggle('marker-hidden', plan === 'approved');
+        });
+
+        // --- Map legend ---
+        const mapLegend = document.getElementById('mapLegend');
+        if (mapLegend) {
+            mapLegend.style.display = plan === 'approved' ? 'flex' : 'none';
+        }
+
+        // --- Network description ---
+        const networkDesc = document.getElementById('networkDesc');
+        if (networkDesc) {
+            networkDesc.textContent = plan === 'approved'
+                ? '8 countries activated, with 2 additional planned for future expansion. Each active node has confirmed leads and a clear event plan.'
+                : '10 countries activated through local partners, university clubs, and conference organizers. Each node has confirmed leads and a clear event plan.';
+        }
+
+        // --- Country cards: grey out CH and PT in approved plan ---
+        const planCountryCards = document.querySelectorAll('.country-item[data-plan-country]');
+        planCountryCards.forEach(card => {
+            const country = card.getAttribute('data-plan-country');
+            if (country === 'CH' || country === 'PT') {
+                card.classList.toggle('future-expansion', plan === 'approved');
+            }
+        });
 
         const pd = PLAN_DATA[plan];
 
@@ -3921,6 +4258,11 @@
         const groups = document.querySelectorAll('#network .region-group');
         if (groups.length < 3) return;
 
+        const COUNTRY_CODE_MAP = {
+            'Switzerland': 'CH',
+            'Portugal': 'PT'
+        };
+
         const regions = [
             { el: groups[0], data: network.western },
             { el: groups[1], data: network.southern },
@@ -3938,8 +4280,13 @@
                     return `<span class="event-tag ${tagTypeMap[type] || 'cert'}">${t}</span>`;
                 }).join('');
 
+                const countryCode = COUNTRY_CODE_MAP[country.name] || '';
+                const dataPlanAttr = countryCode ? ` data-plan-country="${countryCode}"` : '';
+                const isFuture = currentPlan === 'approved' && (countryCode === 'CH' || countryCode === 'PT');
+                const futureClass = isFuture ? ' future-expansion' : '';
+
                 el.innerHTML += `
-                    <div class="country-item">
+                    <div class="country-item${futureClass}"${dataPlanAttr}>
                         <div class="country-item-header">
                             <span class="country-flag">${country.flag}</span>
                             <span class="country-name">${country.name}</span>
